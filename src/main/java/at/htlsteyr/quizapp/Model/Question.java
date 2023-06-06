@@ -1,3 +1,16 @@
+/*-----------------------------------------------------------------------------
+ *              Hoehere Technische Bundeslehranstalt STEYR
+ *----------------------------------------------------------------------------*/
+/**
+ * Kurzbeschreibung
+ *
+ * @author : Dino Kupinic
+ * @date : 6.6.2023
+ *
+ * @details
+ * Class to store each Question and its answers
+ */
+
 package at.htlsteyr.quizapp.Model;
 
 import java.util.ArrayList;
@@ -43,5 +56,14 @@ public class Question {
 
     public void removeAnswer(int index) {
         this.answerArrayList.remove(index);
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "question='" + question + '\'' +
+                ", answerArrayList=" + answerArrayList +
+                ", correctAnswer=" + correctAnswer +
+                '}';
     }
 }
