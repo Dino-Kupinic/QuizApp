@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class QuizTest {
-    private Quiz quiz;
+    private Quiz<Integer> quiz;
 
     @BeforeEach
     public void setup() {
@@ -28,10 +28,10 @@ public class QuizTest {
         answers.add("4");
         answers.add("21");
         answers.add("1");
-        Question question = new Question("What is 1+1?", answers, 3);
-        ArrayList<Question> questions = new ArrayList<>();
+        Question<Integer> question = new Question<>("What is 1+1?", answers, 3);
+        ArrayList<Question<Integer>> questions = new ArrayList<>();
         questions.add(question);
-        quiz = new Quiz("myQuiz", questions);
+        quiz = new Quiz<>("myQuiz", questions);
     }
 
     @Test
@@ -52,8 +52,8 @@ public class QuizTest {
         answers.add("4");
         answers.add("21");
         answers.add("1");
-        Question question = new Question("What is 1+1?", answers, 3);
-        ArrayList<Question> questions = new ArrayList<>();
+        Question<Integer> question = new Question<>("What is 1+1?", answers, 3);
+        ArrayList<Question<Integer>> questions = new ArrayList<>();
         questions.add(question);
         assertEquals(questions.size(), quiz.getQuestionArrayList().size());
 
@@ -69,8 +69,8 @@ public class QuizTest {
         answers.add("5");
         answers.add("22");
         answers.add("2");
-        Question question = new Question("What is 1+1?", answers, 3);
-        ArrayList<Question> questions = new ArrayList<>();
+        Question<Integer> question = new Question<>("What is 1+1?", answers, 3);
+        ArrayList<Question<Integer>> questions = new ArrayList<>();
         questions.add(question);
         quiz.setQuestionArrayList(questions);
         assertEquals(questions, quiz.getQuestionArrayList());
@@ -83,11 +83,11 @@ public class QuizTest {
         answers.add("4");
         answers.add("21");
         answers.add("1");
-        Question question = new Question("What is 1+1?", answers, 3);
-        ArrayList<Question> questions = new ArrayList<>();
+        Question<Integer> question = new Question<>("What is 1+1?", answers, 3);
+        ArrayList<Question<Integer>> questions = new ArrayList<>();
         questions.add(question);
-        questions.add(new Question("What is 1+2?", answers, 0));
-        quiz.addQuestion(new Question("What is 1+2?", answers, 0));
+        questions.add(new Question<>("What is 1+2?", answers, 0));
+        quiz.addQuestion(new Question<>("What is 1+2?", answers, 0));
         assertEquals(questions.toString(), quiz.getQuestionArrayList().toString());
     }
 
@@ -98,10 +98,10 @@ public class QuizTest {
         answers.add("4");
         answers.add("21");
         answers.add("1");
-        Question question = new Question("What is 1+1?", answers, 3);
-        ArrayList<Question> questions = new ArrayList<>();
+        Question<Integer> question = new Question<>("What is 1+1?", answers, 3);
+        ArrayList<Question<Integer>> questions = new ArrayList<>();
         questions.add(question);
-        quiz.addQuestion(new Question("What is 1+2?", answers, 0));
+        quiz.addQuestion(new Question<>("What is 1+2?", answers, 0));
         quiz.removeQuestion(1);
         assertEquals(questions.toString(), quiz.getQuestionArrayList().toString());
     }
@@ -113,11 +113,11 @@ public class QuizTest {
         answers.add("4");
         answers.add("21");
         answers.add("1");
-        Question question = new Question("What is 1+1?", answers, 3);
-        ArrayList<Question> questions = new ArrayList<>();
+        Question<Integer> question = new Question<>("What is 1+1?", answers, 3);
+        ArrayList<Question<Integer>> questions = new ArrayList<>();
         questions.add(question);
-        questions.set(0, new Question("hello?", answers, 0));
-        quiz.changeQuestion(0, new Question("hello?", answers, 0));
+        questions.set(0, new Question<>("hello?", answers, 0));
+        quiz.changeQuestion(0, new Question<>("hello?", answers, 0));
         assertEquals(questions.toString(), quiz.getQuestionArrayList().toString());
     }
 
@@ -128,8 +128,8 @@ public class QuizTest {
         answers.add("4");
         answers.add("21");
         answers.add("1");
-        Question question = new Question("What is 1+1?", answers, 3);
-        ArrayList<Question> questions = new ArrayList<>();
+        Question<Integer> question = new Question<>("What is 1+1?", answers, 3);
+        ArrayList<Question<Integer>> questions = new ArrayList<>();
         questions.add(question);
         questions.clear();
         quiz.clearAllQuestions();
