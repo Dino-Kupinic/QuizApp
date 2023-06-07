@@ -22,7 +22,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class JsonHandler {
+public class JsonHandler<T> {
     private final Path PATH_DATA_JSON;
     private final File questionJsonFile;
     private final Gson gson;
@@ -33,7 +33,7 @@ public class JsonHandler {
         gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
-    public void writeQuizToJson(Quiz quiz) {
+    public void writeQuizToJson(Quiz<T> quiz) {
         try {
             StringBuilder sb = getStringBuilder(questionJsonFile);
             JsonArray jsonArray = gson.fromJson(sb.toString(), JsonArray.class);
@@ -57,25 +57,40 @@ public class JsonHandler {
         }
     }
 
-    public ArrayList<Quiz> getAllQuizes() {
+    public ArrayList<Quiz<T>> getAllQuizes() {
         try {
             StringBuilder sb = getStringBuilder(questionJsonFile);
             JsonArray jsonArray = gson.fromJson(sb.toString(), JsonArray.class);
 
-            ArrayList<Quiz> quizArrayList = new ArrayList<>();
+            ArrayList<Quiz<T>> quizArrayList = new ArrayList<>();
 
             for (JsonElement element : jsonArray) {
                 JsonObject object = element.getAsJsonObject();
 
                 String quizName = object.get("name").getAsString().replaceAll("\"", "");
 
-                ArrayList<Question> questionArrayList = new ArrayList<>();
+                ArrayList<Question<T>> questionArrayList = new ArrayList<>();
                 JsonArray questionArray = object.get("questions").getAsJsonArray();
 
                 for (JsonElement questionElement : questionArray) {
                     JsonObject questionObject = questionElement.getAsJsonObject();
                     String question = questionObject.get("question").getAsString();
-                    int correctAnswer = questionObject.get("correctAnswer").getAsInt();
+
+                    JsonElement correctAnswerElement = questionObject.get("correctAnswer");
+
+                    T correctAnswer;
+
+                    if (correctAnswerElement.isJsonArray()) {
+                        JsonArray correctAnswerArray = correctAnswerElement.getAsJsonArray();
+                        ArrayList<Integer> correctAnswerList = new ArrayList<>();
+                        for (JsonElement answerElement : correctAnswerArray) {
+                            int answer = answerElement.getAsInt();
+                            correctAnswerList.add(answer);
+                        }
+                        correctAnswer = (T) correctAnswerList;
+                    } else {
+                        correctAnswer = (T) Integer.valueOf(correctAnswerElement.getAsInt());
+                    }
 
                     ArrayList<String> answerArrayList = new ArrayList<>();
                     JsonArray answerArray = questionObject.get("answerArrayList").getAsJsonArray();
@@ -83,9 +98,9 @@ public class JsonHandler {
                         String answer = answerElement.getAsString();
                         answerArrayList.add(answer);
                     }
-                    questionArrayList.add(new Question(question, answerArrayList, correctAnswer));
+                    questionArrayList.add(new Question<>(question, answerArrayList, correctAnswer));
                 }
-                quizArrayList.add(new Quiz(quizName, questionArrayList));
+                quizArrayList.add(new Quiz<>(quizName, questionArrayList));
             }
 
             // Log action

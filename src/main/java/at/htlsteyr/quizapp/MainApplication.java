@@ -25,7 +25,11 @@ public class MainApplication extends Application {
         JsonHandler jsonHandler = new JsonHandler();
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("samc");
-        Question question = new Question("samc", arrayList, 0);
+        arrayList.add("ihna");
+        ArrayList<Integer> correctAnswer = new ArrayList<>();
+        correctAnswer.add(0);
+        correctAnswer.add(1);
+        Question question = new Question("samc", arrayList, correctAnswer);
         ArrayList<Question> questions = new ArrayList<>();
         questions.add(question);
         Quiz quiz = new Quiz("samc", questions);

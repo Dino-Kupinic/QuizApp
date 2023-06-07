@@ -15,11 +15,11 @@ package at.htlsteyr.quizapp.Model;
 
 import java.util.ArrayList;
 
-public class Quiz {
+public class Quiz<T> {
     private String name;
-    private ArrayList<Question> questionArrayList;
+    private ArrayList<Question<T>> questionArrayList;
 
-    public Quiz(String name, ArrayList<Question> questionArrayList) {
+    public Quiz(String name, ArrayList<Question<T>> questionArrayList) {
         this.name = name;
         this.questionArrayList = questionArrayList;
     }
@@ -32,15 +32,15 @@ public class Quiz {
         this.name = name;
     }
 
-    public ArrayList<Question> getQuestionArrayList() {
+    public ArrayList<Question<T>> getQuestionArrayList() {
         return questionArrayList;
     }
 
-    public void setQuestionArrayList(ArrayList<Question> questionArrayList) {
+    public void setQuestionArrayList(ArrayList<Question<T>> questionArrayList) {
         this.questionArrayList = questionArrayList;
     }
 
-    public void addQuestion(Question question) {
+    public void addQuestion(Question<T> question) {
         this.questionArrayList.add(question);
     }
 
@@ -48,7 +48,7 @@ public class Quiz {
         this.questionArrayList.remove(index);
     }
 
-    public void changeQuestion(int index, Question newQuestion) {
+    public void changeQuestion(int index, Question<T> newQuestion) {
         this.questionArrayList.set(index, newQuestion);
     }
 
