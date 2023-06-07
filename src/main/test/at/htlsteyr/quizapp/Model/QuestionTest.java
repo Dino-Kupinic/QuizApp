@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class QuestionTest {
-    private Question question;
+    private Question<Integer> question;
 
     @BeforeEach
     public void setup() {
@@ -28,7 +28,7 @@ public class QuestionTest {
         answers.add("4");
         answers.add("21");
         answers.add("1");
-        question = new Question("What is 1+1?", answers, 3);
+        question = new Question<>("What is 1+1?", answers, 3);
     }
 
     @Test
