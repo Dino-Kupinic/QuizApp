@@ -50,12 +50,21 @@ public class Question {
         this.correctAnswer = correctAnswer;
     }
 
+    /**
+     * changes a specified answer from the list
+     * @param index index of the answer that will be replaced
+     * @param newAnswer text of the new answer
+     */
     public void changeAnswer(int index, String newAnswer) {
         this.answerArrayList.set(index, newAnswer);
     }
 
+    /**
+     * Removes the specified answer by replacing it with an empty string
+     * @param index index of what answer should be removed / cleared
+     */
     public void removeAnswer(int index) {
-        this.answerArrayList.remove(index);
+        this.answerArrayList.set(index, "");
     }
 
     @Override
