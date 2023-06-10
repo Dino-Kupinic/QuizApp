@@ -83,7 +83,7 @@ public class Question<T> {
     }
 
     /**
-     * Iterates through generic ArrayList and checks if each element is an instance of Number
+     * Iterates through generic ArrayList and checks if each element is an instance of Integer
      *
      * @param arrayList generic ArrayList
      * @return true if all elements are numbers
