@@ -141,7 +141,7 @@ public class JsonHandler<T> {
     }
 
     /**
-     * Checks if the controls JSON is valid
+     * Checks if the data JSON is valid
      * @throws IOException Thrown when something goes wrong when trying to access the file
      */
     public void checkIfDataJsonIsValid() throws IOException {
