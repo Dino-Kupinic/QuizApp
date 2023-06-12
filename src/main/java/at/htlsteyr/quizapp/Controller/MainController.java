@@ -11,7 +11,7 @@ public class MainController {
     Button musicButton;
 
     @FXML
-    public void onMusicButtonPressed () {
+    public void onMusicButtonPressed() {
         if (music.getMusicStatus()) {
             music.StopMusic();
         } else {
