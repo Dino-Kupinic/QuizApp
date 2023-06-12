@@ -115,6 +115,7 @@ public class JsonHandler<T> {
 
     /**
      * utility function read a whole file with a string builder
+     *
      * @param file the file which is supposed to be read
      * @return StringBuilder
      * @throws FileNotFoundException Thrown when the target file can't be found
@@ -130,6 +131,7 @@ public class JsonHandler<T> {
 
     /**
      * Adds an array initializer when the JSON is empty
+     *
      * @param file target file
      * @throws IOException Thrown when something goes wrong when trying to access the file
      */
@@ -142,6 +144,7 @@ public class JsonHandler<T> {
 
     /**
      * Checks if the data JSON is valid
+     *
      * @throws IOException Thrown when something goes wrong when trying to access the file
      */
     public void checkIfDataJsonIsValid() throws IOException {
