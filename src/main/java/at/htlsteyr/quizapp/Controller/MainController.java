@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 public class MainController {
-    Music music = new Music();
+    private Music music = new Music();
 
     @FXML
     Button musicButton;
@@ -13,8 +13,10 @@ public class MainController {
     @FXML
     public void onMusicButtonPressed() {
         if (music.getMusicStatus()) {
+            musicButton.setText("Play Music");
             music.StopMusic();
         } else {
+            musicButton.setText("Stop Music");
             music.PlayMusic();
         }
 
