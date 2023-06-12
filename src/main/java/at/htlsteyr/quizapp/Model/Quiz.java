@@ -6,20 +6,25 @@
  *
  * @author : Dino Kupinic
  * @date : 6.6.2023
- *
- * @details
- * Class to store each Quiz
+ * @details Class to store each Quiz
  */
 
 package at.htlsteyr.quizapp.Model;
 
 import java.util.ArrayList;
 
-public class Quiz<T> {
+public class Quiz {
     private String name;
-    private ArrayList<Question<T>> questionArrayList;
+    private ArrayList<Question> questionArrayList;
+    private ArrayList<Player> topPlayers;
 
-    public Quiz(String name, ArrayList<Question<T>> questionArrayList) {
+    public Quiz(String name, ArrayList<Question> questionArrayList, ArrayList<Player> topPlayers) {
+        this.name = name;
+        this.questionArrayList = questionArrayList;
+        this.topPlayers = topPlayers;
+    }
+
+    public Quiz(String name, ArrayList<Question> questionArrayList) {
         this.name = name;
         this.questionArrayList = questionArrayList;
     }
@@ -32,28 +37,20 @@ public class Quiz<T> {
         this.name = name;
     }
 
-    public ArrayList<Question<T>> getQuestionArrayList() {
+    public ArrayList<Question> getQuestionArrayList() {
         return questionArrayList;
     }
 
-    public void setQuestionArrayList(ArrayList<Question<T>> questionArrayList) {
+    public void setQuestionArrayList(ArrayList<Question> questionArrayList) {
         this.questionArrayList = questionArrayList;
     }
 
-    public void addQuestion(Question<T> question) {
-        this.questionArrayList.add(question);
+    public ArrayList<Player> getTopPlayers() {
+        return topPlayers;
     }
 
-    public void removeQuestion(int index) {
-        this.questionArrayList.remove(index);
-    }
-
-    public void changeQuestion(int index, Question<T> newQuestion) {
-        this.questionArrayList.set(index, newQuestion);
-    }
-
-    public void clearAllQuestions() {
-        this.questionArrayList.clear();
+    public void setTopPlayers(ArrayList<Player> topPlayers) {
+        this.topPlayers = topPlayers;
     }
 
     @Override
@@ -61,6 +58,7 @@ public class Quiz<T> {
         return "Quiz{" +
                 "name='" + name + '\'' +
                 ", questionArrayList=" + questionArrayList +
+                ", topPlayers=" + topPlayers +
                 '}';
     }
 }
