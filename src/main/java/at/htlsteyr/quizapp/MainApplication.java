@@ -37,6 +37,7 @@ public class MainApplication extends Application {
         Quiz quiz = new Quiz("samc", questions, topPlayers);
         jsonHandler.writeQuizToJson(quiz);
 
+        jsonHandler.writePlayerToJson(new Player(1, "dino", new Score(0), new Score(0)));
         System.out.println(jsonHandler.getAllQuizes());
     }
 
