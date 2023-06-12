@@ -6,9 +6,7 @@
  *
  * @author : Dino Kupinic
  * @date : 12.6.2023
- *
- * @details
- * Class to store each Player
+ * @details Class to store each Player
  */
 
 package at.htlsteyr.quizapp.Model;
