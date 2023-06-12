@@ -1,14 +1,27 @@
+/*-----------------------------------------------------------------------------
+ *              Hoehere Technische Bundeslehranstalt STEYR
+ *----------------------------------------------------------------------------*/
+/**
+ * Kurzbeschreibung
+ *
+ * @author : Dino Kupinic
+ * @date : 12.6.2023
+ *
+ * @details
+ * Class to store each Player
+ */
+
 package at.htlsteyr.quizapp.Model;
 
 public class Player {
     private Integer id;
     private String name;
-    private Score score;
+    private Score globalScore;
 
     public Player(Integer id, String name, Score score) {
         this.id = id;
         this.name = name;
-        this.score = score;
+        this.globalScore = score;
     }
 
     public Integer getId() {
@@ -27,11 +40,11 @@ public class Player {
         this.name = name;
     }
 
-    public Score getScore() {
-        return score;
+    public Score getGlobalScore() {
+        return globalScore;
     }
 
-    public void setScore(Score score) {
-        this.score = score;
+    public void setGlobalScore(Score globalScore) {
+        this.globalScore = globalScore;
     }
 }
