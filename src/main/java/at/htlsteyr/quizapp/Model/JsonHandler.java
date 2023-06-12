@@ -24,12 +24,16 @@ import java.util.Scanner;
 
 public class JsonHandler<T> {
     private final Path PATH_DATA_JSON;
+    private final Path PATH_PLAYER_JSON;
     private final File questionJsonFile;
+    private final File playerJsonFile;
     private final Gson gson;
 
     public JsonHandler() {
         PATH_DATA_JSON = Paths.get("src/main/resources/at/htlsteyr/quizapp/data.json");
+        PATH_PLAYER_JSON = Paths.get("src/main/resources/at/htlsteyr/quizapp/player.json");
         questionJsonFile = new File(PATH_DATA_JSON.toUri());
+        playerJsonFile = new File(PATH_PLAYER_JSON.toUri());
         gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
@@ -52,6 +56,20 @@ public class JsonHandler<T> {
 
             // Log action
             System.out.println("Added " + quiz.getName() + " Quiz to data.json!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writePlayerToJson(Player player) {
+        try {
+            StringBuilder sb = getStringBuilder(playerJsonFile);
+            JsonArray jsonArray = gson.fromJson(sb.toString(), JsonArray.class);
+
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("id", player.getId());
+            jsonObject.addProperty("name", player.getName());
+            jsonObject.addProperty("score", player.getGlobalScore().getScore());
         } catch (IOException e) {
             e.printStackTrace();
         }
