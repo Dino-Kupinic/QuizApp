@@ -22,7 +22,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class JsonHandler<T> {
+public class JsonHandler {
     private final Path PATH_DATA_JSON;
     private final Path PATH_PLAYER_JSON;
     private final File questionJsonFile;
@@ -37,7 +37,7 @@ public class JsonHandler<T> {
         gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
-    public void writeQuizToJson(Quiz<T> quiz) {
+    public <T> void writeQuizToJson(Quiz<T> quiz) {
         try {
             StringBuilder sb = getStringBuilder(questionJsonFile);
             JsonArray jsonArray = gson.fromJson(sb.toString(), JsonArray.class);
@@ -70,12 +70,14 @@ public class JsonHandler<T> {
             jsonObject.addProperty("id", player.getId());
             jsonObject.addProperty("name", player.getName());
             jsonObject.addProperty("score", player.getGlobalScore().getScore());
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public ArrayList<Quiz<T>> getAllQuizes() {
+    public <T> ArrayList<Quiz<T>> getAllQuizes() {
         try {
             StringBuilder sb = getStringBuilder(questionJsonFile);
             JsonArray jsonArray = gson.fromJson(sb.toString(), JsonArray.class);
