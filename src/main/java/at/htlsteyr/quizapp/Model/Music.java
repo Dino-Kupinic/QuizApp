@@ -11,12 +11,12 @@ public class Music {
     MediaPlayer mediaPlayer = new MediaPlayer(media);
     Boolean musicStatus = false;
 
-    public void PlayMusic () {
+    public void PlayMusic() {
         mediaPlayer.play();
         setMusicStatus(true);
     }
 
-    public void StopMusic () {
+    public void StopMusic() {
         mediaPlayer.stop();
         setMusicStatus(false);
     }
