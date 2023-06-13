@@ -214,7 +214,7 @@ public class JsonHandler {
      *
      * @throws IOException Thrown when something goes wrong when trying to access the file
      */
-    public void checkIfDataJsonIsValid() throws IOException {
+    public void addJsonArrayIfJsonIsntValid() throws IOException {
         try {
             Scanner scanner = new Scanner(questionJsonFile);
             if (!scanner.hasNextLine()) {
@@ -226,5 +226,20 @@ public class JsonHandler {
             File f = new File(PATH_DATA_JSON.toUri());
             addJSONArray(f);
         }
+    }
+
+    /**
+     * checks if data json is valid or not
+     *
+     * @return boolean
+     */
+    public boolean isDataJsonValid() {
+        try {
+            Scanner scanner = new Scanner(questionJsonFile);
+            return scanner.hasNextLine();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
