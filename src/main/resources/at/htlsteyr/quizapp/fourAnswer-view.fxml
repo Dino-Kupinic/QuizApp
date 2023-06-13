@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.htlsteyr.quizapp.Controller.QuizgameController">
+<AnchorPane fx:id="fourAnswerAnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.htlsteyr.quizapp.Controller.QuizgameController">
    <children>
       <Label fx:id="questionLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="150.0" layoutY="50.0" prefHeight="17.0" prefWidth="300.0" text="Question" textAlignment="CENTER" />
       <GridPane layoutX="1.0" layoutY="189.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="211.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="189.0">
