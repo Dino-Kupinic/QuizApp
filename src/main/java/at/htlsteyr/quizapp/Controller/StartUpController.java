@@ -1,5 +1,6 @@
 package at.htlsteyr.quizapp.Controller;
 
+import at.htlsteyr.quizapp.Model.Music;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -32,6 +33,17 @@ public class StartUpController {
     private Label lblCredits;
     private static ArrayList<Region> controllNodes;
     private boolean change = false;
+    private Music music = new Music();
+    private static StartUpController instance;
+
+    @FXML
+    public void onMusicButtonPressed() {
+        if (music.getMusicStatus()) {
+            music.StopMusic();
+        } else {
+            music.PlayMusic();
+        }
+    }
 
 
     @FXML
@@ -71,6 +83,7 @@ public class StartUpController {
         }
     }
 
+
     public void initController() {
         controllNodes = new ArrayList<>() {{
             add(anchorRootPane);
@@ -83,5 +96,12 @@ public class StartUpController {
             add(lblCredits);
         }};
         changeColor(DEFAULT);
+    }
+
+    public static StartUpController getInstance() {
+        if (instance == null) {
+            instance = new StartUpController();
+        }
+        return instance;
     }
 }
