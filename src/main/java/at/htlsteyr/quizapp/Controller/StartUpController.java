@@ -1,6 +1,7 @@
 package at.htlsteyr.quizapp.Controller;
 
 import at.htlsteyr.quizapp.Model.Music;
+import at.htlsteyr.quizapp.Model.Timer;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -31,6 +32,9 @@ public class StartUpController {
     private Label lblTitel;
     @FXML
     private Label lblCredits;
+    public Label timerLabel;
+    @FXML
+    private Label timerHeader;
     private static ArrayList<Region> controllNodes;
     private boolean change = false;
     private Music music = new Music();
@@ -45,6 +49,14 @@ public class StartUpController {
         }
     }
 
+    public void setTimerLabel (String time) {
+        try {
+            timerLabel.setText(time);
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+    }
 
     @FXML
     private void onSettingClick() {
@@ -55,6 +67,12 @@ public class StartUpController {
             changeColor(DEFAULT);
             change = false;
         }
+    }
+
+    @FXML
+    public void playBtnClicked () {
+        Timer timer = new Timer();
+        timer.startTimer(StartUpController.getInstance());
     }
 
     private void changeColor(String style) {
@@ -83,7 +101,6 @@ public class StartUpController {
         }
     }
 
-
     public void initController() {
         controllNodes = new ArrayList<>() {{
             add(anchorRootPane);
@@ -97,7 +114,9 @@ public class StartUpController {
         }};
         changeColor(DEFAULT);
     }
-
+    public StartUpController() {
+        instance = this;
+    }
     public static StartUpController getInstance() {
         if (instance == null) {
             instance = new StartUpController();
