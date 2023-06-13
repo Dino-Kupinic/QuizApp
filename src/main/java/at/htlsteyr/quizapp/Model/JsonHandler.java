@@ -173,8 +173,8 @@ public class JsonHandler {
             String name = player.get("name").getAsString();
             JsonObject currentScoreObject = player.get("currentScore").getAsJsonObject();
             JsonObject totalScoreObject = player.get("totalScore").getAsJsonObject();
-            int currentScore = currentScoreObject.get("score").getAsInt();
-            int totalScore = totalScoreObject.get("score").getAsInt();
+            double currentScore = currentScoreObject.get("score").getAsInt();
+            double totalScore = totalScoreObject.get("score").getAsInt();
             tempPlayerArray.add(new Player(id, name, new Score(currentScore), new Score(totalScore)));
         }
         return tempPlayerArray;
