@@ -1,6 +1,5 @@
 package at.htlsteyr.quizapp;
 
-import at.htlsteyr.quizapp.Controller.StartUpController;
 import at.htlsteyr.quizapp.Model.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -47,6 +46,6 @@ public class MainApplication extends Application {
 
     public void checkDataJson() throws IOException {
         JsonHandler jsonHandler = new JsonHandler();
-        jsonHandler.checkIfDataJsonIsValid();
+        jsonHandler.addJsonArrayIfJsonIsntValid();
     }
 }
