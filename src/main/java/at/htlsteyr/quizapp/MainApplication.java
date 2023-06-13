@@ -33,11 +33,11 @@ public class MainApplication extends Application {
         ArrayList<Question> questions = new ArrayList<>();
         questions.add(question);
         ArrayList<Player> topPlayers = new ArrayList<>();
-        topPlayers.add(new Player(1, "samc", new Score(0), new Score(0)));
+        topPlayers.add(new Player(1, "samc", new Score(0.0), new Score(0.0)));
         Quiz quiz = new Quiz("samc", questions, topPlayers);
         jsonHandler.writeQuizToJson(quiz);
 
-        jsonHandler.writePlayerToJson(new Player(1, "dino", new Score(0), new Score(0)));
+        jsonHandler.writePlayerToJson(new Player(1, "dino", new Score(0.0), new Score(0.0)));
         System.out.println(jsonHandler.getAllQuizes());
     }
 
