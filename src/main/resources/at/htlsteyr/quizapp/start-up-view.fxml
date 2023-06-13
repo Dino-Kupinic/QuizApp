@@ -52,7 +52,7 @@
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="btnPlay" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Play" GridPane.columnIndex="7" GridPane.columnSpan="3" GridPane.rowIndex="5">
+            <Button fx:id="btnPlay" onAction="#onPlayButtonClicked" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Play" GridPane.columnIndex="7" GridPane.columnSpan="3" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </GridPane.margin>

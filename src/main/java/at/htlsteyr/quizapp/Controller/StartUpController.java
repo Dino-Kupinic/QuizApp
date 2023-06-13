@@ -1,5 +1,6 @@
 package at.htlsteyr.quizapp.Controller;
 
+import at.htlsteyr.quizapp.MainApplication;
 import at.htlsteyr.quizapp.Model.Music;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -9,6 +10,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class StartUpController {
@@ -42,6 +44,15 @@ public class StartUpController {
             music.StopMusic();
         } else {
             music.PlayMusic();
+        }
+    }
+
+    @FXML
+    public void onPlayButtonClicked(){
+        try {
+            MainApplication.mainWindow.newStage(425,609,"Quiz","quizgame-view.fxml");
+        } catch (IOException e){
+
         }
     }
 
