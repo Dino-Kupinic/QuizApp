@@ -37,7 +37,12 @@ public class JsonHandler {
         gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
-    public <T> void writeQuizToJson(Quiz<T> quiz) {
+    /**
+     * adds a quiz to data.json
+     *
+     * @param quiz quiz object containg name, questions and optionally its top players
+     */
+    public void writeQuizToJson(Quiz quiz) {
         try {
             StringBuilder sb = getStringBuilder(questionJsonFile);
             JsonArray jsonArray = gson.fromJson(sb.toString(), JsonArray.class);
@@ -47,6 +52,8 @@ public class JsonHandler {
             jsonObject.addProperty("name", quiz.getName());
             JsonArray questionArray = gson.toJsonTree(quiz.getQuestionArrayList()).getAsJsonArray();
             jsonObject.add("questions", questionArray);
+            JsonArray topPlayerArray = gson.toJsonTree(quiz.getTopPlayers()).getAsJsonArray();
+            jsonObject.add("topPlayers", topPlayerArray);
             jsonArray.add(jsonObject);
 
             String json = gson.toJson(jsonArray);
@@ -61,6 +68,11 @@ public class JsonHandler {
         }
     }
 
+    /**
+     * writes a player to player.json
+     *
+     * @param player player object containing id, name and scores
+     */
     public void writePlayerToJson(Player player) {
         try {
             StringBuilder sb = getStringBuilder(playerJsonFile);
@@ -69,60 +81,47 @@ public class JsonHandler {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("id", player.getId());
             jsonObject.addProperty("name", player.getName());
-            jsonObject.addProperty("score", player.getGlobalScore().getScore());
+            jsonObject.addProperty("totalScore", player.getTotalScore().getScore());
+            jsonArray.add(jsonObject);
 
+            String json = gson.toJson(jsonArray);
+            FileWriter fileWriter = new FileWriter(playerJsonFile);
+            fileWriter.write(json);
+            fileWriter.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public <T> ArrayList<Quiz<T>> getAllQuizes() {
+    /**
+     * reads all questios from data.json
+     *
+     * @return arrayList of all quizes
+     */
+    public ArrayList<Quiz> getAllQuizes() {
         try {
             StringBuilder sb = getStringBuilder(questionJsonFile);
             JsonArray jsonArray = gson.fromJson(sb.toString(), JsonArray.class);
-
-            ArrayList<Quiz<T>> quizArrayList = new ArrayList<>();
+            ArrayList<Quiz> quizArrayList = new ArrayList<>();
 
             for (JsonElement element : jsonArray) {
                 JsonObject object = element.getAsJsonObject();
-
                 String quizName = object.get("name").getAsString().replaceAll("\"", "");
 
-                ArrayList<Question<T>> questionArrayList = new ArrayList<>();
                 JsonArray questionArray = object.get("questions").getAsJsonArray();
+                ArrayList<Question> questionArrayList = readQuestions(questionArray);
 
-                for (JsonElement questionElement : questionArray) {
-                    JsonObject questionObject = questionElement.getAsJsonObject();
-                    String question = questionObject.get("question").getAsString();
-
-                    JsonElement correctAnswerElement = questionObject.get("correctAnswer");
-
-                    T correctAnswer;
-
-                    if (correctAnswerElement.isJsonArray()) {
-                        JsonArray correctAnswerArray = correctAnswerElement.getAsJsonArray();
-                        ArrayList<Integer> correctAnswerList = new ArrayList<>();
-                        for (JsonElement answerElement : correctAnswerArray) {
-                            int answer = answerElement.getAsInt();
-                            correctAnswerList.add(answer);
-                        }
-                        correctAnswer = (T) correctAnswerList;
-                    } else {
-                        correctAnswer = (T) Integer.valueOf(correctAnswerElement.getAsInt());
-                    }
-
-                    ArrayList<String> answerArrayList = new ArrayList<>();
-                    JsonArray answerArray = questionObject.get("answerArrayList").getAsJsonArray();
-                    for (JsonElement answerElement : answerArray) {
-                        String answer = answerElement.getAsString();
-                        answerArrayList.add(answer);
-                    }
-                    questionArrayList.add(new Question<>(question, answerArrayList, correctAnswer));
+                ArrayList<Player> topPlayers = new ArrayList<>();
+                if (!(object.get("topPlayers").getAsJsonArray() == null)) {
+                    topPlayers = readTopPlayers(object);
                 }
-                quizArrayList.add(new Quiz<>(quizName, questionArrayList));
+                if (topPlayers.size() != 0) {
+                    quizArrayList.add(new Quiz(quizName, questionArrayList, topPlayers));
+                } else {
+                    quizArrayList.add(new Quiz(quizName, questionArrayList));
+                }
             }
-
             // Log action
             System.out.println("Read all quizes from data.json!");
 
@@ -131,6 +130,54 @@ public class JsonHandler {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * reads all questions from each quiz
+     *
+     * @param questionArray arrayList containing the questions from the quiz
+     * @return arrayList of questions
+     */
+    private ArrayList<Question> readQuestions(JsonArray questionArray) {
+        ArrayList<Question> tempQuestionList = new ArrayList<>();
+        for (JsonElement questionElement : questionArray) {
+            JsonObject questionObject = questionElement.getAsJsonObject();
+            String question = questionObject.get("question").getAsString();
+
+            ArrayList<Answer> answerArrayList = new ArrayList<>();
+            JsonArray answerArray = questionObject.get("answerArrayList").getAsJsonArray();
+
+            for (JsonElement answerElement : answerArray) {
+                JsonObject answer = answerElement.getAsJsonObject();
+                String answerText = answer.get("answerText").getAsString();
+                Boolean isCorrect = answer.get("isCorrect").getAsBoolean();
+                answerArrayList.add(new Answer(answerText, isCorrect));
+            }
+            tempQuestionList.add(new Question(question, answerArrayList));
+        }
+        return tempQuestionList;
+    }
+
+    /**
+     * reads the top players from data json
+     *
+     * @param object jsonObject (quiz)
+     * @return ArrayList of players
+     */
+    private ArrayList<Player> readTopPlayers(JsonObject object) {
+        ArrayList<Player> tempPlayerArray = new ArrayList<>();
+        JsonArray topPlayerArray = object.getAsJsonArray("topPlayers");
+        for (JsonElement el : topPlayerArray) {
+            JsonObject player = el.getAsJsonObject();
+            Integer id = player.get("id").getAsInt();
+            String name = player.get("name").getAsString();
+            JsonObject currentScoreObject = player.get("currentScore").getAsJsonObject();
+            JsonObject totalScoreObject = player.get("totalScore").getAsJsonObject();
+            int currentScore = currentScoreObject.get("score").getAsInt();
+            int totalScore = totalScoreObject.get("score").getAsInt();
+            tempPlayerArray.add(new Player(id, name, new Score(currentScore), new Score(totalScore)));
+        }
+        return tempPlayerArray;
     }
 
     /**
@@ -180,5 +227,4 @@ public class JsonHandler {
             addJSONArray(f);
         }
     }
-
 }

@@ -14,12 +14,14 @@ package at.htlsteyr.quizapp.Model;
 public class Player {
     private Integer id;
     private String name;
-    private Score globalScore;
+    private Score currentScore;
+    private Score totalScore;
 
-    public Player(Integer id, String name, Score score) {
+    public Player(Integer id, String name, Score currentScore, Score totalScore) {
         this.id = id;
         this.name = name;
-        this.globalScore = score;
+        this.currentScore = currentScore;
+        this.totalScore = totalScore;
     }
 
     public Integer getId() {
@@ -38,11 +40,19 @@ public class Player {
         this.name = name;
     }
 
-    public Score getGlobalScore() {
-        return globalScore;
+    public Score getCurrentScore() {
+        return currentScore;
     }
 
-    public void setGlobalScore(Score globalScore) {
-        this.globalScore = globalScore;
+    public void setCurrentScore(Score currentScore) {
+        this.currentScore = currentScore;
+    }
+
+    public Score getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(Score totalScore) {
+        this.totalScore = totalScore;
     }
 }
