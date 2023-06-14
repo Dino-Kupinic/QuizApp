@@ -14,7 +14,6 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.htlsteyr.quizapp.Controller.SelectionViewController">
    <children>
       <ImageView fitHeight="500.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
@@ -87,7 +86,7 @@
           <TableColumn fx:id="scoreCol" editable="false" prefWidth="107.97439575195312" text="Total Score" />
         </columns>
       </TableView>
-      <ListView fx:id="quizesList" layoutX="17.0" layoutY="102.0" prefHeight="165.0" prefWidth="220.0" />
+      <ListView fx:id="quizesList" layoutX="17.0" layoutY="102.0" onMouseClicked="#displayTopPlayers" prefHeight="165.0" prefWidth="220.0" />
       <Label alignment="CENTER" layoutX="319.0" layoutY="69.0" prefHeight="20.0" prefWidth="101.0" text="Leaderboard">
          <font>
             <Font size="16.0" />

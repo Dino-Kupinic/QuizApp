@@ -12,6 +12,8 @@
 package at.htlsteyr.quizapp.Model;
 
 import com.google.gson.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -178,6 +180,17 @@ public class JsonHandler {
             tempPlayerArray.add(new Player(id, name, new Score(currentScore), new Score(totalScore)));
         }
         return tempPlayerArray;
+    }
+
+    /**
+     * reads all players from the quiz
+     * @return observable list with all players
+     */
+    public ObservableList<Player> getAllPlayers(Quiz quiz) {
+        ArrayList<Player> playerArrayList = quiz.getTopPlayers();
+        ObservableList<Player> players = FXCollections.observableArrayList();
+        players.addAll(playerArrayList);
+        return players;
     }
 
     /**
