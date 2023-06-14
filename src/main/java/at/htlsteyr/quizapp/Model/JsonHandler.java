@@ -186,11 +186,46 @@ public class JsonHandler {
      * reads all players from the quiz
      * @return observable list with all players
      */
-    public ObservableList<Player> getAllPlayers(Quiz quiz) {
+    public ObservableList<Player> getAllTopPlayersForTableView(Quiz quiz) {
         ArrayList<Player> playerArrayList = quiz.getTopPlayers();
         ObservableList<Player> players = FXCollections.observableArrayList();
         players.addAll(playerArrayList);
         return players;
+    }
+
+    /**
+     * returns ObservableList for Leaderboard
+     * @param arrayList Player ArrayList
+     * @return ObservableList with all Players
+     */
+    public ObservableList<Player> getAllPlayersForTableView(ArrayList<Player> arrayList) {
+        ObservableList<Player> players = FXCollections.observableArrayList();
+        players.addAll(arrayList);
+        return players;
+    }
+
+    /**
+     * reads all players from player.json
+     * @return arrayList of players
+     */
+    public ArrayList<Player> readAllPlayers() {
+        try {
+            StringBuilder sb = getStringBuilder(playerJsonFile);
+            JsonArray jsonArray = gson.fromJson(sb.toString(), JsonArray.class);
+            ArrayList<Player> playerArrayList = new ArrayList<>();
+
+            for (JsonElement e : jsonArray) {
+                JsonObject jsonObject = e.getAsJsonObject();
+                Integer id = jsonObject.get("id").getAsInt();
+                String name = jsonObject.get("name").getAsString();
+                Integer score = jsonObject.get("totalScore").getAsInt();
+
+                playerArrayList.add(new Player(id, name, new Score(0), new Score(score)));
+            }
+            return playerArrayList;
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -249,6 +284,21 @@ public class JsonHandler {
     public boolean isDataJsonValid() {
         try {
             Scanner scanner = new Scanner(questionJsonFile);
+            return scanner.hasNextLine();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * checks if player json is valid or not
+     *
+     * @return boolean
+     */
+    public boolean isPlayerJsonValid() {
+        try {
+            Scanner scanner = new Scanner(playerJsonFile);
             return scanner.hasNextLine();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

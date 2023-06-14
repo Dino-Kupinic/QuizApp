@@ -42,6 +42,7 @@ public class SelectionViewController {
 
     public void initialize() {
         addQuizToList();
+        displayLeaderboard();
     }
 
     /**
@@ -49,15 +50,15 @@ public class SelectionViewController {
      */
     public void displayTopPlayers() {
         String selectedItem = quizesList.getSelectionModel().getSelectedItem();
-        if (selectedItem != null) {
+        if (!Objects.equals(selectedItem, "")) {
             JsonHandler jsonHandler = new JsonHandler();
             ArrayList<Quiz> quizArrayList = jsonHandler.getAllQuizes();
             for (Quiz q : quizArrayList) {
                 if (Objects.equals(q.getName(), selectedItem)) {
-                    topPlayers.setItems(jsonHandler.getAllPlayers(q));
+                    topPlayers.setItems(jsonHandler.getAllTopPlayersForTableView(q));
                     nameColBestPlayers.setCellValueFactory(new PropertyValueFactory<>("name"));
                     scoreColBestPlayers.setCellValueFactory(new PropertyValueFactory<>("currentScore"));
-                    getPropertyOfScoreClass();
+                    getPropertyOfScoreClass(scoreColBestPlayers);
                 }
             }
         }
@@ -66,13 +67,13 @@ public class SelectionViewController {
     /**
      * gets the score property of the score class and updates the top player view
      */
-    private void getPropertyOfScoreClass() {
-        scoreColBestPlayers.setCellFactory(column -> new TableCell<>() {
+    private void getPropertyOfScoreClass(TableColumn<Player, Score> scoreCol) {
+        scoreCol.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(Score score, boolean empty) {
                 super.updateItem(score, empty);
                 if (empty || score == null) {
-                    setText(null);
+                    setText("unknown");
                 } else {
                     setText(String.valueOf(score.getScore()));
                 }
@@ -80,8 +81,21 @@ public class SelectionViewController {
         });
     }
 
+    /**
+     * fills the Leaderboard with all players
+     */
     public void displayLeaderboard() {
-
+        JsonHandler jsonHandler = new JsonHandler();
+        ArrayList<Player> playerArrayList = null;
+        if (jsonHandler.isPlayerJsonValid()) {
+            playerArrayList = jsonHandler.readAllPlayers();
+        }
+        if (playerArrayList != null) {
+            leaderboard.setItems(jsonHandler.getAllPlayersForTableView(playerArrayList));
+            nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+            scoreCol.setCellValueFactory(new PropertyValueFactory<>("totalScore"));
+            getPropertyOfScoreClass(scoreCol);
+        }
     }
 
     /**

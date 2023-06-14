@@ -1,15 +1,5 @@
 [
   {
-    "id": 1,
-    "name": "samc",
-    "globalScore": 1231
-  },
-  {
-    "id": 2,
-    "name": "samc",
-    "globalScore": 1231
-  },
-  {
     "id": 3,
     "name": "dino",
     "totalScore": 0
@@ -42,12 +32,12 @@
   {
     "id": 1,
     "name": "dino",
-    "totalScore": 0
+    "totalScore": 9999
   },
   {
     "id": 1,
     "name": "dino",
-    "totalScore": 0
+    "totalScore": 999999
   },
   {
     "id": 1,
