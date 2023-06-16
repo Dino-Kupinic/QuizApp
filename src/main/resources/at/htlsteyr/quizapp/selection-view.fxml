@@ -82,8 +82,8 @@
       </Label>
       <TableView fx:id="leaderboard" layoutX="262.0" layoutY="102.0" prefHeight="330.0" prefWidth="220.0">
         <columns>
-          <TableColumn fx:id="nameCol" editable="false" prefWidth="110.52557373046875" text="Name" />
-          <TableColumn fx:id="scoreCol" editable="false" prefWidth="107.97439575195312" text="Total Score" />
+          <TableColumn fx:id="nameCol" editable="false" prefWidth="103.0" resizable="false" text="Name" />
+          <TableColumn fx:id="scoreCol" editable="false" prefWidth="115.48681640625" resizable="false" text="Total Score" />
         </columns>
       </TableView>
       <ListView fx:id="quizesList" layoutX="17.0" layoutY="102.0" onMouseClicked="#displayTopPlayers" prefHeight="165.0" prefWidth="220.0" />
@@ -122,8 +122,8 @@
       </Label>
       <TableView fx:id="topPlayers" layoutX="16.0" layoutY="313.0" prefHeight="119.0" prefWidth="220.0">
          <columns>
-            <TableColumn fx:id="nameColBestPlayers" editable="false" prefWidth="111.00003051757812" text="Name" />
-            <TableColumn fx:id="scoreColBestPlayers" editable="false" prefWidth="108.0" text="Highscore" />
+            <TableColumn fx:id="nameColBestPlayers" editable="false" prefWidth="106.52639389038086" resizable="false" text="Name" />
+            <TableColumn fx:id="scoreColBestPlayers" editable="false" prefWidth="112.47359466552734" resizable="false" text="Highscore" />
          </columns>
       </TableView>
       <Button fx:id="playButton" alignment="CENTER" layoutX="199.0" layoutY="447.0" mnemonicParsing="false" prefWidth="100.0" text="Play">
