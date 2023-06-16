@@ -73,7 +73,7 @@ public class SelectionViewController {
             protected void updateItem(Score score, boolean empty) {
                 super.updateItem(score, empty);
                 if (empty || score == null) {
-                    setText("unknown");
+                    setText("");
                 } else {
                     setText(String.valueOf(score.getScore()));
                 }
