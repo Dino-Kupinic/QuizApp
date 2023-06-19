@@ -40,7 +40,7 @@ import javafx.scene.media.MediaPlayer;
 import java.io.File;
 
 public class Music {
-    private File musicFile = new File("src/main/resources/at/htlsteyr/quizapp/Tobu-Candyland.mp3");
+    private File musicFile = new File("src/main/resources/at/htlsteyr/quizapp/media/Tobu-Candyland.mp3");
     private Media media = new Media(musicFile.toURI().toString());
     private MediaPlayer mediaPlayer = new MediaPlayer(media);
     private Boolean musicStatus = false;

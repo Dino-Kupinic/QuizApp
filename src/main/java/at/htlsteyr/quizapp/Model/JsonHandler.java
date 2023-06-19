@@ -55,8 +55,8 @@ public class JsonHandler {
     private final Gson gson;
 
     public JsonHandler() {
-        PATH_DATA_JSON = Paths.get("src/main/resources/at/htlsteyr/quizapp/data.json");
-        PATH_PLAYER_JSON = Paths.get("src/main/resources/at/htlsteyr/quizapp/player.json");
+        PATH_DATA_JSON = Paths.get("src/main/resources/at/htlsteyr/quizapp/json/data.json");
+        PATH_PLAYER_JSON = Paths.get("src/main/resources/at/htlsteyr/quizapp/json/player.json");
         questionJsonFile = new File(PATH_DATA_JSON.toUri());
         playerJsonFile = new File(PATH_PLAYER_JSON.toUri());
         gson = new GsonBuilder().setPrettyPrinting().create();

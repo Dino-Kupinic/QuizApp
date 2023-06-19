@@ -6,7 +6,7 @@
  *
  * @author : Jannick Angerer
  * @date : 19.6.2023
- * @details Class to play Music
+ * @details Class to test Score class
  */
 /*
  * MIT License
