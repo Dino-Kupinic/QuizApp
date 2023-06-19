@@ -11,17 +11,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainApplication extends Application {
+    private static int WIDTH = 1024;
+    private static int HEIGHT = 768;
+    public static WindowManager mainWindow;
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("start-up-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Quiz App");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
+        mainWindow = new WindowManager(HEIGHT, WIDTH,"Quiz","start-up-view.fxml");
+        mainWindow.getGlobalStage().show();
         checkDataJson();
 
-        StartUpController controller = fxmlLoader.getController();
+        StartUpController controller = (StartUpController) mainWindow.getController();
         controller.initController();
 
         // test
