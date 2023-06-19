@@ -1,6 +1,9 @@
 package at.htlsteyr.quizapp.Controller;
 
+import at.htlsteyr.quizapp.MainApplication;
 import at.htlsteyr.quizapp.Model.Music;
+import at.htlsteyr.quizapp.Model.Timer;
+import at.htlsteyr.quizapp.Model.WindowManager;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -9,6 +12,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class StartUpController {
