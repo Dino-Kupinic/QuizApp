@@ -218,9 +218,9 @@ public class JsonHandler {
                 JsonObject jsonObject = e.getAsJsonObject();
                 Integer id = jsonObject.get("id").getAsInt();
                 String name = jsonObject.get("name").getAsString();
-                Integer score = jsonObject.get("totalScore").getAsInt();
+                Double score = jsonObject.get("totalScore").getAsDouble();
 
-                playerArrayList.add(new Player(id, name, new Score(0), new Score(score)));
+                playerArrayList.add(new Player(id, name, new Score(0.0), new Score(score)));
             }
             return playerArrayList;
         } catch (FileNotFoundException e) {
