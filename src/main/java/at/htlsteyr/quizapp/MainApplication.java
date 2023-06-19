@@ -11,10 +11,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainApplication extends Application {
+    private static int WIDTH = 1024;
+    private static int HEIGHT = 768;
     public static WindowManager mainWindow;
     @Override
     public void start(Stage stage) throws IOException {
-        mainWindow = new WindowManager(425,609,"Quiz App","start-up-view.fxml");
+        mainWindow = new WindowManager(HEIGHT, WIDTH,"Quiz","start-up-view.fxml");
         mainWindow.getGlobalStage().show();
         checkDataJson();
 

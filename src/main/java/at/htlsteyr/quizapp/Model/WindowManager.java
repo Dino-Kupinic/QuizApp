@@ -7,28 +7,100 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class WindowManager {
+public class WindowManager implements Debug{
     private Stage globalStage;
     private Scene globalScene;
-    private int height;
-    private int width;
+    private double height;
+    private double width;
     private String title;
-    private String fxmlFilePath;
+    private String fxmlFileName;
     private FXMLLoader fxmlLoader;
 
-    public WindowManager(int height, int width, String title, String fxmlFilePath) throws IOException {
+    /**
+     * Main purpose is to easily change between
+     * stages or scenes
+     *
+     * @param height Height of the stage
+     * @param width Width of the stage
+     * @param title Titel of the stage
+     * @param fxmlFileName Path to the fxml-file
+     * @throws IOException If fxml-file can not been found
+     */
+    public WindowManager(double height, double width, String title, String fxmlFileName) throws IOException {
         globalStage = new Stage();
         setHeight(height);
         setWidth(width);
         setTitle(title);
-        setFxmlFilePath(fxmlFilePath);
+        setFxmlFileName(fxmlFileName);
         globalStage.setScene(globalScene);
     }
+
+    /**
+     * Main purpose is to easily change between
+     * stages or scenes.This constructor can be
+     * used if a Scene already exists.
+     *
+     * @param height Height of the stage
+     * @param width Width of the stage
+     * @param title Titel of the stage
+     * @param scene Scene for the stage
+     */
+        public WindowManager(double height, double width, String title, Scene scene){
+        globalStage = new Stage();
+        setHeight(height);
+        setWidth(width);
+        setTitle(title);
+        globalStage.setScene(scene);
+    }
+
+    /**
+     * Main purpose is to easily change between
+     * stages or scenes. This constructor can be
+     * used if a stage already exists. You have to set
+     * the FXML-Loader via Scene.setUserData(FXML.Loader)
+     *
+     * @param stage global Stage
+     */
+    public WindowManager(Stage stage) {
+        this.globalStage = stage;
+        setTitle(stage.getTitle());
+        setWidth(stage.getWidth());
+        setHeight(stage.getHeight());
+        setGlobalScene(stage.getScene());
+        fxmlLoader = (FXMLLoader) getGlobalScene().getUserData();
+    }
+
+    //------------------------ Getter ------------------------
 
     public Stage getGlobalStage() {
         return globalStage;
     }
 
+    public Scene getGlobalScene() {
+        return globalScene;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getFxmlFileName() {
+        return fxmlFileName;
+    }
+
+    public Object getController(){
+        return fxmlLoader.getController();
+    }
+
+//------------------------ Setter ------------------------
     public void setGlobalStage(Stage globalStage) {
         this.globalStage = globalStage;
     }
@@ -55,42 +127,26 @@ public class WindowManager {
         return temp;
     }
 
-    public Scene getGlobalScene() {
-        return globalScene;
-    }
-
     public void setGlobalScene(Scene globalScene) {
         this.globalScene = globalScene;
     }
 
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
+    public void setHeight(double height) {
         this.height = height;
         try {
             globalStage.setHeight(height);
         } catch (NullPointerException e){
-            e.printStackTrace();
+           if (PRINT_NUllPOINTEXEP) e.printStackTrace();
         }
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
+    public void setWidth(double width) {
         this.width = width;
         try {
             globalStage.setWidth(width);
         } catch (NullPointerException e){
-            e.printStackTrace();
+            if (PRINT_NUllPOINTEXEP) e.printStackTrace();
         }
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public void setTitle(String title) {
@@ -98,22 +154,22 @@ public class WindowManager {
         try {
             globalStage.setTitle(title);
         } catch (NullPointerException e){
-            e.printStackTrace();
+            if (PRINT_NUllPOINTEXEP) e.printStackTrace();
         }
     }
 
-    public String getFxmlFilePath() {
-        return fxmlFilePath;
-    }
-
-    public void setFxmlFilePath(String fxmlFilePath) throws IOException {
-        this.fxmlFilePath = fxmlFilePath;
-        fxmlLoader = new FXMLLoader(MainApplication.class.getResource(fxmlFilePath));
+    public void setFxmlFileName(String fxmlFileName) throws IOException {
+        this.fxmlFileName = fxmlFileName;
+        fxmlLoader = new FXMLLoader(MainApplication.class.getResource(fxmlFileName));
         globalScene = new Scene(fxmlLoader.load(),width, height);
     }
 
-    public Object getController(){
-        return fxmlLoader.getController();
+    public void close(){
+        globalStage.close();
+    }
+
+    public void close(Stage stage){
+        stage.close();
     }
 
 }
