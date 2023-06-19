@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainApplication extends Application {
-    private static int WIDTH = 1024;
-    private static int HEIGHT = 768;
+    public static int WIDTH = 1024;
+    public static int HEIGHT = 768;
     public static WindowManager mainWindow;
     @Override
     public void start(Stage stage) throws IOException {

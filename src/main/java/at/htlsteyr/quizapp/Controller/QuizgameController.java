@@ -41,8 +41,7 @@ public class QuizgameController {
         topleftBtn.setEffect(shadow);
         bottomrightBtn.setEffect(shadow);
         toprightBtn.setEffect(shadow);
-        questionLbl.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, null, null)));
-        questionLbl.setText("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        questionLblBackground.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, null, null)));
         Image background = new Image("H:\\Schule\\3_Klasse\\ITP2\\QuizApp\\src\\main\\resources\\img\\ClassroomBackground.png");
         fourAnswerAnchorPane.setBackground(new Background(new BackgroundImage(background, null,null,null,null)));
     }

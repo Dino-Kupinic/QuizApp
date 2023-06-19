@@ -2,6 +2,7 @@ package at.htlsteyr.quizapp.Controller;
 
 import at.htlsteyr.quizapp.MainApplication;
 import at.htlsteyr.quizapp.Model.Music;
+import at.htlsteyr.quizapp.Model.WindowManager;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -50,7 +51,12 @@ public class StartUpController {
     @FXML
     public void onPlayButtonClicked(){
         try {
-            MainApplication.mainWindow.newStage(425,609,"Quiz","quizgame-view.fxml");
+            WindowManager game = new WindowManager(MainApplication.HEIGHT,MainApplication.WIDTH,"Game","fourAnswer-view.fxml");
+            game.getGlobalStage().show();
+            MainApplication.mainWindow.close();
+            QuizgameController controller = (QuizgameController) game.getController();
+            controller.setFourAnswerGame();
+
         } catch (IOException e){
 
         }
