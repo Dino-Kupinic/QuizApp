@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.htlsteyr.quizapp.Controller.QuizgameController">
+<AnchorPane fx:id="trueFalseAnchorPane" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.htlsteyr.quizapp.Controller.QuizgameController">
     <children>
-        <Label fx:id="questionLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="150.0" layoutY="50.0" prefHeight="17.0" prefWidth="300.0" text="Question" textAlignment="CENTER" />
-        <GridPane layoutX="1.0" layoutY="189.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="211.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="189.0">
+        <Label fx:id="questionLblBackground" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="128.0" layoutY="89.0" maxHeight="Infinity" opacity="0.5" prefHeight="40.0" prefWidth="768.0" text="Question" textAlignment="CENTER">
+            <font>
+                <Font name="Lucida Sans Unicode" size="25.0" />
+            </font></Label>
+        <GridPane layoutX="-53.0" layoutY="528.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="240.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="528.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints fx:id="buttonPane" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -19,9 +24,26 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button fx:id="topleftBtn" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: #E21B3C" text="True" />
-                <Button fx:id="toprightBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: #1368CE" text="False" GridPane.columnIndex="1" />
+                <Button fx:id="trueBtn" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="264.0" prefWidth="459.0" style="-fx-background-color: #E21B3C" text="True">
+                    <GridPane.margin>
+                        <Insets bottom="3.0" left="3.0" right="3.0" />
+                    </GridPane.margin>
+                    <font>
+                        <Font name="Lucida Sans Unicode" size="18.0" />
+                    </font></Button>
+                <Button fx:id="falseBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: #1368CE" text="False" GridPane.columnIndex="1">
+                    <GridPane.margin>
+                        <Insets bottom="3.0" left="3.0" right="3.0" />
+                    </GridPane.margin>
+                    <font>
+                        <Font name="Lucida Sans Unicode" size="18.0" />
+                    </font></Button>
             </children>
         </GridPane>
+      <Label fx:id="questionLbl" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="128.0" layoutY="89.0" maxHeight="Infinity" prefHeight="40.0" prefWidth="768.0" text="Question" textAlignment="CENTER">
+         <font>
+            <Font name="Lucida Sans Unicode" size="25.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>
