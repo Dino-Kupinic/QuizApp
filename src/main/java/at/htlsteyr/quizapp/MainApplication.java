@@ -6,7 +6,7 @@
  *
  * @author : Dino Kupinic, Daniel Samhaber, Michael Ploier, Jannick Angerer
  * @date : 5.6.2023
- * @details Class to handle the timer in timed-mode
+ * @details Main class to start the program
  */
 /*
  * MIT License

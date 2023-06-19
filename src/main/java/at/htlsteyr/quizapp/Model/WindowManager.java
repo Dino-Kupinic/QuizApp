@@ -6,7 +6,7 @@
  *
  * @author : Michael Ploier
  * @date : 12.6.2023
- * @details Class to store score for each player
+ * @details Class to manage the windows
  */
 /*
  * MIT License
