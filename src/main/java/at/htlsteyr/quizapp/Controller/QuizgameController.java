@@ -34,6 +34,11 @@
 
 package at.htlsteyr.quizapp.Controller;
 
+import at.htlsteyr.quizapp.MainApplication;
+import at.htlsteyr.quizapp.Model.JsonHandler;
+import at.htlsteyr.quizapp.Model.Question;
+import at.htlsteyr.quizapp.Model.Quiz;
+import at.htlsteyr.quizapp.Model.WindowManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -41,6 +46,9 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class QuizgameController {
     @FXML
@@ -67,6 +75,10 @@ public class QuizgameController {
     private Label questionLbl;
     @FXML
     private Label questionLblBackground;
+    @FXML
+    private Button ctnueBtn;
+    private static int questionCount;
+    private WindowManager question;
 
     public void setFourAnswerGame() {
         DropShadow shadow = new DropShadow();
@@ -76,8 +88,8 @@ public class QuizgameController {
         bottomrightBtn.setEffect(shadow);
         toprightBtn.setEffect(shadow);
         questionLblBackground.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, null, null)));
-        Image background = new Image("H:\\Schule\\3_Klasse\\ITP2\\QuizApp\\src\\main\\resources\\img\\ClassroomBackground.png");
-        fourAnswerAnchorPane.setBackground(new Background(new BackgroundImage(background, null, null, null, null)));
+        //Image background = new Image("H:\\Schule\\3_Klasse\\ITP2\\QuizApp\\src\\main\\resources\\img\\ClassroomBackground.png");
+        //fourAnswerAnchorPane.setBackground(new Background(new BackgroundImage(background, null, null, null, null)));
     }
 
     public void setTrueFalseGame() {
@@ -89,4 +101,32 @@ public class QuizgameController {
         Image background = new Image("H:\\Schule\\3_Klasse\\ITP2\\QuizApp\\src\\main\\resources\\img\\ClassroomBackground.png");
         trueFalseAnchorPane.setBackground(new Background(new BackgroundImage(background, null, null, null, null)));
     }
+
+    public void ctnueBtnClicked () {
+        ArrayList<String> questions = new ArrayList<>();
+        questions.add("haa");
+        questions.add("haa");
+        questions.add("haa");
+        questions.add("haa");
+
+        StartUpController.game.close();
+
+        try {
+            if (questionCount < questions.size()) {
+                questionCount++;
+                StartUpController.game.close();
+                StartUpController.game = new WindowManager(MainApplication.HEIGHT, MainApplication.WIDTH, "Questions", "fourAnswer-view.fxml");
+                StartUpController.game.getGlobalStage().show();
+                System.out.println(questionCount);
+            } else {
+                StartUpController.game.close();
+                StartUpController.game = new WindowManager(MainApplication.HEIGHT, MainApplication.WIDTH, "Game ending", "End.fxml");
+                StartUpController.game.getGlobalStage().show();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }
