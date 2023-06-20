@@ -8,6 +8,9 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 public class QuizgameController {
     @FXML
     private AnchorPane fourAnswerAnchorPane;
@@ -33,25 +36,35 @@ public class QuizgameController {
     private Label questionLbl;
     @FXML
     private Label questionLblBackground;
+    private Image background;
+    {
+        try {
+            background = new Image(new FileInputStream("src/main/resources/img/ClassroomBackground.png"));
+        } catch (FileNotFoundException e) {
+            System.out.println("IntelliJ: hawara keine Ahnung wo des büd is oida!");
+        }
+    }
 
+    private final DropShadow buttonShadow = new DropShadow();
     public void setFourAnswerGame() {
-        DropShadow shadow = new DropShadow();
-        shadow.setRadius(5.0);
-        bottomleftBtn.setEffect(shadow);
-        topleftBtn.setEffect(shadow);
-        bottomrightBtn.setEffect(shadow);
-        toprightBtn.setEffect(shadow);
-        questionLblBackground.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, null, null)));
-        Image background = new Image("H:\\Schule\\3_Klasse\\ITP2\\QuizApp\\src\\main\\resources\\img\\ClassroomBackground.png");
-        fourAnswerAnchorPane.setBackground(new Background(new BackgroundImage(background, null,null,null,null)));
+        startGame();
+
+        bottomleftBtn.setEffect(buttonShadow);
+        topleftBtn.setEffect(buttonShadow);
+        bottomrightBtn.setEffect(buttonShadow);
+        toprightBtn.setEffect(buttonShadow);
+        questionLbl.setText("Welche Farbe hat das Fach MATHEMATIK");
+
     }
     public void setTrueFalseGame() {
-        DropShadow shadow = new DropShadow();
-        shadow.setRadius(5.0);
-        trueBtn.setEffect(shadow);
-        falseBtn.setEffect(shadow);
-        questionLblBackground.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, null, null)));
-        Image background = new Image("H:\\Schule\\3_Klasse\\ITP2\\QuizApp\\src\\main\\resources\\img\\ClassroomBackground.png");
-        trueFalseAnchorPane.setBackground(new Background(new BackgroundImage(background, null,null,null,null)));
+        startGame();
+
+        trueBtn.setEffect(buttonShadow);
+        falseBtn.setEffect(buttonShadow);
+    }
+    public void startGame() {
+        buttonShadow.setRadius(5.0);
+        questionLblBackground.setBackground(new Background(new BackgroundFill(Color.DARKGRAY.darker(), null, null)));
+        fourAnswerAnchorPane.setBackground(new Background(new BackgroundImage(background, null,null,null,null)));
     }
 }
