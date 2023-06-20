@@ -34,14 +34,15 @@
 
 package at.htlsteyr.quizapp.Controller;
 
-import at.htlsteyr.quizapp.Model.JsonHandler;
-import at.htlsteyr.quizapp.Model.Player;
-import at.htlsteyr.quizapp.Model.Quiz;
-import at.htlsteyr.quizapp.Model.Score;
+import at.htlsteyr.quizapp.MainApplication;
+import at.htlsteyr.quizapp.Model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -135,5 +136,11 @@ public class SelectionViewController {
                 quizesList.getItems().add(q.getName());
             }
         }
+    }
+
+    @FXML
+    public void qsPlayBtnClicked() throws IOException {
+        StartUpController.game = new WindowManager("Game", "fourAnswer-view.fxml");
+        StartUpController.game.getGlobalStage().show();
     }
 }
