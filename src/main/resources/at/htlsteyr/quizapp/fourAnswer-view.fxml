@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="fourAnswerAnchorPane" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.htlsteyr.quizapp.Controller.QuizgameController">
+<AnchorPane fx:id="fourAnswerAnchorPane" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.htlsteyr.quizapp.Controller.QuizgameController">
    <children>
       <Label fx:id="questionLblBackground" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="128.0" layoutY="89.0" maxHeight="Infinity" opacity="0.5" prefHeight="40" prefWidth="768.0" textAlignment="CENTER">
          <font>
@@ -60,5 +60,20 @@
                <Font name="Lucida Sans Unicode" size="25.0" />
            </font>
        </Label>
+      <Label layoutX="19.0" layoutY="18.0" prefHeight="49.0" prefWidth="109.0" text="Points:">
+         <font>
+            <Font name="System Bold" size="33.0" />
+         </font>
+      </Label>
+      <Label layoutX="133.0" layoutY="19.0" prefHeight="49.0" prefWidth="99.0" text="Points">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Label>
+      <Button fx:id="ctnueBtn" layoutX="849.0" layoutY="12.0" mnemonicParsing="false" onMouseClicked="#ctnueBtnClicked" prefHeight="51.0" prefWidth="165.0" style="-fx-background-color: white;" text="Continue">
+         <font>
+            <Font name="System Bold" size="27.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
