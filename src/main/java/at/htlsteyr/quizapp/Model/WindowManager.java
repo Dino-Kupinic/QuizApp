@@ -66,7 +66,7 @@ public class WindowManager implements Debug {
         setHeight(height);
         setWidth(width);
         setTitle(title);
-        setFxmlFileName(fxmlFileName);
+        setFxmlFileName(fxmlFileName, false);
         globalStage.setScene(globalScene);
     }
 
@@ -103,6 +103,13 @@ public class WindowManager implements Debug {
         setHeight(stage.getHeight());
         setGlobalScene(stage.getScene());
         fxmlLoader = (FXMLLoader) getGlobalScene().getUserData();
+    }
+
+    public WindowManager(String title, String fxmlFileName) throws IOException {
+        globalStage = new Stage();
+        setTitle(title);
+        setFxmlFileName(fxmlFileName, true);
+        globalStage.setScene(globalScene);
     }
 
     //------------------------ Getter ------------------------
@@ -193,10 +200,11 @@ public class WindowManager implements Debug {
         }
     }
 
-    public void setFxmlFileName(String fxmlFileName) throws IOException {
+    public void setFxmlFileName(String fxmlFileName, boolean autoSize) throws IOException {
         this.fxmlFileName = fxmlFileName;
         fxmlLoader = new FXMLLoader(MainApplication.class.getResource(fxmlFileName));
-        globalScene = new Scene(fxmlLoader.load(), width, height);
+        if (!autoSize) globalScene = new Scene(fxmlLoader.load(), width, height);
+        else globalScene = new Scene(fxmlLoader.load());
     }
 
     public void close() {
