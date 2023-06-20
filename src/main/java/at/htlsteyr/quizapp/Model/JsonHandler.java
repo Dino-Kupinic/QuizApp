@@ -249,8 +249,9 @@ public class JsonHandler {
                 playerArrayList.add(new Player(id, name, new Score(0.0), new Score(score)));
             }
             return playerArrayList;
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (FileNotFoundException | NullPointerException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
