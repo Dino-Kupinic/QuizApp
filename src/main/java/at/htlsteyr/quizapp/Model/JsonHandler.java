@@ -103,6 +103,63 @@ public class JsonHandler {
     }
 
     /**
+     * checks answer already exits in a quiz
+     *
+     * @param quiz     quiz object
+     * @param question question object
+     * @param answer   answer object which is checked if it already exists
+     * @return true or false
+     */
+    public boolean checkIfAnswerAlreadyExists(Quiz quiz, Question question, Answer answer) {
+        ArrayList<Question> questionArrayList = quiz.getQuestionArrayList();
+        for (Question q : questionArrayList) {
+            if (q.getQuestion().equals(question.getQuestion())) {
+                ArrayList<Answer> answerArrayList = q.getAnswerArrayList();
+                for (Answer a : answerArrayList) {
+                    if (a.getAnswerText().equals(answer.getAnswerText())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * checks if question is already in a quiz
+     *
+     * @param quiz     quiz object that contains the question
+     * @param question question object to be checked if it is inside the quiz
+     * @return true or false
+     */
+    public boolean checkIfQuestionAlreadyExists(Quiz quiz, Question question) {
+        ArrayList<Question> questionArrayList = quiz.getQuestionArrayList();
+        for (Question q : questionArrayList) {
+            if (q.getQuestion().equals(question.getQuestion())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * checks if a quiz already exists
+     *
+     * @param quiz quiz object
+     * @return true or false
+     */
+    public boolean checkIfQuizAlreadyExists(Quiz quiz) {
+        ArrayList<Quiz> quizArrayList = getAllQuizes();
+        for (Quiz q : quizArrayList) {
+            if (q.getName().equals(quiz.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * writes a player to player.json
      *
      * @param player player object containing id, name and scores
@@ -459,6 +516,4 @@ public class JsonHandler {
         // Log Action
         System.out.println("Created backup of data.json! \nValue of dataJsonBackUpString:\n" + dataJsonBackUpString);
     }
-
-
 }
