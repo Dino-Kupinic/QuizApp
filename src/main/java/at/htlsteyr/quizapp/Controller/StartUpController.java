@@ -98,11 +98,11 @@ public class StartUpController {
     @FXML
     public void onPlayButtonClicked() {
         try {
-            WindowManager game = new WindowManager(MainApplication.HEIGHT, MainApplication.WIDTH, "Game", "fourAnswer-view.fxml");
+            WindowManager game = new WindowManager("Editor", "editor-view.fxml");
             game.getGlobalStage().show();
             MainApplication.mainWindow.close();
-            QuizgameController controller = (QuizgameController) game.getController();
-            controller.setFourAnswerGame();
+            EditorController controller = (EditorController) game.getController();
+            controller.initFXML();
 
         } catch (IOException e) {
 

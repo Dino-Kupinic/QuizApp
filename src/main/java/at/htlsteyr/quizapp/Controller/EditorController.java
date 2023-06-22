@@ -35,10 +35,15 @@
 package at.htlsteyr.quizapp.Controller;
 
 import at.htlsteyr.quizapp.Model.Answer;
+import at.htlsteyr.quizapp.Model.JsonHandler;
 import at.htlsteyr.quizapp.Model.Question;
 import at.htlsteyr.quizapp.Model.Quiz;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.util.ArrayList;
 
 public class EditorController {
     @FXML
@@ -50,7 +55,7 @@ public class EditorController {
     @FXML
     private ListView<Question> questionList;
     @FXML
-    private ListView<Quiz> quizList;
+    private ListView<String> quizList;
     @FXML
     private TextField quizNameTextField;
     @FXML
@@ -87,5 +92,53 @@ public class EditorController {
     private Button answerResetButton;
     @FXML
     private Button answerApplyButton;
+
+    private Quiz selectedQuiz;
+    private Question selectedQuestion;
+
+    private JsonHandler jsonHandler = new JsonHandler();
+
+    public void initFXML(){
+        addQuizToList();
+    }
+
+
+
+    /**
+     * Adds all quiz to the list view
+     */
+    public void addQuizToList() {
+        ArrayList<Quiz> quizArrayList = null;
+        if (jsonHandler.isDataJsonValid()) {
+            quizArrayList = jsonHandler.getAllQuizes();
+        }
+        if (quizArrayList != null) {
+            for (Quiz q : quizArrayList) {
+                quizList.getItems().add(q.getName());
+            }
+        }
+    }
+
+    //------------------OnClickEvents------------------\\
+
+    @FXML
+    private void onClickQuizList(){
+        String quizname = quizList.getSelectionModel().getSelectedItem();
+        selectedQuiz = jsonHandler.getQuizByName(quizname);
+        quizNameTextField.setText(quizname);
+        questionList.getItems().clear();
+        questionList.getItems().addAll(selectedQuiz.getQuestionArrayList());
+    }
+
+    @FXML
+    private void onClickQuestionList(){
+        selectedQuestion = questionList.getSelectionModel().getSelectedItem();
+        questionTextArea.setText(selectedQuestion.getQuestion());
+
+        answerTable.getItems().clear();
+        answerTable.getItems().addAll(jsonHandler.getAllAnswerForTableView(selectedQuestion.getAnswerArrayList()));
+
+
+    }
 
 }
