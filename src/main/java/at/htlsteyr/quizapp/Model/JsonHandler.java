@@ -53,6 +53,7 @@ public class JsonHandler {
     private final File questionJsonFile;
     private final File playerJsonFile;
     private final Gson gson;
+    private String dataJsonBackUpString;
 
     public JsonHandler() {
         PATH_DATA_JSON = Paths.get("src/main/resources/at/htlsteyr/quizapp/json/data.json");
@@ -60,6 +61,14 @@ public class JsonHandler {
         questionJsonFile = new File(PATH_DATA_JSON.toUri());
         playerJsonFile = new File(PATH_PLAYER_JSON.toUri());
         gson = new GsonBuilder().setPrettyPrinting().create();
+    }
+
+    public String getDataJsonBackUpString() {
+        return dataJsonBackUpString;
+    }
+
+    public void setDataJsonBackUpString(String dataJsonBackUpString) {
+        this.dataJsonBackUpString = dataJsonBackUpString;
     }
 
     /**
@@ -184,6 +193,44 @@ public class JsonHandler {
     }
 
     /**
+     * Gets a question by its name in a quiz
+     *
+     * @param quiz quiz in which the question is found
+     * @param text question text
+     * @return question object
+     */
+    public Question getQuestionByText(Quiz quiz, String text) {
+        ArrayList<Question> questionArrayList = quiz.getQuestionArrayList();
+        for (Question question : questionArrayList) {
+            if (question.getQuestion().equals(text)) {
+                return question;
+            }
+        }
+        // Log action
+        System.out.println("Read question \"" + text + "\" from quiz \"" + quiz.getName() + "\"");
+        return null;
+    }
+
+    /**
+     * gets an answer from a question
+     *
+     * @param question question object that contains the answer
+     * @param text     answer text
+     * @return answer object
+     */
+    public Answer getAnswerByText(Question question, String text) {
+        ArrayList<Answer> answerArrayList = question.getAnswerArrayList();
+        for (Answer answer : answerArrayList) {
+            if (answer.getAnswerText().equals(text)) {
+                return answer;
+            }
+        }
+        // Log action
+        System.out.println("Read answer \"" + text + "\" from question \"" + question.getQuestion() + "\"");
+        return null;
+    }
+
+    /**
      * reads the top players from data json
      *
      * @param object jsonObject (quiz)
@@ -198,8 +245,8 @@ public class JsonHandler {
             String name = player.get("name").getAsString();
             JsonObject currentScoreObject = player.get("currentScore").getAsJsonObject();
             JsonObject totalScoreObject = player.get("totalScore").getAsJsonObject();
-            double currentScore = currentScoreObject.get("score").getAsInt();
-            double totalScore = totalScoreObject.get("score").getAsInt();
+            Double currentScore = currentScoreObject.get("score").getAsDouble();
+            Double totalScore = totalScoreObject.get("score").getAsDouble();
             tempPlayerArray.add(new Player(id, name, new Score(currentScore), new Score(totalScore)));
         }
         return tempPlayerArray;
@@ -331,4 +378,58 @@ public class JsonHandler {
         }
         return false;
     }
+
+    /**
+     * creates an example quiz (used when no user created quiz are found)
+     */
+    public void createExampleQuiz() {
+        // Question 1
+        ArrayList<Answer> answers1 = new ArrayList<>();
+        answers1.add(new Answer("Example Answer 1", false));
+        answers1.add(new Answer("Example Answer 2", true));
+        answers1.add(new Answer("Example Answer 3", true));
+        answers1.add(new Answer("Example Answer 4", true));
+        Question question1 = new Question("Example Question 1", answers1);
+
+        // Question 2
+        ArrayList<Answer> answers2 = new ArrayList<>();
+        answers2.add(new Answer("Example Answer 1", false));
+        answers2.add(new Answer("Example Answer 2", true));
+        answers2.add(new Answer("Example Answer 3", false));
+        answers2.add(new Answer("Example Answer 4", false));
+        Question question2 = new Question("Example Question 2", answers2);
+
+        // Question 3
+        ArrayList<Answer> answers3 = new ArrayList<>();
+        answers2.add(new Answer("Example Answer 1", false));
+        answers2.add(new Answer("Example Answer 2", true));
+        Question question3 = new Question("Example Question 3", answers3);
+
+        ArrayList<Question> questions = new ArrayList<>();
+        questions.add(question1);
+        questions.add(question2);
+        questions.add(question3);
+
+        // Add fictional top players
+        ArrayList<Player> topPlayers = new ArrayList<>();
+        topPlayers.add(new Player(1, "Heinz Schweiger", new Score(9999.0), new Score(99999.0)));
+        topPlayers.add(new Player(2, "Christian Samegmüller", new Score(1.0), new Score(1337.0)));
+        topPlayers.add(new Player(3, "Wolfgang Reisinger", new Score(0.0), new Score(0.0)));
+
+        Quiz quiz = new Quiz("Example Quiz", questions, topPlayers);
+        writeQuizToJson(quiz);
+    }
+
+    /**
+     * Makes a backup of data json
+     */
+    public void backupDataJson() {
+        ArrayList<Quiz> quizArrayList = getAllQuizes();
+        dataJsonBackUpString = gson.toJson(quizArrayList);
+
+        // Log Action
+        System.out.println("Created backup of data.json! \nValue of dataJsonBackUpString:\n" + dataJsonBackUpString);
+    }
+
+
 }
