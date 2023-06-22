@@ -294,6 +294,18 @@ public class JsonHandler {
     }
 
     /**
+     * returns ObservableList for Answer Table for editing
+     *
+     * @param answers arraylist of Answers
+     * @return ObseravbleList with all Answers
+     */
+    public ObservableList<Answer> getAllAnswerForTableView(ArrayList<Answer> answers) {
+        ObservableList<Answer> answerObservableList = FXCollections.observableArrayList();
+        answerObservableList.addAll(answers);
+        return answerObservableList;
+    }
+
+    /**
      * reads all players from player.json
      *
      * @return arrayList of players
