@@ -81,14 +81,7 @@ public class JsonHandler {
             StringBuilder sb = getStringBuilder(questionJsonFile);
             JsonArray jsonArray = gson.fromJson(sb.toString(), JsonArray.class);
 
-            // populate jsonObject with quiz data
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("name", quiz.getName());
-            JsonArray questionArray = gson.toJsonTree(quiz.getQuestionArrayList()).getAsJsonArray();
-            jsonObject.add("questions", questionArray);
-            JsonArray topPlayerArray = gson.toJsonTree(quiz.getTopPlayers()).getAsJsonArray();
-            jsonObject.add("topPlayers", topPlayerArray);
-            jsonArray.add(jsonObject);
+            assembleQuizJsonObject(quiz, jsonArray);
 
             String json = gson.toJson(jsonArray);
             FileWriter fW = new FileWriter(questionJsonFile);
@@ -100,6 +93,113 @@ public class JsonHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * populates jsonObject with quiz data
+     *
+     * @param quiz      quiz object with data
+     * @param jsonArray array to which the quiz will be added to
+     */
+    private void assembleQuizJsonObject(Quiz quiz, JsonArray jsonArray) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("name", quiz.getName());
+        JsonArray questionArray = gson.toJsonTree(quiz.getQuestionArrayList()).getAsJsonArray();
+        jsonObject.add("questions", questionArray);
+        JsonArray topPlayerArray = gson.toJsonTree(quiz.getTopPlayers()).getAsJsonArray();
+        jsonObject.add("topPlayers", topPlayerArray);
+        jsonArray.add(jsonObject);
+    }
+
+    /**
+     * replaces quiz in data.json
+     *
+     * @param quiz quiz which will be replace the old one
+     */
+    public void replaceQuizInJson(Quiz quiz) {
+        if (checkIfQuizAlreadyExists(quiz)) {
+            throw new NullPointerException("Can't find quiz \"" + quiz.getName() + "\" in data.json!");
+        }
+        try {
+            StringBuilder sb = getStringBuilder(questionJsonFile);
+            JsonArray jsonArray = gson.fromJson(sb.toString(), JsonArray.class);
+            for (int i = 0; i < jsonArray.size(); i++) {
+                JsonObject obj = jsonArray.get(i).getAsJsonObject();
+                if (obj.get("name").getAsString().equals(quiz.getName())) {
+                    assembleQuizJsonObject(quiz, jsonArray);
+                    String json = gson.toJson(jsonArray);
+                    FileWriter fW = new FileWriter(questionJsonFile);
+                    fW.write(json);
+                    fW.close();
+
+                    // Log action
+                    System.out.println("Replaced \"" + quiz.getName() + "\" Quiz in data.json!");
+                    return;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * removes a quiz by checking for it's index
+     *
+     * @param quizOrName quiz which will be deleted, input either by object or name
+     */
+    public <T> void deleteQuizFromJson(T quizOrName) {
+        try {
+            StringBuilder sb = getStringBuilder(questionJsonFile);
+
+            int index = -1;
+            JsonArray array = gson.fromJson(sb.toString(), JsonArray.class);
+            for (int i = 0; i < array.size(); i++) {
+                JsonObject object = array.get(i).getAsJsonObject();
+                if (isMatchingQuiz(object, quizOrName)) {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index != -1) {
+                array.remove(index);
+            }
+
+            String json = gson.toJson(array);
+            FileWriter fW = new FileWriter(questionJsonFile);
+            fW.write(json);
+            fW.close();
+
+            // Log action
+            if (quizOrName instanceof String) {
+                String name = (String) quizOrName;
+                System.out.println("Removed \"" + name + "\" Quiz in data.json!");
+            } else if (quizOrName instanceof Quiz) {
+                Quiz quiz = (Quiz) quizOrName;
+                System.out.println("Removed \"" + quiz.getName() + "\" Quiz in data.json!");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * checks if jsonObject matches quiz object or name
+     *
+     * @param object     jsonObject to check
+     * @param quizOrName quiz object or name of quiz
+     * @return true if object matches quiz object or name, false otherwise
+     */
+    private <T> boolean isMatchingQuiz(JsonObject object, T quizOrName) {
+        if (quizOrName instanceof Quiz) {
+            Quiz quiz = (Quiz) quizOrName;
+            return object.get("name").getAsString().equals(quiz.getName());
+        } else if (quizOrName instanceof String) {
+            String name = (String) quizOrName;
+            return object.get("name").getAsString().equals(name);
+        }
+        return false;
     }
 
     /**
