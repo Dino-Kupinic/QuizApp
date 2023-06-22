@@ -93,12 +93,16 @@ public class EditorController {
     @FXML
     private Button answerApplyButton;
 
+    private ArrayList<Quiz> newQuizes = new ArrayList<>();
     private Quiz selectedQuiz;
     private Question selectedQuestion;
+    private Answer selectAnwser;
+    private static int count = 0;
 
     private JsonHandler jsonHandler = new JsonHandler();
 
     public void initFXML(){
+        jsonHandler.backupDataJson();
         addQuizToList();
     }
 
@@ -121,6 +125,7 @@ public class EditorController {
 
     //------------------OnClickEvents------------------\\
 
+        //------------------Select from data.json------------------\\
     @FXML
     private void onClickQuizList(){
         String quizname = quizList.getSelectionModel().getSelectedItem();
@@ -135,10 +140,39 @@ public class EditorController {
         selectedQuestion = questionList.getSelectionModel().getSelectedItem();
         questionTextArea.setText(selectedQuestion.getQuestion());
 
+        multipleChoiceToggle.setSelected(selectedQuestion.getAnswerArrayList().size() > 1);
+
         answerTable.getItems().clear();
         answerTable.getItems().addAll(jsonHandler.getAllAnswerForTableView(selectedQuestion.getAnswerArrayList()));
-
-
+        answerCol.setCellValueFactory(new PropertyValueFactory<>("answerText"));
+        isCorrectCol.setCellValueFactory(new PropertyValueFactory<>("isCorrect"));
     }
+
+    @FXML
+    private void onClickAnswerList(){
+        selectAnwser = answerTable.getSelectionModel().getSelectedItem();
+        answerTextArea.setText(selectAnwser.getAnswerText());
+        isCorrectToggle.setSelected(selectAnwser.getIsCorrect());
+    }
+
+        //------------------Manipulate------------------\\
+    @FXML
+    private void onClickQuizButton(Event e){
+        Object node = e.getSource();
+        Button eventBtn = (Button) node;
+        String btnValue = eventBtn.getText();
+        System.out.println(btnValue);
+        Quiz tempQuiz;
+
+        if (btnValue.equals("New")){
+            tempQuiz = new Quiz("Quiz" + count, null);
+            count++;
+            quizList.getItems().add(tempQuiz.getName());
+        } else {
+            quizList.getItems().remove(quizList.getSelectionModel().getSelectedItem());
+        }
+    }
+
+
 
 }
