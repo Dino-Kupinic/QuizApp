@@ -193,6 +193,23 @@ public class JsonHandler {
     }
 
     /**
+     * Gets a quiz by its name
+     *
+     * @param text quiz name
+     * @return quiz object
+     */
+    public Quiz getQuizByName(String text) {
+        ArrayList<Quiz> quizArrayList = getAllQuizes();
+        for (Quiz q : quizArrayList) {
+            if (q.getName().equals(text)) {
+                return q;
+            }
+        }
+        System.out.println("Read quiz \"" + text + "\" from data.json");
+        return null;
+    }
+
+    /**
      * Gets a question by its name in a quiz
      *
      * @param quiz quiz in which the question is found
