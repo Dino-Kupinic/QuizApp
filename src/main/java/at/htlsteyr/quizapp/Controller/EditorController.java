@@ -34,10 +34,7 @@
 
 package at.htlsteyr.quizapp.Controller;
 
-import at.htlsteyr.quizapp.Model.Answer;
-import at.htlsteyr.quizapp.Model.JsonHandler;
-import at.htlsteyr.quizapp.Model.Question;
-import at.htlsteyr.quizapp.Model.Quiz;
+import at.htlsteyr.quizapp.Model.*;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -163,13 +160,26 @@ public class EditorController {
         String btnValue = eventBtn.getText();
         System.out.println(btnValue);
         Quiz tempQuiz;
+        ArrayList<Answer> initAnswers = new ArrayList<>(){{
+            add(new Answer("newAnwser1", true));
+        }};
+        ArrayList<Question> init = new ArrayList<>(){{
+            add(new Question("newQuestion1", initAnswers));
+        }};
+
+        ArrayList<Player> topPlayers = new ArrayList<> () {{
+            add(new Player(1, "samc", new Score(0.0), new Score (0.0) ));
+        }};
+
 
         if (btnValue.equals("New")){
-            tempQuiz = new Quiz("Quiz" + count, null);
+            tempQuiz = new Quiz("Quiz" + count, init,topPlayers);
             count++;
             quizList.getItems().add(tempQuiz.getName());
+            jsonHandler.writeQuizToJson(tempQuiz);
         } else {
             quizList.getItems().remove(quizList.getSelectionModel().getSelectedItem());
+            jsonHandler.deleteQuizFromJson(quizList.getSelectionModel().getSelectedItem());
         }
     }
 
