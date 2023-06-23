@@ -104,10 +104,14 @@ public class JsonHandler {
     private void assembleQuizJsonObject(Quiz quiz, JsonArray jsonArray) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("name", quiz.getName());
-        JsonArray questionArray = gson.toJsonTree(quiz.getQuestionArrayList()).getAsJsonArray();
-        jsonObject.add("questions", questionArray);
-        JsonArray topPlayerArray = gson.toJsonTree(quiz.getTopPlayers()).getAsJsonArray();
-        jsonObject.add("topPlayers", topPlayerArray);
+        if (quiz.getQuestionArrayList() != null) {
+            JsonArray questionArray = gson.toJsonTree(quiz.getQuestionArrayList()).getAsJsonArray();
+            jsonObject.add("questions", questionArray);
+        }
+        if (quiz.getTopPlayers() != null) {
+            JsonArray topPlayerArray = gson.toJsonTree(quiz.getTopPlayers()).getAsJsonArray();
+            jsonObject.add("topPlayers", topPlayerArray);
+        }
         jsonArray.add(jsonObject);
     }
 
