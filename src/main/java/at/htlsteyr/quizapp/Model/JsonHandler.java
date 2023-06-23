@@ -147,6 +147,37 @@ public class JsonHandler {
     }
 
     /**
+     * replaces quiz in data.json
+     *
+     * @param quiz quiz which will be replace the old one
+     */
+    public void replaceQuizInJson(Quiz quiz, Quiz oldQuiz) {
+        if (checkIfQuizAlreadyExists(oldQuiz)) {
+            throw new NullPointerException("Can't find quiz \"" + oldQuiz.getName() + "\" in data.json!");
+        }
+        try {
+            StringBuilder sb = getStringBuilder(questionJsonFile);
+            JsonArray jsonArray = gson.fromJson(sb.toString(), JsonArray.class);
+            for (int i = 0; i < jsonArray.size(); i++) {
+                JsonObject obj = jsonArray.get(i).getAsJsonObject();
+                if (obj.get("name").getAsString().equals(oldQuiz.getName())) {
+                    assembleQuizJsonObject(quiz, jsonArray);
+                    String json = gson.toJson(jsonArray);
+                    FileWriter fW = new FileWriter(questionJsonFile);
+                    fW.write(json);
+                    fW.close();
+
+                    // Log action
+                    System.out.println("Replaced \"" + quiz.getName() + "\" Quiz in data.json!");
+                    return;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * removes a quiz by checking for it's index
      *
      * @param quizOrName quiz which will be deleted, input either by object or name
