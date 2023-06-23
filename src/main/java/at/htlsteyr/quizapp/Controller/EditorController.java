@@ -98,11 +98,10 @@ public class EditorController {
 
     private JsonHandler jsonHandler = new JsonHandler();
 
-    public void initFXML(){
+    public void initFXML() {
         jsonHandler.backupDataJson();
         addQuizToList();
     }
-
 
 
     /**
@@ -122,9 +121,9 @@ public class EditorController {
 
     //------------------OnClickEvents------------------\\
 
-        //------------------Select from data.json------------------\\
+    //------------------Select from data.json------------------\\
     @FXML
-    private void onClickQuizList(){
+    private void onClickQuizList() {
         String quizname = quizList.getSelectionModel().getSelectedItem();
         selectedQuiz = jsonHandler.getQuizByName(quizname);
         quizNameTextField.setText(quizname);
@@ -133,7 +132,7 @@ public class EditorController {
     }
 
     @FXML
-    private void onClickQuestionList(){
+    private void onClickQuestionList() {
         selectedQuestion = questionList.getSelectionModel().getSelectedItem();
         questionTextArea.setText(selectedQuestion.getQuestion());
 
@@ -146,34 +145,32 @@ public class EditorController {
     }
 
     @FXML
-    private void onClickAnswerList(){
+    private void onClickAnswerList() {
         selectAnwser = answerTable.getSelectionModel().getSelectedItem();
         answerTextArea.setText(selectAnwser.getAnswerText());
         isCorrectToggle.setSelected(selectAnwser.getIsCorrect());
     }
 
-        //------------------Manipulate------------------\\
+    //------------------Manipulate------------------\\
     @FXML
-    private void onClickQuizButton(Event e){
+    private void onClickQuizButton(Event e) {
         Object node = e.getSource();
         Button eventBtn = (Button) node;
         String btnValue = eventBtn.getText();
         System.out.println(btnValue);
         Quiz tempQuiz;
-        ArrayList<Answer> initAnswers = new ArrayList<>(){{
-            add(new Answer("newAnwser1", true));
-        }};
-        ArrayList<Question> init = new ArrayList<>(){{
-            add(new Question("newQuestion1", initAnswers));
-        }};
 
-        ArrayList<Player> topPlayers = new ArrayList<> () {{
-            add(new Player(1, "samc", new Score(0.0), new Score (0.0) ));
-        }};
+        ArrayList<Answer> initAnswers = new ArrayList<>();
+        initAnswers.add(new Answer("newAnwser1", true));
+
+        ArrayList<Question> init = new ArrayList<>();
+        init.add(new Question("newQuestion1", initAnswers));
+        ArrayList<Player> topPlayers = new ArrayList<>();
+        topPlayers.add(new Player(1, "samc", new Score(0.0), new Score(0.0)));
 
 
-        if (btnValue.equals("New")){
-            tempQuiz = new Quiz("Quiz" + count, init,topPlayers);
+        if (btnValue.equals("New")) {
+            tempQuiz = new Quiz("Quiz" + count, init, topPlayers);
             count++;
             quizList.getItems().add(tempQuiz.getName());
             jsonHandler.writeQuizToJson(tempQuiz);
@@ -182,7 +179,6 @@ public class EditorController {
             jsonHandler.deleteQuizFromJson(quizList.getSelectionModel().getSelectedItem());
         }
     }
-
 
 
 }
