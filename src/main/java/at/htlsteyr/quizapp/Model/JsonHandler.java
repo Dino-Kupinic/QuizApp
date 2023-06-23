@@ -149,7 +149,8 @@ public class JsonHandler {
     /**
      * replaces quiz in data.json
      *
-     * @param quiz quiz which will be replace the old one
+     * @param quiz    quiz which will be replace the old one
+     * @param oldQuiz quiz with the old name
      */
     public void replaceQuizInJson(Quiz quiz, Quiz oldQuiz) {
         if (checkIfQuizAlreadyExists(oldQuiz)) {
