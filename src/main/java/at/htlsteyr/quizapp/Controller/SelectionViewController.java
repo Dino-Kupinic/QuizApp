@@ -63,6 +63,9 @@ public class SelectionViewController {
     private ListView<String> quizesList;
     @FXML
     private Button playButton;
+    @FXML
+    private ListView listView;
+    public static String selectedItem;
 
     public void initialize() {
         addQuizToList();
@@ -73,7 +76,7 @@ public class SelectionViewController {
      * displays the top players of a selected quiz
      */
     public void displayTopPlayers() {
-        String selectedItem = quizesList.getSelectionModel().getSelectedItem();
+        selectedItem = quizesList.getSelectionModel().getSelectedItem();
         if (!Objects.equals(selectedItem, "")) {
             JsonHandler jsonHandler = new JsonHandler();
             ArrayList<Quiz> quizArrayList = jsonHandler.getAllQuizes();
@@ -137,6 +140,7 @@ public class SelectionViewController {
             }
         }
     }
+
 
     @FXML
     public void qsPlayBtnClicked() throws IOException {
