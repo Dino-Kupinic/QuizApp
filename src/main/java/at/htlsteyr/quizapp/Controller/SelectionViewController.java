@@ -63,9 +63,8 @@ public class SelectionViewController {
     private ListView<String> quizesList;
     @FXML
     private Button playButton;
-    @FXML
-    private ListView listView;
-    public static String selectedItem;
+
+    public static String selectedItem = "";
 
     public void initialize() {
         addQuizToList();
@@ -141,10 +140,30 @@ public class SelectionViewController {
         }
     }
 
-
     @FXML
     public void qsPlayBtnClicked() throws IOException {
-        StartUpController.game = new WindowManager("Game", "fourAnswer-view.fxml");
-        StartUpController.game.getGlobalStage().show();
+        if (!Objects.equals(selectedItem, "") && selectedItem != null) {
+            JsonHandler jH = new JsonHandler();
+            Quiz selectedQuiz = jH.getQuizByName(selectedItem);
+            Question q = selectedQuiz.getQuestionArrayList().get(0);
+
+            boolean isFourAnswer;
+
+            if (q.getAnswerArrayList().size() > 2) {
+                StartUpController.game = new WindowManager("Game", "fourAnswer-view.fxml");
+                isFourAnswer = true;
+            } else {
+                StartUpController.game = new WindowManager("Game", "trueFalse-view.fxml");
+                isFourAnswer = false;
+            }
+            QuizgameController qc = (QuizgameController) StartUpController.game.getController();
+
+            if (isFourAnswer) {
+                qc.setFourAnswerGame();
+            } else {
+                qc.setTrueFalseGame();
+            }
+            StartUpController.game.getGlobalStage().show();
+        }
     }
 }

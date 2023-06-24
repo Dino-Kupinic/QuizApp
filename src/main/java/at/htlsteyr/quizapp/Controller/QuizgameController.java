@@ -92,6 +92,8 @@ public class QuizgameController {
 
     Path imagePath = Paths.get("src/main/resources/at/htlsteyr/quizapp/media/ClassroomBackground.png");
 
+
+
     public void setFourAnswerGame() {
         DropShadow shadow = new DropShadow();
         shadow.setRadius(5.0);

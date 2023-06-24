@@ -646,8 +646,8 @@ public class JsonHandler {
 
         // Question 3
         ArrayList<Answer> answers3 = new ArrayList<>();
-        answers2.add(new Answer("Example Answer 1", false));
-        answers2.add(new Answer("Example Answer 2", true));
+        answers3.add(new Answer("Example Answer 1", false));
+        answers3.add(new Answer("Example Answer 2", true));
         Question question3 = new Question("Example Question 3", answers3);
 
         ArrayList<Question> questions = new ArrayList<>();

@@ -93,7 +93,6 @@ public class StartUpController {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-
     }
 
     @FXML
@@ -102,67 +101,9 @@ public class StartUpController {
             game = new WindowManager("Selection", "selection-view.fxml");
             game.getGlobalStage().show();
             MainApplication.mainWindow.close();
-
-
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }
-    }
-
-
-
-
-    @FXML
-    private void onSettingClick() {
-        if (!change) {
-            changeColor(DARK);
-            change = true;
-        } else {
-            changeColor(DEFAULT);
-            change = false;
-        }
-    }
-    
-
-    private void changeColor(String style) {
-        Background tempBtnBgd = null;
-        Background tempAnchorPaneBgd = null;
-        Paint tempLblStyle = null;
-        if (style.equals(DARK)) {
-            tempBtnBgd = new Background(new BackgroundFill(Color.LIGHTGRAY.darker(), new CornerRadii(3.0), new Insets(-0.2, -0.2, -0.2, -0.2)));
-            tempLblStyle = Color.WHITE;
-            tempAnchorPaneBgd = new Background(new BackgroundFill(Color.DARKGRAY.darker().darker(), CornerRadii.EMPTY, Insets.EMPTY));
-        } else {
-            tempBtnBgd = new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(3.0), new Insets(-0.2, -0.2, -0.2, -0.2)));
-            tempLblStyle = Color.BLACK;
-            tempAnchorPaneBgd = new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY));
-        }
-
-        for (Region r : controllNodes) {
-            if (r.getClass().equals(Button.class)) {
-                r.setBackground(tempBtnBgd);
-                ((Button) r).setTextFill(tempLblStyle);
-            } else if (r.getClass().equals(Label.class)) {
-                ((Label) r).setTextFill(tempLblStyle);
-            } else {
-                r.setBackground(tempAnchorPaneBgd);
-            }
-        }
-    }
-
-
-    public void initController() {
-        controllNodes = new ArrayList<>() {{
-            add(anchorRootPane);
-            add(btnPlay);
-            add(btnCreate);
-            add(btnSetting);
-            add(btnSound);
-            add(btnColor);
-            add(lblTitel);
-            add(lblCredits);
-        }};
-        changeColor(DEFAULT);
     }
 
     public StartUpController() {

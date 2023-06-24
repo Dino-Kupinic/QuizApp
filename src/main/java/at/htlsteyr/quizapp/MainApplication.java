@@ -49,13 +49,9 @@ public class MainApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        mainWindow = new WindowManager(HEIGHT, WIDTH, "Quiz", "start-up-view.fxml");
+        mainWindow = new WindowManager(440, 600, "Quiz", "start-up-view.fxml");
         mainWindow.getGlobalStage().show();
         checkDataJson();
-
-        StartUpController controller = (StartUpController) mainWindow.getController();
-        controller.initController();
-
     }
 
     public static void main(String[] args) {
