@@ -38,6 +38,27 @@ public interface Debug {
     /**
      * Prints possible NullPointerException in programm
      */
-    boolean PRINT_NUllPOINTEXEP = false;
+    boolean PRINT_NUllPOINTEXCEP = false;
+
+    /**
+     * Prints possible CloneNotSupportedException in programm
+     */
+    boolean PRINT_CLONENOTSUP = false;
+
+    /**
+     * Prints possible IOException in programm
+     */
+    boolean PRINT_IOEXCEPTION = false;
+
+    /**
+     * Prints possible FileNotFoundException in programm
+     */
+    boolean PRINT_FILENOTFOUNDEXCEP = false;
+
+    /**
+     * Prints possible IndexOutOfBoundsException in programm
+     */
+    boolean PRINT_INDEXOUTOFBOUNDSEXCEP = false;
+
 
 }

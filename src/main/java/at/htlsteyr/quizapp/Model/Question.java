@@ -91,9 +91,6 @@ public class Question {
 
     @Override
     public String toString() {
-        return "Question{" +
-                "question='" + question + '\'' +
-                ", answerArrayList=" + answerArrayList +
-                '}';
+        return question;
     }
 }

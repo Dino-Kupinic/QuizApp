@@ -51,7 +51,7 @@ public class Answer {
         this.answerText = answerText;
     }
 
-    public Boolean getCorrect() {
+    public Boolean getIsCorrect() {
         return isCorrect;
     }
 

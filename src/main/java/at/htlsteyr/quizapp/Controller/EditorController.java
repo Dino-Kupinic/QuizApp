@@ -34,13 +34,17 @@
 
 package at.htlsteyr.quizapp.Controller;
 
-import at.htlsteyr.quizapp.Model.Answer;
-import at.htlsteyr.quizapp.Model.Question;
-import at.htlsteyr.quizapp.Model.Quiz;
+import at.htlsteyr.quizapp.Model.*;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
-public class EditorController {
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class EditorController implements Debug {
     @FXML
     private TableView<Answer> answerTable;
     @FXML
@@ -50,7 +54,7 @@ public class EditorController {
     @FXML
     private ListView<Question> questionList;
     @FXML
-    private ListView<Quiz> quizList;
+    private ListView<String> quizList;
     @FXML
     private TextField quizNameTextField;
     @FXML
@@ -87,5 +91,305 @@ public class EditorController {
     private Button answerResetButton;
     @FXML
     private Button answerApplyButton;
+    @FXML
+    private Label erorrLbl;
+    //private ArrayList<Quiz> newQuizes = new ArrayList<>();
+    private Quiz selectedQuiz;
+    private Question selectedQuestion;
+    private Answer selectAnwser;
+    private JsonHandler jsonHandler = new JsonHandler();
+
+    public void initFXML() {
+        jsonHandler.backupDataJson();
+        addQuizToList();
+    }
+
+
+    /**
+     * Adds all quiz to the list view
+     */
+    public void addQuizToList() {
+        quizList.getItems().clear();
+        ArrayList<Quiz> quizArrayList = null;
+        if (jsonHandler.isDataJsonValid()) {
+            quizArrayList = jsonHandler.getAllQuizes();
+        }
+        if (quizArrayList != null) {
+            for (Quiz q : quizArrayList) {
+                quizList.getItems().add(q.getName());
+            }
+        }
+    }
+
+    //------------------OnClickEvents------------------\\
+
+    //------------------Select from data.json------------------\\
+    @FXML
+    private void onClickQuizList() {
+        try{
+            String quizname = quizList.getSelectionModel().getSelectedItem();
+            selectedQuiz = jsonHandler.getQuizByName(quizname);
+            quizNameTextField.setText(quizname);
+            questionList.getItems().clear();
+            questionList.getItems().addAll(selectedQuiz.getQuestionArrayList());
+            erorrLbl.setText("");
+        } catch (NullPointerException e){
+            if (PRINT_NUllPOINTEXCEP) e.printStackTrace();
+            erorrLbl.setText("Please click on a valid quiz element!");
+        }
+    }
+
+    @FXML
+    private void onClickQuestionList() {
+        try{
+            selectedQuestion = questionList.getSelectionModel().getSelectedItem();
+            questionTextArea.setText(selectedQuestion.getQuestion());
+
+            int correct = 0;
+            for (Answer a : selectedQuestion.getAnswerArrayList()) {
+                if (a.getIsCorrect()) correct++;
+            }
+
+            multipleChoiceToggle.setSelected(correct > 1);
+
+            answerTable.getItems().clear();
+
+            answerTable.getItems().addAll(jsonHandler.getAllAnswerForTableView(selectedQuestion.getAnswerArrayList()));
+            answerCol.setCellValueFactory(new PropertyValueFactory<>("answerText"));
+            isCorrectCol.setCellValueFactory(new PropertyValueFactory<>("isCorrect"));
+
+            erorrLbl.setText("");
+        } catch (NullPointerException e){
+            if (PRINT_NUllPOINTEXCEP) e.printStackTrace();
+            erorrLbl.setText("Please click on a valid question element!");
+        }
+    }
+
+    @FXML
+    private void onClickAnswerList() {
+        try{
+            selectAnwser = answerTable.getSelectionModel().getSelectedItem();
+            answerTextArea.setText(selectAnwser.getAnswerText());
+            isCorrectToggle.setSelected(selectAnwser.getIsCorrect());
+            erorrLbl.setText("");
+        }catch (NullPointerException e){
+            if (PRINT_NUllPOINTEXCEP) e.printStackTrace();
+            erorrLbl.setText("Please click on a valid element!");
+        }
+    }
+
+    //------------------Manipulate------------------\\
+    @FXML
+    private void onClickQuizButton(Event e) {
+        Object node = e.getSource();
+        Button eventBtn = (Button) node;
+        String btnValue = eventBtn.getText();
+
+        if (btnValue.equals("New")) {
+            Quiz tempQuiz;
+
+            ArrayList<Answer> initAnswers = new ArrayList<>();
+            initAnswers.add(new Answer("newAnwser1", true));
+
+            ArrayList<Question> init = new ArrayList<>();
+            init.add(new Question("newQuestion1", initAnswers));
+
+            ArrayList<Player> topPlayers = new ArrayList<>();
+            topPlayers.add(new Player(1, "samc", new Score(0.0), new Score(0.0)));
+
+            tempQuiz = new Quiz("newQuiz" + (getNumber(quizList)+1), init, topPlayers);
+            quizList.getItems().add(tempQuiz.getName());
+            jsonHandler.writeQuizToJson(tempQuiz);
+        } else {
+            String tempSelection = quizList.getSelectionModel().getSelectedItem();
+            quizList.getItems().remove(tempSelection);
+            jsonHandler.deleteQuizFromJson(tempSelection);
+        }
+    }
+
+
+    @FXML
+    private void onClickEditorApply() {
+        Quiz oldQuiz = selectedQuiz;
+        Quiz newQuiz = null;
+        String newName = quizNameTextField.getText();
+        int index = quizList.getSelectionModel().getSelectedIndex();
+
+        try {
+            newQuiz = (Quiz) selectedQuiz.clone();
+            newQuiz.setName(newName);
+        } catch (CloneNotSupportedException e) {
+            if (PRINT_CLONENOTSUP) e.printStackTrace();
+        }
+
+        jsonHandler.replaceQuizInJson(newQuiz, oldQuiz);
+        addQuizToList();
+        quizList.getSelectionModel().select(index);
+
+    }
+
+    @FXML
+    private void onClickQuestionBtn(Event e) {
+        Object node = e.getSource();
+        Button eventBtn = (Button) node;
+        String btnValue = eventBtn.getText();
+
+
+        Quiz temp = null;
+        int index = questionList.getSelectionModel().getSelectedIndex();
+        try {
+            temp = (Quiz) selectedQuiz.clone();
+
+
+            if (btnValue.equals("New")) {
+                ArrayList<Answer> initAnswers = new ArrayList<>();
+                initAnswers.add(new Answer("newAnwser1", true));
+                temp.getQuestionArrayList().add(new Question("newQuestion" + (getNumber(questionList) + 1), initAnswers));
+            } else if (btnValue.equals("Remove")) {
+                temp.getQuestionArrayList().remove(questionList.getSelectionModel().getSelectedItem());
+                index -= 1;
+            } else if (btnValue.equals("Apply")){
+                String newquestionName = questionTextArea.getText();
+                ArrayList<Question> arrayList = temp.getQuestionArrayList();
+                arrayList.get(arrayList.indexOf(questionList.getSelectionModel().getSelectedItem())).setQuestion(newquestionName);
+            } else {
+                questionTextArea.clear();
+                return;
+            }
+
+        } catch (CloneNotSupportedException ex) {
+            if (PRINT_CLONENOTSUP) ex.printStackTrace();
+        }
+
+
+        jsonHandler.replaceQuizInJson(temp);
+        onClickQuizList();
+        questionList.getSelectionModel().select(index);
+    }
+
+    @FXML
+    private void onClickAnswerBtn(Event e){
+        Object node = e.getSource();
+        Button eventBtn = (Button) node;
+        String btnValue = eventBtn.getText();
+
+        Quiz temp = null;
+        Question tempQuestion;
+        int index = answerTable.getSelectionModel().getSelectedIndex();
+        try {
+            temp = (Quiz) selectedQuiz.clone();
+            tempQuestion = temp.getQuestionArrayList().get(temp.getQuestionArrayList().indexOf(selectedQuestion));
+
+            if (btnValue.equals("New")) {
+                tempQuestion.getAnswerArrayList().add(new Answer("newAnswer" + (getNumber(answerTable)+1), false));
+            } else if (btnValue.equals("Remove")) {
+                tempQuestion.getAnswerArrayList().remove(answerTable.getSelectionModel().getSelectedItem());
+                index -= 1;
+            } else if (btnValue.equals("Apply")){
+                String newquestionName = answerTextArea.getText();
+                ArrayList<Answer> answers = tempQuestion.getAnswerArrayList();
+                answers.get(answers.indexOf(answerTable.getSelectionModel().getSelectedItem())).setAnswerText(newquestionName);
+                answers.get(answers.indexOf(answerTable.getSelectionModel().getSelectedItem())).setCorrect(isCorrectToggle.isSelected());
+            } else {
+                answerTextArea.clear();
+                return;
+            }
+
+        } catch (CloneNotSupportedException ex) {
+            if (PRINT_CLONENOTSUP) ex.printStackTrace();
+        }
+
+        jsonHandler.replaceQuizInJson(temp);
+        onClickQuestionList();
+        answerTable.getSelectionModel().select(index);
+    }
+
+    @FXML
+    private void onClickToggleCorrectAnswer(){
+        selectAnwser.setCorrect(isCorrectToggle.isSelected());
+        onClickAnswerList();
+    }
+
+    /**
+     * This function searches in a ListView for the highest number of an element
+     * @param view which ListView should be searched
+     * @return highes Number in ListView
+     * @param <T> could be String or Question
+     */
+    private <T> int getNumber(ListView<T> view){
+        Pattern pattern = Pattern.compile("\\d+$");
+        Matcher matcher;
+        int highest = -1;
+        try {
+            if (view.getItems().get(0).getClass().equals(String.class)) {
+                for (String i : quizList.getItems()) {
+                    matcher = pattern.matcher(i);
+
+                    if (i.matches("newQuiz\\d+$") && matcher.find()) {
+                        int temp = Integer.parseInt(matcher.group());
+                        if (highest == -1) {
+                            highest = temp;
+                        } else if (temp > highest) {
+                            highest = temp;
+                        }
+                    }
+
+                }
+            } else if (view.getItems().get(0).getClass().equals(Question.class)) {
+                for (Question q : questionList.getItems()) {
+                    matcher = pattern.matcher(q.getQuestion());
+
+                    if (q.getQuestion().matches("newQuestion\\d+$") && matcher.find()) {
+                        int temp = Integer.parseInt(matcher.group());
+                        if (highest == -1) {
+                            highest = temp;
+                        } else if (temp > highest) {
+                            highest = temp;
+                        }
+                    }
+
+                }
+            }
+        } catch (IndexOutOfBoundsException e){
+            if (PRINT_INDEXOUTOFBOUNDSEXCEP) e.printStackTrace();
+        }
+
+        return highest;
+    }
+
+    /**
+     * This function searches in a TableView for the highest number of an element
+     * @param view which TabelView should be searched
+     * @return highes Number in ListView
+     * @param <T> could be Answer.java
+     */
+    private <T> int getNumber(TableView<T> view){
+        Pattern pattern = Pattern.compile("\\d+$");
+        Matcher matcher;
+        int highest = -1;
+        try {
+            if (view.getItems().get(0).getClass().equals(Answer.class)) {
+                for (Answer a : answerTable.getItems()) {
+                    matcher = pattern.matcher(a.getAnswerText());
+
+                    if (a.getAnswerText().matches("newAnswer\\d+$") && matcher.find()) {
+                        int temp = Integer.parseInt(matcher.group());
+                        if (highest == -1) {
+                            highest = temp;
+                        } else if (temp > highest) {
+                            highest = temp;
+                        }
+                    }
+
+                }
+            }
+        } catch (IndexOutOfBoundsException e){
+            if (PRINT_INDEXOUTOFBOUNDSEXCEP) e.printStackTrace();
+        }
+
+        return highest;
+    }
+
+
 
 }

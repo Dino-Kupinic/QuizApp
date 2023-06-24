@@ -84,4 +84,9 @@ public class Quiz {
                 ", topPlayers=" + topPlayers +
                 '}';
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return new Quiz(name, questionArrayList, topPlayers);
+    }
 }

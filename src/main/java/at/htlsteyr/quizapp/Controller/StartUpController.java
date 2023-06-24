@@ -35,6 +35,7 @@
 package at.htlsteyr.quizapp.Controller;
 
 import at.htlsteyr.quizapp.MainApplication;
+import at.htlsteyr.quizapp.Model.Debug;
 import at.htlsteyr.quizapp.Model.Music;
 import at.htlsteyr.quizapp.Model.Timer;
 import at.htlsteyr.quizapp.Model.WindowManager;
@@ -49,7 +50,7 @@ import javafx.scene.paint.Paint;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class StartUpController {
+public class StartUpController implements Debug {
     private static final String DEFAULT = "DEFAULT";
     private static final String DARK = "DARK";
 
@@ -91,7 +92,7 @@ public class StartUpController {
         try {
             timerLabel.setText(time);
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            if (PRINT_NUllPOINTEXCEP) e.printStackTrace();
         }
     }
 
@@ -102,7 +103,20 @@ public class StartUpController {
             game.getGlobalStage().show();
             MainApplication.mainWindow.close();
         } catch (IOException | NullPointerException e) {
-            e.printStackTrace();
+            if (PRINT_IOEXCEPTION || PRINT_NUllPOINTEXCEP) e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onCreateButtonClicked(){
+        try {
+            game = new WindowManager("Editor", "editor-view.fxml");
+            game.getGlobalStage().show();
+            MainApplication.mainWindow.close();
+            EditorController ec = (EditorController) game.getController();
+            ec.initFXML();
+        } catch (IOException e) {
+            if (PRINT_IOEXCEPTION) e.printStackTrace();
         }
     }
 
