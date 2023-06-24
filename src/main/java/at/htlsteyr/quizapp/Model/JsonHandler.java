@@ -542,6 +542,7 @@ public class JsonHandler implements Debug{
             return playerArrayList;
         } catch (FileNotFoundException e) {
             if (PRINT_FILENOTFOUNDEXCEP) e.printStackTrace();
+            return null;
         }
     }
 
