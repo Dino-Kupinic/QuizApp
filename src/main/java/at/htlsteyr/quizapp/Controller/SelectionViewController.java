@@ -140,7 +140,6 @@ public class SelectionViewController {
         }
     }
 
-    @FXML
     public void qsPlayBtnClicked() throws IOException {
         if (!Objects.equals(selectedItem, "") && selectedItem != null) {
             JsonHandler jH = new JsonHandler();

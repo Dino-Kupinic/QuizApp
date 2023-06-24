@@ -80,14 +80,52 @@ public class QuizgameController {
     private Label questionLblBackground;
     @FXML
     private Button ctnueBtn;
+    @FXML
+    private Label pointsLabel;
 
     private WindowManager question;
     private static int questionCount;
     private static int i = 0;
     private final Path imagePath;
 
+    JsonHandler jsonHandler;
+    ArrayList<Quiz> quizes;
+    ArrayList<Question> questions;
+    String chosenQuiz;
+
     public QuizgameController() {
         this.imagePath = Paths.get("src/main/resources/at/htlsteyr/quizapp/media/ClassroomBackground.png");
+    }
+
+    public void initialize() {
+        jsonHandler = new JsonHandler();
+        quizes = jsonHandler.getAllQuizes();
+        questions = new ArrayList<>();
+        chosenQuiz = SelectionViewController.selectedItem;
+
+        if (quizes.get(i).getName().equals(chosenQuiz)) {
+            questions = quizes.get(i).getQuestionArrayList();
+        } else {
+            i++;
+        }
+
+        Question q = questions.get(questionCount);
+        questionLbl.setText(q.getQuestion());
+        if (q.getAnswerArrayList().size() > 2) {
+            setFourAnswerGame();
+            topleftBtn.setText(q.getAnswerArrayList().get(0).getAnswerText());
+            toprightBtn.setText(q.getAnswerArrayList().get(1).getAnswerText());
+            bottomleftBtn.setText(q.getAnswerArrayList().get(2).getAnswerText());
+            bottomrightBtn.setText(q.getAnswerArrayList().get(3).getAnswerText());
+        } else {
+            setTrueFalseGame();
+            trueBtn.setText(q.getAnswerArrayList().get(0).getAnswerText());
+            falseBtn.setText(q.getAnswerArrayList().get(1).getAnswerText());
+        }
+    }
+
+    public void onAnswerButtonClicked() {
+        System.out.println("Answer Click");
     }
 
     /**
@@ -128,36 +166,25 @@ public class QuizgameController {
 
 
     public void ctnueBtnClicked() {
-        JsonHandler jsonHandler = new JsonHandler();
-        ArrayList<Quiz> quizes = jsonHandler.getAllQuizes();
-        ArrayList<Question> questions = new ArrayList<>();
-        String chosenQuiz = SelectionViewController.selectedItem;
-
-        if (quizes.get(i).getName().equals(chosenQuiz)) {
-            questions = quizes.get(i).getQuestionArrayList();
-        } else {
-            i++;
-        }
-
-        StartUpController.game.close();
-
-
         try {
+            StartUpController.game.close();
+
             if (questionCount < questions.size()) {
                 questionCount++;
                 StartUpController.game.close();
-                StartUpController.game = new WindowManager(MainApplication.HEIGHT, MainApplication.WIDTH, "Questions", "fourAnswer-view.fxml");
+                if (questions.get(questionCount).getAnswerArrayList().size() > 2) {
+                    StartUpController.game = new WindowManager(MainApplication.HEIGHT, MainApplication.WIDTH, "Questions", "fourAnswer-view.fxml");
+                } else {
+                    StartUpController.game = new WindowManager(MainApplication.HEIGHT, MainApplication.WIDTH, "Questions", "trueFalse-view.fxml");
+                }
                 StartUpController.game.getGlobalStage().show();
-                System.out.println(questionCount);
             } else {
                 StartUpController.game.close();
                 StartUpController.game = new WindowManager(MainApplication.HEIGHT, MainApplication.WIDTH, "Game ending", "podium-view.fxml");
                 StartUpController.game.getGlobalStage().show();
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
-
-
 }
