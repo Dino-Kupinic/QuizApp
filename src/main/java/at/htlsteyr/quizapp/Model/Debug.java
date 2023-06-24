@@ -55,5 +55,10 @@ public interface Debug {
      */
     boolean PRINT_FILENOTFOUNDEXCEP = false;
 
+    /**
+     * Prints possible IndexOutOfBoundsException in programm
+     */
+    boolean PRINT_INDEXOUTOFBOUNDSEXCEP = false;
+
 
 }

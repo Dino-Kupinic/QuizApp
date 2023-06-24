@@ -47,12 +47,12 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Button fx:id="answerApplyButton" layoutX="348.0" layoutY="477.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Apply">
+                        <Button fx:id="answerApplyButton" onMouseClicked="#onClickAnswerBtn" layoutX="348.0" layoutY="477.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Apply">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button fx:id="answerResetButton" layoutX="470.0" layoutY="477.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Reset">
+                        <Button fx:id="answerResetButton" onMouseClicked="#onClickAnswerBtn" layoutX="470.0" layoutY="477.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Reset">
                            <font>
                               <Font size="17.0" />
                            </font>
@@ -76,12 +76,12 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Button fx:id="newAnswerButton" layoutX="13.0" layoutY="477.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="New">
+                        <Button fx:id="newAnswerButton" onMouseClicked="#onClickAnswerBtn" layoutX="13.0" layoutY="477.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="New">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button fx:id="removeAnswerButton" layoutX="131.0" layoutY="477.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Remove">
+                        <Button fx:id="removeAnswerButton" onMouseClicked="#onClickAnswerBtn" layoutX="131.0" layoutY="477.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Remove">
                            <font>
                               <Font size="17.0" />
                            </font>

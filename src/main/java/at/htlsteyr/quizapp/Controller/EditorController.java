@@ -41,6 +41,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EditorController implements Debug {
     private static int count = 0;
@@ -169,7 +171,7 @@ public class EditorController implements Debug {
             ArrayList<Player> topPlayers = new ArrayList<>();
             topPlayers.add(new Player(1, "samc", new Score(0.0), new Score(0.0)));
 
-            tempQuiz = new Quiz("Quiz" + count, init, topPlayers);
+            tempQuiz = new Quiz("newQuiz" + (getNumber(quizList)+1), init, topPlayers);
             count++;
             quizList.getItems().add(tempQuiz.getName());
             jsonHandler.writeQuizToJson(tempQuiz);
@@ -217,9 +219,11 @@ public class EditorController implements Debug {
             if (btnValue.equals("New")) {
                 ArrayList<Answer> initAnswers = new ArrayList<>();
                 initAnswers.add(new Answer("newAnwser1", true));
-                temp.getQuestionArrayList().add(new Question("new2", initAnswers));
+                temp.getQuestionArrayList().add(new Question("newQuestion" + (getNumber(questionList) + 1), initAnswers));
+                count++;
             } else if (btnValue.equals("Remove")) {
                 temp.getQuestionArrayList().remove(questionList.getSelectionModel().getSelectedItem());
+                index -= 1;
             } else if (btnValue.equals("Apply")){
                 String newquestionName = questionTextArea.getText();
                 ArrayList<Question> arrayList = temp.getQuestionArrayList();
@@ -238,6 +242,111 @@ public class EditorController implements Debug {
         onClickQuizList();
         questionList.getSelectionModel().select(index);
     }
+
+    @FXML
+    private void onClickAnswerBtn(Event e){
+        Object node = e.getSource();
+        Button eventBtn = (Button) node;
+        String btnValue = eventBtn.getText();
+
+        Quiz temp = null;
+        Question tempQuestion;
+        int index = answerTable.getSelectionModel().getSelectedIndex();
+        try {
+            temp = (Quiz) selectedQuiz.clone();
+            tempQuestion = temp.getQuestionArrayList().get(temp.getQuestionArrayList().indexOf(selectedQuestion));
+
+            if (btnValue.equals("New")) {
+                tempQuestion.getAnswerArrayList().add(new Answer("newAnswer" + (getNumber(answerTable)+1), false));
+            } else if (btnValue.equals("Remove")) {
+                tempQuestion.getAnswerArrayList().remove(answerTable.getSelectionModel().getSelectedItem());
+                index -= 1;
+            } else if (btnValue.equals("Apply")){
+                String newquestionName = answerTextArea.getText();
+                ArrayList<Answer> answers = tempQuestion.getAnswerArrayList();
+                answers.get(answers.indexOf(answerTable.getSelectionModel().getSelectedItem())).setAnswerText(newquestionName);
+            } else {
+                answerTextArea.clear();
+                return;
+            }
+
+        } catch (CloneNotSupportedException ex) {
+            if (PRINT_CLONENOTSUP) ex.printStackTrace();
+        }
+
+        jsonHandler.replaceQuizInJson(temp);
+        onClickQuestionList();
+        answerTable.getSelectionModel().select(index);
+    }
+
+    private <T> int getNumber(ListView<T> view){
+        Pattern pattern = Pattern.compile("\\d+$");
+        Matcher matcher;
+        int highest = -1;
+        try {
+            if (view.getItems().get(0).getClass().equals(String.class)) {
+                for (String i : quizList.getItems()) {
+                    matcher = pattern.matcher(i);
+
+                    if (i.matches("newQuiz\\d+$") && matcher.find()) {
+                        int temp = Integer.parseInt(matcher.group());
+                        if (highest == -1) {
+                            highest = temp;
+                        } else if (temp > highest) {
+                            highest = temp;
+                        }
+                    }
+
+                }
+            } else if (view.getItems().get(0).getClass().equals(Question.class)) {
+                for (Question q : questionList.getItems()) {
+                    matcher = pattern.matcher(q.getQuestion());
+
+                    if (q.getQuestion().matches("newQuestion\\d+$") && matcher.find()) {
+                        int temp = Integer.parseInt(matcher.group());
+                        if (highest == -1) {
+                            highest = temp;
+                        } else if (temp > highest) {
+                            highest = temp;
+                        }
+                    }
+
+                }
+            }
+        } catch (IndexOutOfBoundsException e){
+            if (PRINT_INDEXOUTOFBOUNDSEXCEP) e.printStackTrace();
+        }
+
+        return highest;
+    }
+
+    private <T> int getNumber(TableView<T> view){
+        Pattern pattern = Pattern.compile("\\d+$");
+        Matcher matcher;
+        int highest = -1;
+        try {
+            if (view.getItems().get(0).getClass().equals(Answer.class)) {
+                for (Answer a : answerTable.getItems()) {
+                    matcher = pattern.matcher(a.getAnswerText());
+
+                    if (a.getAnswerText().matches("newAnswer\\d+$") && matcher.find()) {
+                        int temp = Integer.parseInt(matcher.group());
+                        if (highest == -1) {
+                            highest = temp;
+                        } else if (temp > highest) {
+                            highest = temp;
+                        }
+                    }
+
+                }
+            }
+        } catch (IndexOutOfBoundsException e){
+            if (PRINT_INDEXOUTOFBOUNDSEXCEP) e.printStackTrace();
+        }
+
+        return highest;
+    }
+
 
 
 }
