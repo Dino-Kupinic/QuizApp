@@ -11,10 +11,6 @@
 
 <AnchorPane fx:id="trueFalseAnchorPane" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.htlsteyr.quizapp.Controller.QuizgameController">
     <children>
-        <Label fx:id="questionLblBackground" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="128.0" layoutY="89.0" maxHeight="Infinity" opacity="0.5" prefHeight="40.0" prefWidth="768.0" text="Question" textAlignment="CENTER">
-            <font>
-                <Font name="Lucida Sans Unicode" size="25.0" />
-            </font></Label>
         <GridPane layoutX="-53.0" layoutY="528.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="240.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="528.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -24,25 +20,40 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button fx:id="trueBtn" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="264.0" prefWidth="459.0" style="-fx-background-color: #E21B3C" text="True">
+                <Button fx:id="trueBtn" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="264.0" prefWidth="459.0" style="-fx-background-color: #E21B3C" text="True" textFill="WHITE">
                     <GridPane.margin>
                         <Insets bottom="3.0" left="3.0" right="3.0" />
                     </GridPane.margin>
                     <font>
-                        <Font name="Lucida Sans Unicode" size="18.0" />
+                        <Font name="Arial Bold" size="18.0" />
                     </font></Button>
-                <Button fx:id="falseBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: #1368CE" text="False" GridPane.columnIndex="1">
+                <Button fx:id="falseBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: #1368CE" text="False" textFill="WHITE" GridPane.columnIndex="1">
                     <GridPane.margin>
                         <Insets bottom="3.0" left="3.0" right="3.0" />
                     </GridPane.margin>
                     <font>
-                        <Font name="Lucida Sans Unicode" size="18.0" />
+                        <Font name="Arial Bold" size="18.0" />
                     </font></Button>
             </children>
         </GridPane>
-      <Label fx:id="questionLbl" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="128.0" layoutY="89.0" maxHeight="Infinity" prefHeight="40.0" prefWidth="768.0" text="Question" textAlignment="CENTER">
+      <Label fx:id="questionLbl1" alignment="CENTER" contentDisplay="CENTER" layoutX="128.0" layoutY="102.0" maxHeight="Infinity" prefHeight="120.0" prefWidth="768.0" text="Question" textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="Lucida Sans Unicode" size="25.0" />
+         </font>
+      </Label>
+      <Button fx:id="ctnueBtn" layoutX="849.0" layoutY="12.0" mnemonicParsing="false" onMouseClicked="#ctnueBtnClicked" prefHeight="51.0" prefWidth="165.0" style="-fx-background-color: white;" text="Continue">
+         <font>
+            <Font name="System Bold" size="27.0" />
+         </font>
+      </Button>
+      <Label layoutX="19.0" layoutY="18.0" prefHeight="49.0" prefWidth="109.0" text="Points:" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="33.0" />
+         </font>
+      </Label>
+      <Label layoutX="133.0" layoutY="18.0" prefHeight="49.0" prefWidth="99.0" text="Points" textFill="WHITE">
+         <font>
+            <Font size="33.0" />
          </font>
       </Label>
     </children>
