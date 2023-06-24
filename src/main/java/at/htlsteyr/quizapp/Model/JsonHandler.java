@@ -173,7 +173,18 @@ public class JsonHandler {
             for (int i = 0; i < jsonArray.size(); i++) {
                 JsonObject obj = jsonArray.get(i).getAsJsonObject();
                 if (obj.get("name").getAsString().equals(oldQuiz.getName())) {
-                    assembleQuizJsonObject(quiz, jsonArray);
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("name", quiz.getName());
+                    if (quiz.getQuestionArrayList() != null) {
+                        JsonArray questionArray = gson.toJsonTree(quiz.getQuestionArrayList()).getAsJsonArray();
+                        jsonObject.add("questions", questionArray);
+                    }
+                    if (quiz.getTopPlayers() != null) {
+                        JsonArray topPlayerArray = gson.toJsonTree(quiz.getTopPlayers()).getAsJsonArray();
+                        jsonObject.add("topPlayers", topPlayerArray);
+                    }
+                    jsonArray.set(i, jsonObject);
+
                     String json = gson.toJson(jsonArray);
                     FileWriter fW = new FileWriter(questionJsonFile);
                     fW.write(json);
