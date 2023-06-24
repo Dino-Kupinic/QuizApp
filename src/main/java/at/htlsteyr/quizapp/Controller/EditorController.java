@@ -204,6 +204,7 @@ public class EditorController implements Debug {
             String tempSelection = quizList.getSelectionModel().getSelectedItem();
             quizList.getItems().remove(tempSelection);
             jsonHandler.deleteQuizFromJson(tempSelection);
+            onClickQuizList();
         }
     }
 
@@ -238,7 +239,7 @@ public class EditorController implements Debug {
         Quiz temp = null;
         int index = questionList.getSelectionModel().getSelectedIndex();
         try {
-            temp = (Quiz) selectedQuiz.clone();
+            temp = (Quiz) jsonHandler.getQuizByName(quizList.getSelectionModel().getSelectedItem()).clone();
 
 
             if (btnValue.equals("New")) {
@@ -246,7 +247,7 @@ public class EditorController implements Debug {
                 initAnswers.add(new Answer("newAnwser1", true));
                 temp.getQuestionArrayList().add(new Question("newQuestion" + (getNumber(questionList) + 1), initAnswers));
             } else if (btnValue.equals("Remove")) {
-                temp.getQuestionArrayList().remove(questionList.getSelectionModel().getSelectedItem());
+                temp.getQuestionArrayList().remove(questionList.getSelectionModel().getSelectedIndex());
                 index -= 1;
             } else if (btnValue.equals("Apply")){
                 String newquestionName = questionTextArea.getText();
@@ -257,8 +258,8 @@ public class EditorController implements Debug {
                 return;
             }
 
-        } catch (CloneNotSupportedException ex) {
-            if (PRINT_CLONENOTSUP) ex.printStackTrace();
+        } catch (CloneNotSupportedException | IndexOutOfBoundsException ex) {
+            if (PRINT_CLONENOTSUP || PRINT_INDEXOUTOFBOUNDSEXCEP) ex.printStackTrace();
         }
 
 
