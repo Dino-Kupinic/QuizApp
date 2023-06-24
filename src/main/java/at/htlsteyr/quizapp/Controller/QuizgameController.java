@@ -49,6 +49,9 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -87,6 +90,8 @@ public class QuizgameController {
     private WindowManager question;
     private static int i=0;
 
+    Path imagePath = Paths.get("src/main/resources/img/ClassroomBackground.png");
+
     public void setFourAnswerGame() {
         DropShadow shadow = new DropShadow();
         shadow.setRadius(5.0);
@@ -95,8 +100,8 @@ public class QuizgameController {
         bottomrightBtn.setEffect(shadow);
         toprightBtn.setEffect(shadow);
         questionLblBackground.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, null, null)));
-        //Image background = new Image("H:\\Schule\\3_Klasse\\ITP2\\QuizApp\\src\\main\\resources\\img\\ClassroomBackground.png");
-        //fourAnswerAnchorPane.setBackground(new Background(new BackgroundImage(background, null, null, null, null)));
+        Image background = new Image(imagePath.toUri().toString());
+        fourAnswerAnchorPane.setBackground(new Background(new BackgroundImage(background, null, null, null, null)));
     }
 
     public void setTrueFalseGame() {
@@ -105,7 +110,8 @@ public class QuizgameController {
         trueBtn.setEffect(shadow);
         falseBtn.setEffect(shadow);
         questionLblBackground.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, null, null)));
-        Image background = new Image("H:\\Schule\\3_Klasse\\ITP2\\QuizApp\\src\\main\\resources\\img\\ClassroomBackground.png");
+        Image background = new Image(imagePath.toUri().toString());
+
         trueFalseAnchorPane.setBackground(new Background(new BackgroundImage(background, null, null, null, null)));
     }
 
