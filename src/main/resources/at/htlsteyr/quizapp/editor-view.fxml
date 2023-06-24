@@ -86,22 +86,22 @@
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button fx:id="newQuestionButton" layoutX="13.0" layoutY="207.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="New">
+                        <Button fx:id="newQuestionButton" onMouseClicked="#onClickQuestionBtn" layoutX="13.0" layoutY="207.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="New">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button fx:id="removeQuestionButton"  layoutX="131.0" layoutY="207.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Remove">
+                        <Button fx:id="removeQuestionButton" onMouseClicked="#onClickQuestionBtn"  layoutX="131.0" layoutY="207.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Remove">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button fx:id="questiomApplyButton" layoutX="344.0" layoutY="207.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Apply">
+                        <Button fx:id="questiomApplyButton" onMouseClicked="#onClickQuestionBtn" layoutX="344.0" layoutY="207.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Apply">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button fx:id="questionResetButton" layoutX="470.0" layoutY="207.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Reset">
+                        <Button fx:id="questionResetButton" onMouseClicked="#onClickQuestionBtn" layoutX="470.0" layoutY="207.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Reset">
                            <font>
                               <Font size="17.0" />
                            </font>

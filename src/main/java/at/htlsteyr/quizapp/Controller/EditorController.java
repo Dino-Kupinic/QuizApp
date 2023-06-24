@@ -43,6 +43,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.util.ArrayList;
 
 public class EditorController implements Debug {
+    private static int count = 0;
     @FXML
     private TableView<Answer> answerTable;
     @FXML
@@ -89,12 +90,10 @@ public class EditorController implements Debug {
     private Button answerResetButton;
     @FXML
     private Button answerApplyButton;
-
     //private ArrayList<Quiz> newQuizes = new ArrayList<>();
     private Quiz selectedQuiz;
     private Question selectedQuestion;
     private Answer selectAnwser;
-    private static int count = 0;
     private JsonHandler jsonHandler = new JsonHandler();
 
     public void initFXML() {
@@ -183,7 +182,7 @@ public class EditorController implements Debug {
 
 
     @FXML
-    private void onClickEditorApply(){
+    private void onClickEditorApply() {
         Quiz oldQuiz = selectedQuiz;
         Quiz newQuiz = null;
         String newName = quizNameTextField.getText();
@@ -196,10 +195,48 @@ public class EditorController implements Debug {
             if (PRINT_CLONENOTSUP) e.printStackTrace();
         }
 
-        jsonHandler.replaceQuizInJson(newQuiz,oldQuiz);
+        jsonHandler.replaceQuizInJson(newQuiz, oldQuiz);
         addQuizToList();
         quizList.getSelectionModel().select(index);
 
+    }
+
+    @FXML
+    private void onClickQuestionBtn(Event e) {
+        Object node = e.getSource();
+        Button eventBtn = (Button) node;
+        String btnValue = eventBtn.getText();
+
+
+        Quiz temp = null;
+        int index = questionList.getSelectionModel().getSelectedIndex();
+        try {
+            temp = (Quiz) selectedQuiz.clone();
+
+
+            if (btnValue.equals("New")) {
+                ArrayList<Answer> initAnswers = new ArrayList<>();
+                initAnswers.add(new Answer("newAnwser1", true));
+                temp.getQuestionArrayList().add(new Question("new2", initAnswers));
+            } else if (btnValue.equals("Remove")) {
+                temp.getQuestionArrayList().remove(questionList.getSelectionModel().getSelectedItem());
+            } else if (btnValue.equals("Apply")){
+                String newquestionName = questionTextArea.getText();
+                ArrayList<Question> arrayList = temp.getQuestionArrayList();
+                arrayList.get(arrayList.indexOf(questionList.getSelectionModel().getSelectedItem())).setQuestion(newquestionName);
+            } else {
+                questionTextArea.clear();
+                return;
+            }
+
+        } catch (CloneNotSupportedException ex) {
+            if (PRINT_CLONENOTSUP) ex.printStackTrace();
+        }
+
+
+        jsonHandler.replaceQuizInJson(temp);
+        onClickQuizList();
+        questionList.getSelectionModel().select(index);
     }
 
 
