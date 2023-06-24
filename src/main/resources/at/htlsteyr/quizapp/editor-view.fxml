@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.htlsteyr.quizapp.Controller.EditorController">
    <children>
       <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="720.0" prefWidth="980.0" style="-fx-background-color: #e8e4e3;">
@@ -21,7 +20,7 @@
                <children>
                   <AnchorPane layoutX="16.0" layoutY="98.0" prefHeight="526.0" prefWidth="625.0" style="-fx-background-color: #c7c5c5;">
                      <children>
-                        <TableView fx:id="answerTable" onMouseClicked="#onClickAnswerList" layoutX="12.0" layoutY="280.0" prefHeight="190.0" prefWidth="320.0">
+                        <TableView fx:id="answerTable" layoutX="12.0" layoutY="280.0" onMouseClicked="#onClickAnswerList" prefHeight="190.0" prefWidth="320.0">
                           <columns>
                             <TableColumn fx:id="answerCol" prefWidth="234.11822509765625" text="Answer" />
                             <TableColumn fx:id="isCorrectCol" prefWidth="84.5" text="is correct" />
@@ -47,17 +46,17 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Button fx:id="answerApplyButton" onMouseClicked="#onClickAnswerBtn" layoutX="348.0" layoutY="477.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Apply">
+                        <Button fx:id="answerApplyButton" layoutX="348.0" layoutY="477.0" mnemonicParsing="false" onMouseClicked="#onClickAnswerBtn" prefHeight="35.0" prefWidth="100.0" text="Apply">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button fx:id="answerResetButton" onMouseClicked="#onClickAnswerBtn" layoutX="470.0" layoutY="477.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Reset">
+                        <Button fx:id="answerResetButton" layoutX="470.0" layoutY="477.0" mnemonicParsing="false" onMouseClicked="#onClickAnswerBtn" prefHeight="35.0" prefWidth="100.0" text="Reset">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <ListView fx:id="questionList" onMouseClicked="#onClickQuestionList" layoutX="12.0" layoutY="39.0" prefHeight="160.0" prefWidth="320.0" />
+                        <ListView fx:id="questionList" layoutX="12.0" layoutY="39.0" onMouseClicked="#onClickQuestionList" prefHeight="160.0" prefWidth="320.0" />
                         <Label layoutX="14.0" layoutY="250.0" text="Answers">
                            <font>
                               <Font size="20.0" />
@@ -76,32 +75,32 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Button fx:id="newAnswerButton" onMouseClicked="#onClickAnswerBtn" layoutX="13.0" layoutY="477.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="New">
+                        <Button fx:id="newAnswerButton" layoutX="13.0" layoutY="477.0" mnemonicParsing="false" onMouseClicked="#onClickAnswerBtn" prefHeight="35.0" prefWidth="100.0" text="New">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button fx:id="removeAnswerButton" onMouseClicked="#onClickAnswerBtn" layoutX="131.0" layoutY="477.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Remove">
+                        <Button fx:id="removeAnswerButton" layoutX="131.0" layoutY="477.0" mnemonicParsing="false" onMouseClicked="#onClickAnswerBtn" prefHeight="35.0" prefWidth="100.0" text="Remove">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button fx:id="newQuestionButton" onMouseClicked="#onClickQuestionBtn" layoutX="13.0" layoutY="207.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="New">
+                        <Button fx:id="newQuestionButton" layoutX="13.0" layoutY="207.0" mnemonicParsing="false" onMouseClicked="#onClickQuestionBtn" prefHeight="35.0" prefWidth="100.0" text="New">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button fx:id="removeQuestionButton" onMouseClicked="#onClickQuestionBtn"  layoutX="131.0" layoutY="207.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Remove">
+                        <Button fx:id="removeQuestionButton" layoutX="131.0" layoutY="207.0" mnemonicParsing="false" onMouseClicked="#onClickQuestionBtn" prefHeight="35.0" prefWidth="100.0" text="Remove">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button fx:id="questiomApplyButton" onMouseClicked="#onClickQuestionBtn" layoutX="344.0" layoutY="207.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Apply">
+                        <Button fx:id="questiomApplyButton" layoutX="344.0" layoutY="207.0" mnemonicParsing="false" onMouseClicked="#onClickQuestionBtn" prefHeight="35.0" prefWidth="100.0" text="Apply">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button fx:id="questionResetButton" onMouseClicked="#onClickQuestionBtn" layoutX="470.0" layoutY="207.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Reset">
+                        <Button fx:id="questionResetButton" layoutX="470.0" layoutY="207.0" mnemonicParsing="false" onMouseClicked="#onClickQuestionBtn" prefHeight="35.0" prefWidth="100.0" text="Reset">
                            <font>
                               <Font size="17.0" />
                            </font>
@@ -133,25 +132,25 @@
                   <Font name="Helvetica" size="35.0" />
                </font>
             </Label>
-            <ListView fx:id="quizList" onMouseClicked="#onClickQuizList" layoutX="26.0" layoutY="65.0" prefHeight="596.0" prefWidth="240.0" />
+            <ListView fx:id="quizList" layoutX="26.0" layoutY="65.0" onMouseClicked="#onClickQuizList" prefHeight="596.0" prefWidth="240.0" />
             <Label layoutX="119.0" layoutY="31.0" text="Quiz">
                <font>
                   <Font name="Helvetica" size="25.0" />
                </font>
             </Label>
-            <Button fx:id="newQuizButton" onMouseClicked="#onClickQuizButton"  layoutX="27.0" layoutY="670.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="110.0" text="New">
+            <Button fx:id="newQuizButton" layoutX="27.0" layoutY="670.0" mnemonicParsing="false" onMouseClicked="#onClickQuizButton" prefHeight="35.0" prefWidth="110.0" text="New">
                <font>
                   <Font size="17.0" />
                </font>
             </Button>
-            <Button fx:id="removeQuizButton" onMouseClicked="#onClickQuizButton"  layoutX="156.0" layoutY="670.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="110.0" text="Remove">
+            <Button fx:id="removeQuizButton" layoutX="156.0" layoutY="670.0" mnemonicParsing="false" onMouseClicked="#onClickQuizButton" prefHeight="35.0" prefWidth="110.0" text="Remove">
                <font>
                   <Font size="17.0" />
                </font>
             </Button>
          </children>
       </AnchorPane>
-      <Button fx:id="editorApplyButton" onMouseClicked="#onClickEditorApply" layoutX="891.0" layoutY="747.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Apply">
+      <Button fx:id="editorApplyButton" layoutX="891.0" layoutY="747.0" mnemonicParsing="false" onMouseClicked="#onClickEditorApply" prefHeight="35.0" prefWidth="100.0" text="Apply">
          <font>
             <Font size="17.0" />
          </font>
@@ -166,5 +165,10 @@
             <Font size="17.0" />
          </font>
       </Button>
+      <Label fx:id="erorrLbl" layoutX="34.0" layoutY="747.0" prefHeight="38.0" prefWidth="520.0" textFill="RED">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

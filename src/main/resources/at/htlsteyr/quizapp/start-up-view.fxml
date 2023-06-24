@@ -19,7 +19,7 @@
             <Image url="@media/main-bg.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnCreate" layoutX="222.0" layoutY="151.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4dab4d;" text="Quiz Editor" textFill="WHITE">
+      <Button fx:id="btnCreate" layoutX="222.0" layoutY="151.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onCreateButtonClicked" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4dab4d;" text="Quiz Editor" textFill="WHITE">
          <font>
             <Font name="Arial Bold" size="16.0" />
          </font>
