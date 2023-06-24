@@ -121,7 +121,7 @@ public class JsonHandler {
      * @param quiz quiz which will be replace the old one
      */
     public void replaceQuizInJson(Quiz quiz) {
-        if (checkIfQuizAlreadyExists(quiz)) {
+        if (!checkIfQuizAlreadyExists(quiz)) {
             throw new NullPointerException("Can't find quiz \"" + quiz.getName() + "\" in data.json!");
         }
         try {
@@ -130,7 +130,18 @@ public class JsonHandler {
             for (int i = 0; i < jsonArray.size(); i++) {
                 JsonObject obj = jsonArray.get(i).getAsJsonObject();
                 if (obj.get("name").getAsString().equals(quiz.getName())) {
-                    assembleQuizJsonObject(quiz, jsonArray);
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("name", quiz.getName());
+                    if (quiz.getQuestionArrayList() != null) {
+                        JsonArray questionArray = gson.toJsonTree(quiz.getQuestionArrayList()).getAsJsonArray();
+                        jsonObject.add("questions", questionArray);
+                    }
+                    if (quiz.getTopPlayers() != null) {
+                        JsonArray topPlayerArray = gson.toJsonTree(quiz.getTopPlayers()).getAsJsonArray();
+                        jsonObject.add("topPlayers", topPlayerArray);
+                    }
+                    jsonArray.set(i, jsonObject);
+
                     String json = gson.toJson(jsonArray);
                     FileWriter fW = new FileWriter(questionJsonFile);
                     fW.write(json);
@@ -153,7 +164,7 @@ public class JsonHandler {
      * @param oldQuiz quiz with the old name
      */
     public void replaceQuizInJson(Quiz quiz, Quiz oldQuiz) {
-        if (checkIfQuizAlreadyExists(oldQuiz)) {
+        if (!checkIfQuizAlreadyExists(oldQuiz)) {
             throw new NullPointerException("Can't find quiz \"" + oldQuiz.getName() + "\" in data.json!");
         }
         try {
