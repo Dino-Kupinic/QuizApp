@@ -39,6 +39,8 @@ import at.htlsteyr.quizapp.Model.JsonHandler;
 import at.htlsteyr.quizapp.Model.Question;
 import at.htlsteyr.quizapp.Model.Quiz;
 import at.htlsteyr.quizapp.Model.WindowManager;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -47,7 +49,11 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class QuizgameController {
@@ -79,6 +85,7 @@ public class QuizgameController {
     private Button ctnueBtn;
     private static int questionCount;
     private WindowManager question;
+    private static int i=0;
 
     public void setFourAnswerGame() {
         DropShadow shadow = new DropShadow();
@@ -103,13 +110,20 @@ public class QuizgameController {
     }
 
     public void ctnueBtnClicked () {
-        ArrayList<String> questions = new ArrayList<>();
-        questions.add("haa");
-        questions.add("haa");
-        questions.add("haa");
-        questions.add("haa");
+        JsonHandler jsonHandler = new JsonHandler();
+        ArrayList<Quiz> quizes = jsonHandler.getAllQuizes();
+        String chosenQuiz = SelectionViewController.selectedItem;
+        ArrayList<Question> questions = new ArrayList<>();
+
+        System.out.println(chosenQuiz);
+        if (quizes.get(i).getName().equals(chosenQuiz)) {
+            questions = quizes.get(i).getQuestionArrayList();
+        } else {
+            i++;
+        }
 
         StartUpController.game.close();
+
 
         try {
             if (questionCount < questions.size()) {
