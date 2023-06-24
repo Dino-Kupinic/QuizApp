@@ -76,6 +76,7 @@ public class StartUpController {
     private boolean change = false;
     private Music music = new Music();
     private static StartUpController instance;
+    public static WindowManager game;
 
     @FXML
     public void onMusicButtonPressed() {
@@ -98,16 +99,17 @@ public class StartUpController {
     @FXML
     public void onPlayButtonClicked() {
         try {
-            WindowManager game = new WindowManager(MainApplication.HEIGHT, MainApplication.WIDTH, "Game", "fourAnswer-view.fxml");
+            game = new WindowManager("Selection", "selection-view.fxml");
             game.getGlobalStage().show();
             MainApplication.mainWindow.close();
-            QuizgameController controller = (QuizgameController) game.getController();
-            controller.setFourAnswerGame();
 
-        } catch (IOException e) {
 
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
         }
     }
+
+
 
 
     @FXML
@@ -120,12 +122,7 @@ public class StartUpController {
             change = false;
         }
     }
-
-    @FXML
-    public void playBtnClicked() {
-        Timer timer = new Timer();
-        timer.startTimer(StartUpController.getInstance());
-    }
+    
 
     private void changeColor(String style) {
         Background tempBtnBgd = null;

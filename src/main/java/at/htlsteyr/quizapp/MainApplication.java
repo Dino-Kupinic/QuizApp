@@ -35,12 +35,12 @@
 package at.htlsteyr.quizapp;
 
 import at.htlsteyr.quizapp.Controller.StartUpController;
-import at.htlsteyr.quizapp.Model.JsonHandler;
-import at.htlsteyr.quizapp.Model.WindowManager;
+import at.htlsteyr.quizapp.Model.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainApplication extends Application {
     public static int WIDTH = 1024;
@@ -64,6 +64,9 @@ public class MainApplication extends Application {
 
     public void checkDataJson() throws IOException {
         JsonHandler jsonHandler = new JsonHandler();
-        jsonHandler.addJsonArrayIfJsonIsntValid();
+        if (!jsonHandler.isDataJsonValid()) {
+            jsonHandler.addJsonArrayIfJsonIsntValid();
+            jsonHandler.createExampleQuiz();
+        }
     }
 }

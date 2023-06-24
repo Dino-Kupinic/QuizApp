@@ -34,6 +34,13 @@
 
 package at.htlsteyr.quizapp.Controller;
 
+import at.htlsteyr.quizapp.MainApplication;
+import at.htlsteyr.quizapp.Model.JsonHandler;
+import at.htlsteyr.quizapp.Model.Question;
+import at.htlsteyr.quizapp.Model.Quiz;
+import at.htlsteyr.quizapp.Model.WindowManager;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -44,6 +51,13 @@ import javafx.scene.paint.Color;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class QuizgameController {
     @FXML
@@ -70,8 +84,13 @@ public class QuizgameController {
     private Label questionLbl;
     @FXML
     private Label questionLblBackground;
+    @FXML
+    private Button ctnueBtn;
+    private static int questionCount;
+    private WindowManager question;
+    private static int i = 0;
 
-    Path imagePath = Paths.get("src/main/resources/img/ClassroomBackground.png");
+    Path imagePath = Paths.get("src/main/resources/at/htlsteyr/quizapp/media/ClassroomBackground.png");
 
     public void setFourAnswerGame() {
         DropShadow shadow = new DropShadow();
@@ -95,4 +114,39 @@ public class QuizgameController {
 
         trueFalseAnchorPane.setBackground(new Background(new BackgroundImage(background, null, null, null, null)));
     }
+
+    public void ctnueBtnClicked() {
+        JsonHandler jsonHandler = new JsonHandler();
+        ArrayList<Quiz> quizes = jsonHandler.getAllQuizes();
+        String chosenQuiz = SelectionViewController.selectedItem;
+        ArrayList<Question> questions = new ArrayList<>();
+
+        System.out.println(chosenQuiz);
+        if (quizes.get(i).getName().equals(chosenQuiz)) {
+            questions = quizes.get(i).getQuestionArrayList();
+        } else {
+            i++;
+        }
+
+        StartUpController.game.close();
+
+
+        try {
+            if (questionCount < questions.size()) {
+                questionCount++;
+                StartUpController.game.close();
+                StartUpController.game = new WindowManager(MainApplication.HEIGHT, MainApplication.WIDTH, "Questions", "fourAnswer-view.fxml");
+                StartUpController.game.getGlobalStage().show();
+                System.out.println(questionCount);
+            } else {
+                StartUpController.game.close();
+                StartUpController.game = new WindowManager(MainApplication.HEIGHT, MainApplication.WIDTH, "Game ending", "podium-view.fxml");
+                StartUpController.game.getGlobalStage().show();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }
