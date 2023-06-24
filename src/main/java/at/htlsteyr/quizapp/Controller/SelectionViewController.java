@@ -34,14 +34,15 @@
 
 package at.htlsteyr.quizapp.Controller;
 
-import at.htlsteyr.quizapp.Model.JsonHandler;
-import at.htlsteyr.quizapp.Model.Player;
-import at.htlsteyr.quizapp.Model.Quiz;
-import at.htlsteyr.quizapp.Model.Score;
+import at.htlsteyr.quizapp.MainApplication;
+import at.htlsteyr.quizapp.Model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -63,6 +64,8 @@ public class SelectionViewController {
     @FXML
     private Button playButton;
 
+    public static String selectedItem = "";
+
     public void initialize() {
         addQuizToList();
         displayLeaderboard();
@@ -72,7 +75,7 @@ public class SelectionViewController {
      * displays the top players of a selected quiz
      */
     public void displayTopPlayers() {
-        String selectedItem = quizesList.getSelectionModel().getSelectedItem();
+        selectedItem = quizesList.getSelectionModel().getSelectedItem();
         if (!Objects.equals(selectedItem, "")) {
             JsonHandler jsonHandler = new JsonHandler();
             ArrayList<Quiz> quizArrayList = jsonHandler.getAllQuizes();
@@ -134,6 +137,33 @@ public class SelectionViewController {
             for (Quiz q : quizArrayList) {
                 quizesList.getItems().add(q.getName());
             }
+        }
+    }
+
+    @FXML
+    public void qsPlayBtnClicked() throws IOException {
+        if (!Objects.equals(selectedItem, "") && selectedItem != null) {
+            JsonHandler jH = new JsonHandler();
+            Quiz selectedQuiz = jH.getQuizByName(selectedItem);
+            Question q = selectedQuiz.getQuestionArrayList().get(0);
+
+            boolean isFourAnswer;
+
+            if (q.getAnswerArrayList().size() > 2) {
+                StartUpController.game = new WindowManager("Game", "fourAnswer-view.fxml");
+                isFourAnswer = true;
+            } else {
+                StartUpController.game = new WindowManager("Game", "trueFalse-view.fxml");
+                isFourAnswer = false;
+            }
+            QuizgameController qc = (QuizgameController) StartUpController.game.getController();
+
+            if (isFourAnswer) {
+                qc.setFourAnswerGame();
+            } else {
+                qc.setTrueFalseGame();
+            }
+            StartUpController.game.getGlobalStage().show();
         }
     }
 }
