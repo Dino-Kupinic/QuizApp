@@ -88,9 +88,9 @@ public class QuizgameController {
     private Button ctnueBtn;
     private static int questionCount;
     private WindowManager question;
-    private static int i=0;
+    private static int i = 0;
 
-    Path imagePath = Paths.get("src/main/resources/img/ClassroomBackground.png");
+    Path imagePath = Paths.get("src/main/resources/at/htlsteyr/quizapp/media/ClassroomBackground.png");
 
     public void setFourAnswerGame() {
         DropShadow shadow = new DropShadow();
@@ -115,7 +115,7 @@ public class QuizgameController {
         trueFalseAnchorPane.setBackground(new Background(new BackgroundImage(background, null, null, null, null)));
     }
 
-    public void ctnueBtnClicked () {
+    public void ctnueBtnClicked() {
         JsonHandler jsonHandler = new JsonHandler();
         ArrayList<Quiz> quizes = jsonHandler.getAllQuizes();
         String chosenQuiz = SelectionViewController.selectedItem;
@@ -140,7 +140,7 @@ public class QuizgameController {
                 System.out.println(questionCount);
             } else {
                 StartUpController.game.close();
-                StartUpController.game = new WindowManager(MainApplication.HEIGHT, MainApplication.WIDTH, "Game ending", "End.fxml");
+                StartUpController.game = new WindowManager(MainApplication.HEIGHT, MainApplication.WIDTH, "Game ending", "podium-view.fxml");
                 StartUpController.game.getGlobalStage().show();
             }
         } catch (IOException e) {
