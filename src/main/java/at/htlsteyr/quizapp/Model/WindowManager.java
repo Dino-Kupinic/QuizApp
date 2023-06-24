@@ -178,7 +178,7 @@ public class WindowManager implements Debug {
         try {
             globalStage.setHeight(height);
         } catch (NullPointerException e) {
-            if (PRINT_NUllPOINTEXEP) e.printStackTrace();
+            if (PRINT_NUllPOINTEXCEP) e.printStackTrace();
         }
     }
 
@@ -187,7 +187,7 @@ public class WindowManager implements Debug {
         try {
             globalStage.setWidth(width);
         } catch (NullPointerException e) {
-            if (PRINT_NUllPOINTEXEP) e.printStackTrace();
+            if (PRINT_NUllPOINTEXCEP) e.printStackTrace();
         }
     }
 
@@ -196,7 +196,7 @@ public class WindowManager implements Debug {
         try {
             globalStage.setTitle(title);
         } catch (NullPointerException e) {
-            if (PRINT_NUllPOINTEXEP) e.printStackTrace();
+            if (PRINT_NUllPOINTEXCEP) e.printStackTrace();
         }
     }
 

@@ -42,7 +42,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
 
-public class EditorController {
+public class EditorController implements Debug {
     @FXML
     private TableView<Answer> answerTable;
     @FXML
@@ -90,12 +90,11 @@ public class EditorController {
     @FXML
     private Button answerApplyButton;
 
-    private ArrayList<Quiz> newQuizes = new ArrayList<>();
+    //private ArrayList<Quiz> newQuizes = new ArrayList<>();
     private Quiz selectedQuiz;
     private Question selectedQuestion;
     private Answer selectAnwser;
     private static int count = 0;
-
     private JsonHandler jsonHandler = new JsonHandler();
 
     public void initFXML() {
@@ -108,6 +107,7 @@ public class EditorController {
      * Adds all quiz to the list view
      */
     public void addQuizToList() {
+        quizList.getItems().clear();
         ArrayList<Quiz> quizArrayList = null;
         if (jsonHandler.isDataJsonValid()) {
             quizArrayList = jsonHandler.getAllQuizes();
@@ -157,27 +157,49 @@ public class EditorController {
         Object node = e.getSource();
         Button eventBtn = (Button) node;
         String btnValue = eventBtn.getText();
-        System.out.println(btnValue);
-        Quiz tempQuiz;
-
-        ArrayList<Answer> initAnswers = new ArrayList<>();
-        initAnswers.add(new Answer("newAnwser1", true));
-
-        ArrayList<Question> init = new ArrayList<>();
-        init.add(new Question("newQuestion1", initAnswers));
-        ArrayList<Player> topPlayers = new ArrayList<>();
-        topPlayers.add(new Player(1, "samc", new Score(0.0), new Score(0.0)));
-
 
         if (btnValue.equals("New")) {
+            Quiz tempQuiz;
+
+            ArrayList<Answer> initAnswers = new ArrayList<>();
+            initAnswers.add(new Answer("newAnwser1", true));
+
+            ArrayList<Question> init = new ArrayList<>();
+            init.add(new Question("newQuestion1", initAnswers));
+
+            ArrayList<Player> topPlayers = new ArrayList<>();
+            topPlayers.add(new Player(1, "samc", new Score(0.0), new Score(0.0)));
+
             tempQuiz = new Quiz("Quiz" + count, init, topPlayers);
             count++;
             quizList.getItems().add(tempQuiz.getName());
             jsonHandler.writeQuizToJson(tempQuiz);
         } else {
-            quizList.getItems().remove(quizList.getSelectionModel().getSelectedItem());
-            jsonHandler.deleteQuizFromJson(quizList.getSelectionModel().getSelectedItem());
+            String tempSelection = quizList.getSelectionModel().getSelectedItem();
+            quizList.getItems().remove(tempSelection);
+            jsonHandler.deleteQuizFromJson(tempSelection);
         }
+    }
+
+
+    @FXML
+    private void onClickEditorApply(){
+        Quiz oldQuiz = selectedQuiz;
+        Quiz newQuiz = null;
+        String newName = quizNameTextField.getText();
+        int index = quizList.getSelectionModel().getSelectedIndex();
+
+        try {
+            newQuiz = (Quiz) selectedQuiz.clone();
+            newQuiz.setName(newName);
+        } catch (CloneNotSupportedException e) {
+            if (PRINT_CLONENOTSUP) e.printStackTrace();
+        }
+
+        jsonHandler.replaceQuizInJson(newQuiz,oldQuiz);
+        addQuizToList();
+        quizList.getSelectionModel().select(index);
+
     }
 
 

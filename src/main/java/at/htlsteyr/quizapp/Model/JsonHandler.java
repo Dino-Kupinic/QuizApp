@@ -47,7 +47,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class JsonHandler {
+public class JsonHandler implements Debug{
     private final Path PATH_DATA_JSON;
     private final Path PATH_PLAYER_JSON;
     private final File questionJsonFile;
@@ -91,7 +91,7 @@ public class JsonHandler {
             // Log action
             System.out.println("Added " + quiz.getName() + " Quiz to data.json!");
         } catch (IOException e) {
-            e.printStackTrace();
+            if(PRINT_IOEXCEPTION) e.printStackTrace();
         }
     }
 
@@ -153,7 +153,7 @@ public class JsonHandler {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            if(PRINT_IOEXCEPTION) e.printStackTrace();
         }
     }
 
@@ -173,7 +173,18 @@ public class JsonHandler {
             for (int i = 0; i < jsonArray.size(); i++) {
                 JsonObject obj = jsonArray.get(i).getAsJsonObject();
                 if (obj.get("name").getAsString().equals(oldQuiz.getName())) {
-                    assembleQuizJsonObject(quiz, jsonArray);
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("name", quiz.getName());
+                    if (quiz.getQuestionArrayList() != null) {
+                        JsonArray questionArray = gson.toJsonTree(quiz.getQuestionArrayList()).getAsJsonArray();
+                        jsonObject.add("questions", questionArray);
+                    }
+                    if (quiz.getTopPlayers() != null) {
+                        JsonArray topPlayerArray = gson.toJsonTree(quiz.getTopPlayers()).getAsJsonArray();
+                        jsonObject.add("topPlayers", topPlayerArray);
+                    }
+                    jsonArray.set(i, jsonObject);
+
                     String json = gson.toJson(jsonArray);
                     FileWriter fW = new FileWriter(questionJsonFile);
                     fW.write(json);
@@ -185,7 +196,7 @@ public class JsonHandler {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            if(PRINT_IOEXCEPTION) e.printStackTrace();
         }
     }
 
@@ -226,7 +237,7 @@ public class JsonHandler {
                 System.out.println("Removed \"" + quiz.getName() + "\" Quiz in data.json!");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            if(PRINT_IOEXCEPTION) e.printStackTrace();
         }
 
     }
@@ -328,7 +339,7 @@ public class JsonHandler {
             fileWriter.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            if(PRINT_IOEXCEPTION) e.printStackTrace();
         }
     }
 
@@ -365,7 +376,7 @@ public class JsonHandler {
 
             return quizArrayList;
         } catch (IOException e) {
-            e.printStackTrace();
+            if(PRINT_IOEXCEPTION) e.printStackTrace();
         }
         return null;
     }
@@ -530,7 +541,7 @@ public class JsonHandler {
             }
             return playerArrayList;
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            if (PRINT_FILENOTFOUNDEXCEP) e.printStackTrace();
         }
     }
 
@@ -579,6 +590,7 @@ public class JsonHandler {
         } catch (FileNotFoundException e) {
             File f = new File(PATH_DATA_JSON.toUri());
             addJSONArray(f);
+            if (PRINT_FILENOTFOUNDEXCEP) e.printStackTrace();
         }
     }
 
@@ -592,7 +604,7 @@ public class JsonHandler {
             Scanner scanner = new Scanner(questionJsonFile);
             return scanner.hasNextLine();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            if (PRINT_FILENOTFOUNDEXCEP) e.printStackTrace();
         }
         return false;
     }
@@ -607,7 +619,7 @@ public class JsonHandler {
             Scanner scanner = new Scanner(playerJsonFile);
             return scanner.hasNextLine();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            if (PRINT_FILENOTFOUNDEXCEP) e.printStackTrace();
         }
         return false;
     }
