@@ -61,10 +61,11 @@ public class SelectionViewController {
     private TableColumn<Player, String> nameCol;
     @FXML
     private ListView<String> quizesList;
-    @FXML
-    private Button playButton;
 
     public static String selectedItem = "";
+
+    private static SelectionViewController instance;
+
 
     public void initialize() {
         addQuizToList();
@@ -164,5 +165,16 @@ public class SelectionViewController {
             }
             StartUpController.game.getGlobalStage().show();
         }
+    }
+
+    public SelectionViewController() {
+        instance = this;
+    }
+
+    public static SelectionViewController getInstance() {
+        if (instance == null) {
+            instance = new SelectionViewController();
+        }
+        return instance;
     }
 }

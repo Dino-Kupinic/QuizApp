@@ -34,13 +34,12 @@
 
 package at.htlsteyr.quizapp;
 
-import at.htlsteyr.quizapp.Controller.StartUpController;
-import at.htlsteyr.quizapp.Model.*;
+import at.htlsteyr.quizapp.Model.JsonHandler;
+import at.htlsteyr.quizapp.Model.WindowManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class MainApplication extends Application {
     public static int WIDTH = 1024;
@@ -58,6 +57,11 @@ public class MainApplication extends Application {
         launch();
     }
 
+    /**
+     * Checks if Data json is valid and writes an example quiz into it if it is empty
+     *
+     * @throws IOException file error
+     */
     public void checkDataJson() throws IOException {
         JsonHandler jsonHandler = new JsonHandler();
         if (!jsonHandler.isDataJsonValid()) {

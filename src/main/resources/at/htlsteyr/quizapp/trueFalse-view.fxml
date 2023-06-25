@@ -56,9 +56,19 @@
             <Font name="System Bold" size="33.0" />
          </font>
       </Label>
-      <Label fx:id="pointsLabel" layoutX="133.0" layoutY="18.0" prefHeight="49.0" prefWidth="99.0" text="Points" textFill="WHITE">
+      <Label fx:id="pointsLabel" layoutX="133.0" layoutY="18.0" prefHeight="49.0" prefWidth="188.0" textFill="WHITE">
          <font>
             <Font size="33.0" />
+         </font>
+      </Label>
+      <Label fx:id="timerLabel" layoutX="471.0" layoutY="31.0" text="Timer" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="correctLabel" layoutX="14.0" layoutY="340.0" prefHeight="44.0" prefWidth="209.0" textFill="#d30f0f">
+         <font>
+            <Font name="System Bold" size="36.0" />
          </font>
       </Label>
     </children>

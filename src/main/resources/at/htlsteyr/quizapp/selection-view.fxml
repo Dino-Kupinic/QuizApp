@@ -126,10 +126,26 @@
             <TableColumn fx:id="scoreColBestPlayers" editable="false" prefWidth="88.5" resizable="false" text="Highscore" />
          </columns>
       </TableView>
-      <Button fx:id="playButton" alignment="CENTER" layoutX="199.0" layoutY="447.0" mnemonicParsing="false" onMouseClicked="#qsPlayBtnClicked" prefWidth="100.0" text="Play">
+      <Button fx:id="playButton" alignment="CENTER" layoutX="199.0" layoutY="447.0" mnemonicParsing="false" onMouseClicked="#qsPlayBtnClicked" prefWidth="100.0" style="-fx-background-color: white;" text="Play">
          <font>
             <Font size="20.0" />
          </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.32894736528396606" green="0.018274853006005287" blue="0.018274853006005287" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
       </Button>
    </children>
 </AnchorPane>

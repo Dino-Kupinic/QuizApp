@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.htlsteyr.quizapp.Controller.QuizgameController">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.htlsteyr.quizapp.Controller.QuizgameController">
    <children>
       <ImageView fitHeight="768.0" fitWidth="1024.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -18,29 +20,24 @@
             <Image url="@media/PodiumV1.png" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" layoutX="374.0" layoutY="241.0" prefHeight="90.0" prefWidth="271.0" text="Name" textFill="WHITE">
+      <Label fx:id="podiumScoreLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="422.0" layoutY="402.0" prefHeight="90.0" prefWidth="221.0" text="Score">
          <font>
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="422.0" layoutY="402.0" prefHeight="90.0" prefWidth="221.0" text="Score">
+      <Button fx:id="OkButton" layoutX="28.0" layoutY="655.0" mnemonicParsing="false" onAction="#onOkButtonClicked" prefHeight="55.0" prefWidth="162.0" text="OK">
          <font>
-            <Font name="System Bold" size="36.0" />
+            <Font size="27.0" />
          </font>
-      </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="422.0" layoutY="540.0" prefHeight="90.0" prefWidth="221.0" text="Total Points">
+      </Button>
+      <TextField fx:id="yourNameField" layoutX="402.0" layoutY="281.0" onAction="#onYourNameInput" prefHeight="40.0" prefWidth="221.0" promptText="your name">
          <font>
-            <Font name="System Bold" size="36.0" />
+            <Font size="18.0" />
          </font>
-      </Label>
-      <Label alignment="CENTER" layoutX="455.0" layoutY="483.0" prefHeight="70.0" prefWidth="155.0" text="R | W">
+      </TextField>
+      <Label layoutX="494.0" layoutY="402.0" text="Final Score:">
          <font>
-            <Font size="31.0" />
-         </font>
-      </Label>
-      <Label alignment="CENTER" layoutX="455.0" layoutY="621.0" prefHeight="70.0" prefWidth="155.0" text="Points">
-         <font>
-            <Font size="31.0" />
+            <Font size="16.0" />
          </font>
       </Label>
    </children>

@@ -124,24 +124,31 @@ public class EditorController implements Debug {
     //------------------OnClickEvents------------------\\
 
     //------------------Select from data.json------------------\\
+
+    /**
+     * Fills data of the right side with quiz data
+     */
     @FXML
     private void onClickQuizList() {
-        try{
+        try {
             String quizname = quizList.getSelectionModel().getSelectedItem();
             selectedQuiz = jsonHandler.getQuizByName(quizname);
             quizNameTextField.setText(quizname);
             questionList.getItems().clear();
             questionList.getItems().addAll(selectedQuiz.getQuestionArrayList());
             erorrLbl.setText("");
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             if (PRINT_NUllPOINTEXCEP) e.printStackTrace();
             erorrLbl.setText("Please click on a valid quiz element!");
         }
     }
 
+    /**
+     * Fills data into the UI when a question is clicked
+     */
     @FXML
     private void onClickQuestionList() {
-        try{
+        try {
             selectedQuestion = questionList.getSelectionModel().getSelectedItem();
             questionTextArea.setText(selectedQuestion.getQuestion());
 
@@ -159,20 +166,23 @@ public class EditorController implements Debug {
             isCorrectCol.setCellValueFactory(new PropertyValueFactory<>("isCorrect"));
 
             erorrLbl.setText("");
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             if (PRINT_NUllPOINTEXCEP) e.printStackTrace();
             erorrLbl.setText("Please click on a valid question element!");
         }
     }
 
+    /**
+     *
+     */
     @FXML
     private void onClickAnswerList() {
-        try{
+        try {
             selectAnwser = answerTable.getSelectionModel().getSelectedItem();
             answerTextArea.setText(selectAnwser.getAnswerText());
             isCorrectToggle.setSelected(selectAnwser.getIsCorrect());
             erorrLbl.setText("");
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             if (PRINT_NUllPOINTEXCEP) e.printStackTrace();
             erorrLbl.setText("Please click on a valid element!");
         }
@@ -197,7 +207,7 @@ public class EditorController implements Debug {
             ArrayList<Player> topPlayers = new ArrayList<>();
             topPlayers.add(new Player(1, "samc", new Score(0.0), new Score(0.0)));
 
-            tempQuiz = new Quiz("newQuiz" + (getNumber(quizList)+1), init, topPlayers);
+            tempQuiz = new Quiz("newQuiz" + (getNumber(quizList) + 1), init, topPlayers);
             quizList.getItems().add(tempQuiz.getName());
             jsonHandler.writeQuizToJson(tempQuiz);
         } else {
@@ -248,7 +258,7 @@ public class EditorController implements Debug {
             } else if (btnValue.equals("Remove")) {
                 temp.getQuestionArrayList().remove(questionList.getSelectionModel().getSelectedItem());
                 index -= 1;
-            } else if (btnValue.equals("Apply")){
+            } else if (btnValue.equals("Apply")) {
                 String newquestionName = questionTextArea.getText();
                 ArrayList<Question> arrayList = temp.getQuestionArrayList();
                 arrayList.get(arrayList.indexOf(questionList.getSelectionModel().getSelectedItem())).setQuestion(newquestionName);
@@ -268,7 +278,7 @@ public class EditorController implements Debug {
     }
 
     @FXML
-    private void onClickAnswerBtn(Event e){
+    private void onClickAnswerBtn(Event e) {
         Object node = e.getSource();
         Button eventBtn = (Button) node;
         String btnValue = eventBtn.getText();
@@ -281,11 +291,11 @@ public class EditorController implements Debug {
             tempQuestion = temp.getQuestionArrayList().get(temp.getQuestionArrayList().indexOf(selectedQuestion));
 
             if (btnValue.equals("New")) {
-                tempQuestion.getAnswerArrayList().add(new Answer("newAnswer" + (getNumber(answerTable)+1), false));
+                tempQuestion.getAnswerArrayList().add(new Answer("newAnswer" + (getNumber(answerTable) + 1), false));
             } else if (btnValue.equals("Remove")) {
                 tempQuestion.getAnswerArrayList().remove(answerTable.getSelectionModel().getSelectedItem());
                 index -= 1;
-            } else if (btnValue.equals("Apply")){
+            } else if (btnValue.equals("Apply")) {
                 String newquestionName = answerTextArea.getText();
                 ArrayList<Answer> answers = tempQuestion.getAnswerArrayList();
                 answers.get(answers.indexOf(answerTable.getSelectionModel().getSelectedItem())).setAnswerText(newquestionName);
@@ -305,18 +315,19 @@ public class EditorController implements Debug {
     }
 
     @FXML
-    private void onClickToggleCorrectAnswer(){
+    private void onClickToggleCorrectAnswer() {
         selectAnwser.setCorrect(isCorrectToggle.isSelected());
         onClickAnswerList();
     }
 
     /**
      * This function searches in a ListView for the highest number of an element
+     *
      * @param view which ListView should be searched
+     * @param <T>  could be String or Question
      * @return highes Number in ListView
-     * @param <T> could be String or Question
      */
-    private <T> int getNumber(ListView<T> view){
+    private <T> int getNumber(ListView<T> view) {
         Pattern pattern = Pattern.compile("\\d+$");
         Matcher matcher;
         int highest = -1;
@@ -350,7 +361,7 @@ public class EditorController implements Debug {
 
                 }
             }
-        } catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             if (PRINT_INDEXOUTOFBOUNDSEXCEP) e.printStackTrace();
         }
 
@@ -359,11 +370,12 @@ public class EditorController implements Debug {
 
     /**
      * This function searches in a TableView for the highest number of an element
+     *
      * @param view which TabelView should be searched
+     * @param <T>  could be Answer.java
      * @return highes Number in ListView
-     * @param <T> could be Answer.java
      */
-    private <T> int getNumber(TableView<T> view){
+    private <T> int getNumber(TableView<T> view) {
         Pattern pattern = Pattern.compile("\\d+$");
         Matcher matcher;
         int highest = -1;
@@ -383,13 +395,12 @@ public class EditorController implements Debug {
 
                 }
             }
-        } catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             if (PRINT_INDEXOUTOFBOUNDSEXCEP) e.printStackTrace();
         }
 
         return highest;
     }
-
 
 
 }

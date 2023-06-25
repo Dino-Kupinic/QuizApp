@@ -35,13 +35,12 @@
 package at.htlsteyr.quizapp.Controller;
 
 import at.htlsteyr.quizapp.MainApplication;
-import at.htlsteyr.quizapp.Model.JsonHandler;
-import at.htlsteyr.quizapp.Model.Question;
-import at.htlsteyr.quizapp.Model.Quiz;
-import at.htlsteyr.quizapp.Model.WindowManager;
+import at.htlsteyr.quizapp.Model.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -52,6 +51,7 @@ import java.nio.file.Paths;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class QuizgameController {
     @FXML
@@ -82,26 +82,57 @@ public class QuizgameController {
     private Button ctnueBtn;
     @FXML
     private Label pointsLabel;
+    @FXML
+    private Label timerLabel;
+    @FXML
+    private Label correctLabel;
+    @FXML
+    private Label podiumScoreLabel;
+    @FXML
+    private TextField yourNameField;
+    @FXML
+    private Button OkButton;
 
     private WindowManager question;
     private static int questionCount;
     private static int i = 0;
     private final Path imagePath;
-
-    JsonHandler jsonHandler;
-    ArrayList<Quiz> quizes;
-    ArrayList<Question> questions;
-    String chosenQuiz;
+    private ArrayList<Question> questions;
+    private static Score currentScore = new Score(0.0);
+    private Timer timer;
 
     public QuizgameController() {
         this.imagePath = Paths.get("src/main/resources/at/htlsteyr/quizapp/media/ClassroomBackground.png");
     }
 
+    /**
+     * sets up the current question with correct data etc.
+     */
     public void initialize() {
-        jsonHandler = new JsonHandler();
-        quizes = jsonHandler.getAllQuizes();
+        JsonHandler jsonHandler = new JsonHandler();
+        ArrayList<Quiz> quizes = jsonHandler.getAllQuizes();
+        String chosenQuiz = SelectionViewController.selectedItem;
         questions = new ArrayList<>();
-        chosenQuiz = SelectionViewController.selectedItem;
+
+        timer = new Timer();
+        timer.startTimer(this);
+
+        if (pointsLabel != null) {
+            pointsLabel.setText(String.valueOf(currentScore.getScore()));
+        }
+
+        if (ctnueBtn != null) {
+            ctnueBtn.setDisable(true);
+        }
+
+        if (OkButton != null) {
+            OkButton.setDisable(true);
+        }
+
+        if (podiumScoreLabel != null) {
+            currentScore.setScore(Math.round(currentScore.getScore()));
+            podiumScoreLabel.setText(String.valueOf(currentScore.getScore()));
+        }
 
         if (quizes.get(i).getName().equals(chosenQuiz)) {
             questions = quizes.get(i).getQuestionArrayList();
@@ -126,8 +157,130 @@ public class QuizgameController {
         }
     }
 
-    public void onAnswerButtonClicked() {
-        System.out.println("Answer Click");
+    /**
+     * updates timer label
+     *
+     * @param text new time
+     */
+    public void setTimerLabel(String text) {
+        timerLabel.setText(text);
+    }
+
+    /**
+     * Writes the score and player to json and closes the window, updates leaderboard
+     */
+    public void onOkButtonClicked() {
+        if (!Objects.equals(yourNameField.getText(), "")) {
+            JsonHandler j = new JsonHandler();
+            j.writePlayerToJson(new Player(1, yourNameField.getText(), new Score(currentScore.getScore()), new Score(currentScore.getScore())));
+            StartUpController.game.close();
+            questionCount = 0;
+            currentScore.setScore(0.0);
+            SelectionViewController.getInstance().displayTopPlayers();
+            SelectionViewController.getInstance().displayLeaderboard();
+        }
+    }
+
+    /**
+     * Disables/enables the ok button depending if there is something in the text field
+     */
+    public void onYourNameInput() {
+        OkButton.setDisable(yourNameField.getText().equals(""));
+    }
+
+    /**
+     * checks if the answer is correct or not
+     *
+     * @param text answer text of the clicked button
+     * @return true or false
+     */
+    public boolean checkCorrect(String text) {
+        Question q = questions.get(questionCount);
+        for (Answer a : q.getAnswerArrayList()) {
+            if (a.getAnswerText().equals(text) && a.getIsCorrect()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * stops the timer, sets the score and disables/enables the buttons on click
+     *
+     * @param event which button was clicked
+     */
+    public void onAnswerButtonClicked(ActionEvent event) {
+        timer.stopTimer();
+
+        Button clickedButton = (Button) event.getSource();
+
+        if (checkCorrect(clickedButton.getText())) {
+            correctLabel.setText("Correct");
+            currentScore.setScore(currentScore.getScore() + timer.getScore());
+        } else {
+            correctLabel.setText("Incorrect");
+        }
+        pointsLabel.setText(Double.toString(currentScore.getScore()));
+
+        Question q = questions.get(questionCount);
+        if (topleftBtn != null) {
+            topleftBtn.setDisable(true);
+            toprightBtn.setDisable(true);
+            bottomleftBtn.setDisable(true);
+            bottomrightBtn.setDisable(true);
+            displayCorrect4Answers(q);
+        } else {
+            trueBtn.setDisable(true);
+            falseBtn.setDisable(true);
+            displayCorrect2Answers(q);
+        }
+        ctnueBtn.setDisable(false);
+    }
+
+    /**
+     * either makes the answer button red or green depending on if it is correct or not
+     *
+     * @param q question object where the answer is
+     */
+    private void displayCorrect4Answers(Question q) {
+        if (q.getAnswerArrayList().get(0).getIsCorrect()) {
+            topleftBtn.setStyle("-fx-background-color: green");
+        } else {
+            topleftBtn.setStyle("-fx-background-color: red");
+        }
+        if (q.getAnswerArrayList().get(1).getIsCorrect()) {
+            toprightBtn.setStyle("-fx-background-color: green");
+        } else {
+            toprightBtn.setStyle("-fx-background-color: red");
+        }
+        if (q.getAnswerArrayList().get(2).getIsCorrect()) {
+            bottomleftBtn.setStyle("-fx-background-color: green");
+        } else {
+            bottomleftBtn.setStyle("-fx-background-color: red");
+        }
+        if (q.getAnswerArrayList().get(3).getIsCorrect()) {
+            bottomrightBtn.setStyle("-fx-background-color: green");
+        } else {
+            bottomrightBtn.setStyle("-fx-background-color: red");
+        }
+    }
+
+    /**
+     * either makes the answer button red or green depending on if it is correct or not
+     *
+     * @param q question object where the answer is
+     */
+    private void displayCorrect2Answers(Question q) {
+        if (q.getAnswerArrayList().get(0).getIsCorrect()) {
+            trueBtn.setStyle("-fx-background-color: green");
+        } else {
+            trueBtn.setStyle("-fx-background-color: red");
+        }
+        if (q.getAnswerArrayList().get(1).getIsCorrect()) {
+            falseBtn.setStyle("-fx-background-color: green");
+        } else {
+            falseBtn.setStyle("-fx-background-color: red");
+        }
     }
 
     /**
@@ -166,7 +319,9 @@ public class QuizgameController {
         fourAnswerAnchorPane.setBackground(new Background(new BackgroundImage(background, null, null, null, null)));
     }
 
-
+    /**
+     * continues to the next question or to the podium
+     */
     public void ctnueBtnClicked() {
         try {
             StartUpController.game.close();
