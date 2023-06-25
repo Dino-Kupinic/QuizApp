@@ -13,7 +13,7 @@
 
 How to run:
 ---
-Navigate to \out\artifacts\QuizApp_jar and double-click Minesweeper.jar.
+Navigate to \out\artifacts\QuizApp_jar and double-click it.
 You can also open it in an IDE.
 
 ### Class Diagram
