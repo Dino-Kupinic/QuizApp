@@ -35,6 +35,7 @@
 package at.htlsteyr.quizapp.Model;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -89,7 +90,7 @@ public class JsonHandler implements Debug{
             fW.close();
 
             // Log action
-            System.out.println("Added " + quiz.getName() + " Quiz to data.json!");
+            System.out.println("Added \"" + quiz.getName() + "\" Quiz to data.json!");
         } catch (IOException e) {
             if(PRINT_IOEXCEPTION) e.printStackTrace();
         }
@@ -664,6 +665,24 @@ public class JsonHandler implements Debug{
 
         Quiz quiz = new Quiz("Example Quiz", questions, topPlayers);
         writeQuizToJson(quiz);
+    }
+
+    /**
+     * reverts data json to backup string
+     */
+    public void revertDataJson() {
+        ArrayList<Quiz> backup = gson.fromJson(dataJsonBackUpString, new TypeToken<ArrayList<Quiz>>(){}.getType());
+        try {
+            FileWriter f = new FileWriter(questionJsonFile);
+            f.write("[]");
+            f.close();
+            for (Quiz q : backup) {
+                writeQuizToJson(q);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     /**
