@@ -51,7 +51,7 @@
          </textFill>
       </Label>
       <TextArea editable="false" layoutX="222.0" layoutY="222.0" prefHeight="157.0" prefWidth="160.0" text="Credits:&#10;&#10;Michael Ploier&#10;Jannick Angerer&#10;Dino Kupinic&#10;Daniel Samhaber&#10;" />
-      <CheckBox layoutX="9.0" layoutY="360.0" mnemonicParsing="false" text="Music" textFill="WHITE">
+      <CheckBox fx:id="musicToggle" layoutX="9.0" layoutY="360.0" mnemonicParsing="false" onAction="#onMusicButtonPressed" text="Music" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>

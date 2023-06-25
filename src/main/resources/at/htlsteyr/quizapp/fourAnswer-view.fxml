@@ -25,28 +25,28 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="topleftBtn" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="264.0" prefWidth="459.0" style="-fx-background-color: #E21B3C" text="Answer" textFill="WHITE">
+            <Button fx:id="topleftBtn" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAnswerButtonClicked" prefHeight="264.0" prefWidth="459.0" style="-fx-background-color: #E21B3C" text="Answer" textFill="WHITE">
                <GridPane.margin>
                   <Insets bottom="3.0" left="3.0" right="3.0" />
                </GridPane.margin>
                <font>
                   <Font name="Arial Bold" size="18.0" />
                </font></Button>
-            <Button fx:id="toprightBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: #1368CE" text="Answer" textFill="WHITE" GridPane.columnIndex="1">
+            <Button fx:id="toprightBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAnswerButtonClicked" style="-fx-background-color: #1368CE" text="Answer" textFill="WHITE" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets bottom="3.0" left="3.0" right="3.0" />
                </GridPane.margin>
                <font>
                   <Font name="Arial Bold" size="18.0" />
                </font></Button>
-            <Button fx:id="bottomleftBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: #D89E00" text="Answer" textFill="WHITE" GridPane.rowIndex="1">
+            <Button fx:id="bottomleftBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAnswerButtonClicked" style="-fx-background-color: #D89E00" text="Answer" textFill="WHITE" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </GridPane.margin>
                <font>
                   <Font name="Arial Bold" size="18.0" />
                </font></Button>
-            <Button fx:id="bottomrightBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: #26890C" text="Answer" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button fx:id="bottomrightBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAnswerButtonClicked" style="-fx-background-color: #26890C" text="Answer" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </GridPane.margin>
@@ -65,7 +65,7 @@
             <Font name="System Bold" size="33.0" />
          </font>
       </Label>
-      <Label layoutX="133.0" layoutY="19.0" prefHeight="49.0" prefWidth="99.0" text="Points" textFill="WHITE">
+      <Label fx:id="pointsLabel" layoutX="133.0" layoutY="19.0" prefHeight="49.0" prefWidth="197.0" textFill="WHITE">
          <font>
             <Font size="33.0" />
          </font>
@@ -75,5 +75,15 @@
             <Font name="System Bold" size="27.0" />
          </font>
       </Button>
+      <Label fx:id="timerLabel" layoutX="471.0" layoutY="26.0" text="Timer" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="correctLabel" layoutX="14.0" layoutY="340.0" prefHeight="44.0" prefWidth="209.0" textFill="#da1010">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

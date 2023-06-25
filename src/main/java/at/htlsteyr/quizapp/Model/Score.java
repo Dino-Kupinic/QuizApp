@@ -35,17 +35,17 @@
 package at.htlsteyr.quizapp.Model;
 
 public class Score {
-    private Double score;
+    private double score;
 
-    public Score(Double score) {
+    public Score(double score) {
         this.score = score;
     }
 
-    public Double getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(Double score) {
+    public void setScore(double score) {
         this.score = score;
     }
 

@@ -34,6 +34,7 @@
 
 package at.htlsteyr.quizapp.Model;
 
+import at.htlsteyr.quizapp.Controller.QuizgameController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 
@@ -47,7 +48,7 @@ public class Timer {
     private static boolean activeTimer;
     private static float timePlayed = 15;
     private long lastFrame = -1;
-    Score score = new Score(1500.0);
+    private Score score = new Score(1500.0);
 
     public static boolean getActiveTimer() {
         return activeTimer;
@@ -61,12 +62,20 @@ public class Timer {
         timePlayed = value;
     }
 
+    public double getScore() {
+        return score.getScore();
+    }
+
+    public void setScore(Score score) {
+        this.score = score;
+    }
+
     /**
      * starts the timer and updates the timer label
      *
      * @param controller the MainController
      */
-    public void startTimer(StartUpController controller) {
+    public void startTimer(QuizgameController controller) {
         activeTimer = true;
         animationTimer = new AnimationTimer() {
             @Override

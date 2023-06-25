@@ -37,62 +37,29 @@ package at.htlsteyr.quizapp.Controller;
 import at.htlsteyr.quizapp.MainApplication;
 import at.htlsteyr.quizapp.Model.Debug;
 import at.htlsteyr.quizapp.Model.Music;
-import at.htlsteyr.quizapp.Model.Timer;
 import at.htlsteyr.quizapp.Model.WindowManager;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class StartUpController implements Debug {
-    private static final String DEFAULT = "DEFAULT";
-    private static final String DARK = "DARK";
+    @FXML
+    private CheckBox musicToggle;
 
-    @FXML
-    private AnchorPane anchorRootPane;
-    @FXML
-    private Button btnPlay;
-    @FXML
-    private Button btnCreate;
-    @FXML
-    private Button btnSetting;
-    @FXML
-    private Button btnSound;
-    @FXML
-    private Button btnColor;
-    @FXML
-    private Label lblTitel;
-    @FXML
-    private Label lblCredits;
-    public Label timerLabel;
-    @FXML
-    private Label timerHeader;
-    private static ArrayList<Region> controllNodes;
-    private boolean change = false;
-    private Music music = new Music();
+    private final Music music = new Music();
     private static StartUpController instance;
     public static WindowManager game;
 
     @FXML
     public void onMusicButtonPressed() {
-        if (music.getMusicStatus()) {
-            music.StopMusic();
-        } else {
+        if (musicToggle.isSelected()) {
+            music.setMusicStatus(true);
             music.PlayMusic();
-        }
-    }
-
-    public void setTimerLabel(String time) {
-        try {
-            timerLabel.setText(time);
-        } catch (NullPointerException e) {
-            if (PRINT_NUllPOINTEXCEP) e.printStackTrace();
+        } else {
+            music.setMusicStatus(false);
+            music.StopMusic();
         }
     }
 
@@ -108,7 +75,7 @@ public class StartUpController implements Debug {
     }
 
     @FXML
-    private void onCreateButtonClicked(){
+    private void onCreateButtonClicked() {
         try {
             game = new WindowManager("Editor", "editor-view.fxml");
             game.getGlobalStage().show();
