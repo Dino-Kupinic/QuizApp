@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.htlsteyr.quizapp.Controller.SelectionViewController">
+   <children>
+      <ImageView fitHeight="500.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@media/abstract-gradient-gif.gif" />
+         </image>
+      </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="41.0" layoutX="156.0" layoutY="13.0" stroke="BLACK" strokeType="INSIDE" width="200.0">
+         <fill>
+            <LinearGradient endX="0.004750593824228044" endY="0.9049881235154393" startX="1.0" startY="0.04750593824228033">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.8684210777282715" green="0.16483917832374573" blue="0.16483917832374573" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="32.0" layoutX="294.0" layoutY="63.0" stroke="BLACK" strokeType="INSIDE" width="160.0">
+         <fill>
+            <LinearGradient endY="0.5201900237529691" startX="0.38954869358669836">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.8711971640586853" green="0.6029999852180481" blue="0.8999999761581421" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="32.0" layoutX="48.0" layoutY="63.0" stroke="BLACK" strokeType="INSIDE" width="160.0">
+         <fill>
+            <LinearGradient endX="1.0" endY="0.5201900237529691" startX="0.38954869358669836">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.8711971640586853" green="0.6029999852180481" blue="0.8999999761581421" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
+      <Label alignment="CENTER" layoutX="193.0" layoutY="20.0" prefHeight="26.0" prefWidth="129.0" text="Quiz Selection">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font>
+      </Label>
+      <TableView fx:id="leaderboard" layoutX="262.0" layoutY="102.0" prefHeight="330.0" prefWidth="220.0">
+        <columns>
+          <TableColumn fx:id="nameCol" editable="false" prefWidth="103.0" resizable="false" text="Name" />
+          <TableColumn fx:id="scoreCol" editable="false" prefWidth="115.48681640625" resizable="false" text="Total Score" />
+        </columns>
+      </TableView>
+      <ListView fx:id="quizesList" layoutX="17.0" layoutY="102.0" onMouseClicked="#displayTopPlayers" prefHeight="165.0" prefWidth="220.0" />
+      <Label alignment="CENTER" layoutX="319.0" layoutY="69.0" prefHeight="20.0" prefWidth="101.0" text="Leaderboard">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="63.0" layoutY="69.0" prefHeight="20.0" prefWidth="129.0" text="Playable Quizes">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="32.0" layoutX="29.0" layoutY="274.0" stroke="BLACK" strokeType="INSIDE" width="200.0">
+         <fill>
+            <LinearGradient endX="1.0" endY="0.5201900237529691" startX="0.38954869358669836">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.8711971640586853" green="0.6029999852180481" blue="0.8999999761581421" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
+      <Label alignment="CENTER" layoutX="44.0" layoutY="280.0" prefHeight="20.0" prefWidth="169.0" text="Top Players of this quiz">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TableView fx:id="topPlayers" layoutX="16.0" layoutY="313.0" prefHeight="119.0" prefWidth="220.0">
+         <columns>
+            <TableColumn fx:id="nameColBestPlayers" editable="false" prefWidth="131.0" resizable="false" text="Name" />
+            <TableColumn fx:id="scoreColBestPlayers" editable="false" prefWidth="88.5" resizable="false" text="Highscore" />
+         </columns>
+      </TableView>
+      <Button fx:id="playButton" alignment="CENTER" layoutX="199.0" layoutY="447.0" mnemonicParsing="false" onMouseClicked="#qsPlayBtnClicked" prefWidth="100.0" style="-fx-background-color: white;" text="Play">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.32894736528396606" green="0.018274853006005287" blue="0.018274853006005287" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Button>
+   </children>
+</AnchorPane>

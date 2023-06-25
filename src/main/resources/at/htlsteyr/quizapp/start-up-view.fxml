@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorRootPane" prefHeight="440.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.htlsteyr.quizapp.Controller.StartUpController">
+   <children>
+      <ImageView fitHeight="440.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@media/main-bg.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="btnCreate" layoutX="222.0" layoutY="151.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onCreateButtonClicked" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4dab4d;" text="Quiz Editor" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnPlay" layoutX="222.0" layoutY="108.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onPlayButtonClicked" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #2c4ef5;" text="Play" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Button>
+      <Label fx:id="lblTitel" alignment="CENTER" contentDisplay="CENTER" layoutX="182.0" layoutY="13.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="QuizZone" textAlignment="JUSTIFY">
+         <font>
+            <Font name="Arial Black" size="45.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.983990490436554" green="1.0" blue="0.4699999988079071" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.2690063714981079" green="0.8600000143051147" blue="0.07739999890327454" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <TextArea editable="false" layoutX="222.0" layoutY="222.0" prefHeight="157.0" prefWidth="160.0" text="Credits:&#10;&#10;Michael Ploier&#10;Jannick Angerer&#10;Dino Kupinic&#10;Daniel Samhaber&#10;" />
+      <CheckBox fx:id="musicToggle" layoutX="9.0" layoutY="360.0" mnemonicParsing="false" onAction="#onMusicButtonPressed" text="Music" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </CheckBox>
+   </children>
+</AnchorPane>
