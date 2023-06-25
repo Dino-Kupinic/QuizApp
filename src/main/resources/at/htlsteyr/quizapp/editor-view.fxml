@@ -155,12 +155,12 @@
             <Font size="17.0" />
          </font>
       </Button>
-      <Button fx:id="editorCancelButton" layoutX="774.0" layoutY="747.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Cancel">
+      <Button fx:id="editorCancelButton" onAction="#onClickEditorCancel" layoutX="774.0" layoutY="747.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Cancel">
          <font>
             <Font size="17.0" />
          </font>
       </Button>
-      <Button fx:id="editorOkButton" layoutX="656.0" layoutY="747.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="OK">
+      <Button fx:id="editorOkButton" onAction="#onClickEditorOkay" layoutX="656.0" layoutY="747.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="OK">
          <font>
             <Font size="17.0" />
          </font>
