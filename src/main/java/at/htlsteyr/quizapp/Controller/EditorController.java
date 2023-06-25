@@ -34,12 +34,14 @@
 
 package at.htlsteyr.quizapp.Controller;
 
+import at.htlsteyr.quizapp.MainApplication;
 import at.htlsteyr.quizapp.Model.*;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -131,15 +133,19 @@ public class EditorController implements Debug {
     @FXML
     private void onClickQuizList() {
         try {
-            String quizname = quizList.getSelectionModel().getSelectedItem();
-            selectedQuiz = jsonHandler.getQuizByName(quizname);
-            quizNameTextField.setText(quizname);
-            questionList.getItems().clear();
-            questionList.getItems().addAll(selectedQuiz.getQuestionArrayList());
-            erorrLbl.setText("");
+                checkValidationOfAnswers();
+                String quizname = quizList.getSelectionModel().getSelectedItem();
+                selectedQuiz = jsonHandler.getQuizByName(quizname);
+                quizNameTextField.setText(quizname);
+                questionList.getItems().clear();
+                questionList.getItems().addAll(selectedQuiz.getQuestionArrayList());
+                erorrLbl.setText("");
+                answerTable.getItems().clear();
         } catch (NullPointerException e) {
             if (PRINT_NUllPOINTEXCEP) e.printStackTrace();
             erorrLbl.setText("Please click on a valid quiz element!");
+        } catch (IOException e){
+            if (PRINT_IOEXCEPTION) e.printStackTrace();
         }
     }
 
@@ -147,8 +153,9 @@ public class EditorController implements Debug {
      * Fills data into the UI when a question is clicked
      */
     @FXML
-    private void onClickQuestionList() {
+    private void onClickQuestionList(Event event) {
         try {
+            if (event != null) checkValidationOfAnswers();
             selectedQuestion = questionList.getSelectionModel().getSelectedItem();
             questionTextArea.setText(selectedQuestion.getQuestion());
 
@@ -169,12 +176,11 @@ public class EditorController implements Debug {
         } catch (NullPointerException e) {
             if (PRINT_NUllPOINTEXCEP) e.printStackTrace();
             erorrLbl.setText("Please click on a valid question element!");
+        } catch (IOException e){
+            if (PRINT_IOEXCEPTION) e.printStackTrace();
         }
     }
 
-    /**
-     *
-     */
     @FXML
     private void onClickAnswerList() {
         try {
@@ -200,6 +206,7 @@ public class EditorController implements Debug {
 
             ArrayList<Answer> initAnswers = new ArrayList<>();
             initAnswers.add(new Answer("newAnwser1", true));
+            initAnswers.add(new Answer("newAnwser2", false));
 
             ArrayList<Question> init = new ArrayList<>();
             init.add(new Question("newQuestion1", initAnswers));
@@ -220,22 +227,29 @@ public class EditorController implements Debug {
 
 
     @FXML
-    private void onClickEditorApply() {
-        Quiz oldQuiz = selectedQuiz;
-        Quiz newQuiz = null;
-        String newName = quizNameTextField.getText();
-        int index = quizList.getSelectionModel().getSelectedIndex();
-
+    private boolean onClickEditorApply() {
         try {
-            newQuiz = (Quiz) selectedQuiz.clone();
-            newQuiz.setName(newName);
-        } catch (CloneNotSupportedException e) {
-            if (PRINT_CLONENOTSUP) e.printStackTrace();
+            checkValidationOfAnswers();
+            Quiz oldQuiz = selectedQuiz;
+            Quiz newQuiz = null;
+            String newName = quizNameTextField.getText();
+            int index = quizList.getSelectionModel().getSelectedIndex();
+
+            try {
+                newQuiz = (Quiz) selectedQuiz.clone();
+                newQuiz.setName(newName);
+                jsonHandler.replaceQuizInJson(newQuiz, oldQuiz);
+                addQuizToList();
+                quizList.getSelectionModel().select(index);
+            } catch (CloneNotSupportedException | NullPointerException e) {
+                if (PRINT_CLONENOTSUP || PRINT_NUllPOINTEXCEP) e.printStackTrace();
+            }
+        } catch (IOException e){
+            if (PRINT_IOEXCEPTION) e.printStackTrace();
+            return false;
         }
 
-        jsonHandler.replaceQuizInJson(newQuiz, oldQuiz);
-        addQuizToList();
-        quizList.getSelectionModel().select(index);
+        return true;
 
     }
 
@@ -255,6 +269,7 @@ public class EditorController implements Debug {
             if (btnValue.equals("New")) {
                 ArrayList<Answer> initAnswers = new ArrayList<>();
                 initAnswers.add(new Answer("newAnwser1", true));
+                initAnswers.add(new Answer("newAnwser2", false));
                 temp.getQuestionArrayList().add(new Question("newQuestion" + (getNumber(questionList) + 1), initAnswers));
             } else if (btnValue.equals("Remove")) {
                 temp.getQuestionArrayList().remove(questionList.getSelectionModel().getSelectedIndex());
@@ -311,14 +326,41 @@ public class EditorController implements Debug {
         }
 
         jsonHandler.replaceQuizInJson(temp);
-        onClickQuestionList();
+        onClickQuestionList(null);
         answerTable.getSelectionModel().select(index);
     }
 
     @FXML
-    private void onClickToggleCorrectAnswer() {
-        selectAnwser.setCorrect(isCorrectToggle.isSelected());
-        onClickAnswerList();
+    private void onClickEditorOkay(){
+        if (onClickEditorApply()){
+            changeWindow();
+        }
+
+    }
+
+    @FXML
+    private void onClickEditorCancel(){
+        jsonHandler.revertDataJson();
+        changeWindow();
+    }
+
+    private void changeWindow(){
+        try {
+            MainApplication.mainWindow = new WindowManager(440, 600, "Quiz", "start-up-view.fxml");
+            MainApplication.mainWindow.getGlobalStage().show();
+            StartUpController.game.close();
+        } catch (IOException e) {
+            if (PRINT_IOEXCEPTION) e.printStackTrace();
+        }
+    }
+
+    private void checkValidationOfAnswers() throws IOException {
+            if (answerTable.getItems().size() == 2 || answerTable.getItems().size() == 4 || answerTable.getItems().size() == 0){
+                erorrLbl.setText("");
+            } else {
+                erorrLbl.setText("Es müssen entweder 2 oder 4 Antwortmöglichkeiten sein");
+                throw new IOException("Answertable invalid");
+            }
     }
 
     /**
