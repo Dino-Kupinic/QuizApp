@@ -321,7 +321,7 @@ public class EditorController implements Debug {
                 return;
             }
 
-        } catch (CloneNotSupportedException ex) {
+        } catch (CloneNotSupportedException | IndexOutOfBoundsException ex) {
             if (PRINT_CLONENOTSUP) ex.printStackTrace();
         }
 
