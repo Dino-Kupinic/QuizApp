@@ -109,18 +109,20 @@ public class QuizgameController {
             i++;
         }
 
-        Question q = questions.get(questionCount);
-        questionLbl.setText(q.getQuestion());
-        if (q.getAnswerArrayList().size() > 2) {
-            setFourAnswerGame();
-            topleftBtn.setText(q.getAnswerArrayList().get(0).getAnswerText());
-            toprightBtn.setText(q.getAnswerArrayList().get(1).getAnswerText());
-            bottomleftBtn.setText(q.getAnswerArrayList().get(2).getAnswerText());
-            bottomrightBtn.setText(q.getAnswerArrayList().get(3).getAnswerText());
-        } else {
-            setTrueFalseGame();
-            trueBtn.setText(q.getAnswerArrayList().get(0).getAnswerText());
-            falseBtn.setText(q.getAnswerArrayList().get(1).getAnswerText());
+        if (questionCount != questions.size()) {
+            Question q = questions.get(questionCount);
+            questionLbl.setText(q.getQuestion());
+            if (q.getAnswerArrayList().size() > 2) {
+                setFourAnswerGame();
+                topleftBtn.setText(q.getAnswerArrayList().get(0).getAnswerText());
+                toprightBtn.setText(q.getAnswerArrayList().get(1).getAnswerText());
+                bottomleftBtn.setText(q.getAnswerArrayList().get(2).getAnswerText());
+                bottomrightBtn.setText(q.getAnswerArrayList().get(3).getAnswerText());
+            } else {
+                setTrueFalseGame();
+                trueBtn.setText(q.getAnswerArrayList().get(0).getAnswerText());
+                falseBtn.setText(q.getAnswerArrayList().get(1).getAnswerText());
+            }
         }
     }
 
@@ -172,6 +174,12 @@ public class QuizgameController {
             if (questionCount < questions.size()) {
                 questionCount++;
                 StartUpController.game.close();
+                if (questionCount == questions.size()) {
+                    StartUpController.game.close();
+                    StartUpController.game = new WindowManager(MainApplication.HEIGHT, MainApplication.WIDTH, "Game ending", "podium-view.fxml");
+                    StartUpController.game.getGlobalStage().show();
+                    return;
+                }
                 if (questions.get(questionCount).getAnswerArrayList().size() > 2) {
                     StartUpController.game = new WindowManager(MainApplication.HEIGHT, MainApplication.WIDTH, "Questions", "fourAnswer-view.fxml");
                 } else {
