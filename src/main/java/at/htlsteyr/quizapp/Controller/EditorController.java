@@ -131,7 +131,7 @@ public class EditorController implements Debug {
      * Fills data of the right side with quiz data
      */
     @FXML
-    private void onClickQuizList() {
+    private void onClickQuizList(Event event) {
         try {
                 checkValidationOfAnswers();
                 String quizname = quizList.getSelectionModel().getSelectedItem();
@@ -140,7 +140,7 @@ public class EditorController implements Debug {
                 questionList.getItems().clear();
                 questionList.getItems().addAll(selectedQuiz.getQuestionArrayList());
                 erorrLbl.setText("");
-                answerTable.getItems().clear();
+                if (event != null) answerTable.getItems().clear();
         } catch (NullPointerException e) {
             if (PRINT_NUllPOINTEXCEP) e.printStackTrace();
             erorrLbl.setText("Please click on a valid quiz element!");
@@ -221,7 +221,7 @@ public class EditorController implements Debug {
             String tempSelection = quizList.getSelectionModel().getSelectedItem();
             quizList.getItems().remove(tempSelection);
             jsonHandler.deleteQuizFromJson(tempSelection);
-            onClickQuizList();
+            onClickQuizList(null);
         }
     }
 
@@ -277,7 +277,7 @@ public class EditorController implements Debug {
             } else if (btnValue.equals("Apply")) {
                 String newquestionName = questionTextArea.getText();
                 ArrayList<Question> arrayList = temp.getQuestionArrayList();
-                arrayList.get(arrayList.indexOf(questionList.getSelectionModel().getSelectedItem())).setQuestion(newquestionName);
+                arrayList.get(questionList.getSelectionModel().getSelectedIndex()).setQuestion(newquestionName);
             } else {
                 questionTextArea.clear();
                 return;
@@ -289,8 +289,9 @@ public class EditorController implements Debug {
 
 
         jsonHandler.replaceQuizInJson(temp);
-        onClickQuizList();
+        onClickQuizList(null);
         questionList.getSelectionModel().select(index);
+        if (btnValue.equals("Remove")) onClickQuestionList(null);
     }
 
     @FXML

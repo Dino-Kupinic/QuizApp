@@ -3,5 +3,10 @@
     "id": 1,
     "name": "Michael",
     "totalScore": 1500.0
+  },
+  {
+    "id": 1,
+    "name": "Daniel",
+    "totalScore": 1408.0
   }
 ]
