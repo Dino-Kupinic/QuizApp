@@ -327,12 +327,14 @@ public class QuizgameController {
             StartUpController.game.close();
 
             if (questionCount < questions.size()) {
+
                 questionCount++;
                 StartUpController.game.close();
                 if (questionCount == questions.size()) {
                     StartUpController.game.close();
                     StartUpController.game = new WindowManager(MainApplication.HEIGHT, MainApplication.WIDTH, "Game ending", "podium-view.fxml");
                     StartUpController.game.getGlobalStage().show();
+                    timer.startTimer(this);
                     return;
                 }
                 if (questions.get(questionCount).getAnswerArrayList().size() > 2) {
@@ -342,12 +344,16 @@ public class QuizgameController {
                 }
                 StartUpController.game.getGlobalStage().show();
             } else {
+
                 StartUpController.game.close();
                 StartUpController.game = new WindowManager(MainApplication.HEIGHT, MainApplication.WIDTH, "Game ending", "podium-view.fxml");
                 StartUpController.game.getGlobalStage().show();
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
 }
