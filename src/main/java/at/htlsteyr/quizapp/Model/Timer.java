@@ -44,21 +44,21 @@ import at.htlsteyr.quizapp.Controller.StartUpController;
 import java.util.Date;
 
 public class Timer {
-    private static AnimationTimer animationTimer;
-    private static boolean activeTimer;
-    private static float timePlayed = 15;
+    private AnimationTimer animationTimer;
+    private boolean activeTimer = false;
+    private float timePlayed = 15;
     private long lastFrame = -1;
     private Score score = new Score(1500.0);
 
-    public static boolean getActiveTimer() {
+    public boolean getActiveTimer() {
         return activeTimer;
     }
 
-    public static void setActiveTimer(boolean bool) {
+    public void setActiveTimer(boolean bool) {
         activeTimer = bool;
     }
 
-    public static void setTimePlayed(int value) {
+    public void setTimePlayed(int value) {
         timePlayed = value;
     }
 
@@ -76,24 +76,27 @@ public class Timer {
      * @param controller the MainController
      */
     public void startTimer(QuizgameController controller) {
-        activeTimer = true;
-        animationTimer = new AnimationTimer() {
-            @Override
-            public void handle(long l) {
-                if (timePlayed <= 0) {
-                    stopTimer();
-                    return; // exit the method to prevent further updates
+
+            activeTimer = true;
+            animationTimer = new AnimationTimer() {
+                @Override
+                public void handle(long l) {
+                    if (!StartUpController.game.getTitle().equals("Game ending")) {
+                        if (timePlayed <= 0) {
+                            stopTimer();
+                            return; // exit the method to prevent further updates
+                        }
+                        if (lastFrame != -1) {
+                            timePlayed -= (new Date().getTime() - lastFrame) / 1000.0;
+                        }
+                        score.updateScore();
+                        System.out.printf("%.1f%n", score.getScore());
+                        lastFrame = new Date().getTime();
+                        Platform.runLater(() -> controller.setTimerLabel(String.format("%.1fs", timePlayed)));
+                    }
                 }
-                if (lastFrame != -1) {
-                    timePlayed -= (new Date().getTime() - lastFrame) / 1000.0;
-                }
-                score.updateScore();
-                System.out.printf("%.1f%n", score.getScore());
-                lastFrame = new Date().getTime();
-                Platform.runLater(() -> controller.setTimerLabel(String.format("%.1fs", timePlayed)));
-            }
-        };
-        animationTimer.start();
+            };
+            animationTimer.start();
     }
 
     /**
