@@ -95,7 +95,6 @@ public class QuizgameController {
 
     private WindowManager question;
     private static int questionCount;
-    private static int i = 0;
     private final Path imagePath;
     private ArrayList<Question> questions;
     private static Score currentScore = new Score(0.0);
@@ -134,10 +133,10 @@ public class QuizgameController {
             podiumScoreLabel.setText(String.valueOf(currentScore.getScore()));
         }
 
-        if (quizes.get(i).getName().equals(chosenQuiz)) {
-            questions = quizes.get(i).getQuestionArrayList();
-        } else {
-            i++;
+        for (Quiz quize : quizes) {
+            if (quize.getName().equals(chosenQuiz)) {
+                questions = quize.getQuestionArrayList();
+            }
         }
 
         if (questionCount != questions.size()) {
